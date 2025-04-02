@@ -51,12 +51,14 @@ export const AuthForm = ({ fields, submitButtonText }: Props) => {
                         size={20}
                         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                         onClick={() => setIsShowPassword(!isShowPassword)}
+                        aria-label="Hide password"
                       />
                     ) : (
                       <EyeIcon
                         size={20}
                         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                         onClick={() => setIsShowPassword(!isShowPassword)}
+                        aria-label="Show password"
                       />
                     )}
                   </div>
