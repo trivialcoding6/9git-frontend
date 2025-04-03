@@ -1,18 +1,19 @@
 "use client";
 
+import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export const AuthTabs = () => {
   const pathname = usePathname();
-  const isLogin = pathname === "/login";
-  const isRegister = pathname === "/register";
+  const isLogin = pathname === ROUTES.LOGIN;
+  const isRegister = pathname === ROUTES.REGISTER;
 
   return (
     <div className="flex w-full">
       <div className="flex-1 flex items-center justify-center">
         <Link
-          href="/login"
+          href={ROUTES.LOGIN}
           className={`py-3 w-full text-center ${
             isLogin
               ? "border-b-2 border-[#FDA63A] text-[#FDA63A]"
@@ -24,7 +25,7 @@ export const AuthTabs = () => {
       </div>
       <div className="flex-1 flex items-center justify-center">
         <Link
-          href="/register"
+          href={ROUTES.REGISTER}
           className={`py-3 w-full text-center ${
             isRegister
               ? "border-b-2 border-[#FDA63A] text-[#FDA63A]"
