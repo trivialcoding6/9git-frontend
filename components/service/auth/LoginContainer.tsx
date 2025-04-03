@@ -1,7 +1,7 @@
 import { AuthTabs } from "./AuthTabs";
 import { LoginForm } from "./LoginForm";
 
-export const LoginContent = () => {
+export const LoginContainer = () => {
   return (
     <div
       className="mt-8 w-[90%] max-w-sm rounded-lg shadow-xl bg-white
