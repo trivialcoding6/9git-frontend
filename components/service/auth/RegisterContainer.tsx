@@ -1,7 +1,7 @@
 import { AuthTabs } from "./AuthTabs";
 import { RegisterForm } from "./RegisterForm";
 
-export const RegisterContent = () => {
+export const RegisterContainer = () => {
   return (
     <div
       className="mt-8 w-[90%] max-w-sm rounded-lg shadow-xl bg-white

@@ -1,5 +1,5 @@
-import { RegisterContent } from "@/components/service/auth/RegisterContent";
+import { RegisterContainer } from "@/components/service/auth/RegisterContainer";
 
 export default function RegisterPage() {
-  return <RegisterContent />;
+  return <RegisterContainer />;
 }
