@@ -6,7 +6,7 @@ export const ProfileHeaderContent = () => {
     <nav className="flex items-center justify-between m-[6px]">
       <div className="flex items-center gap-2">
         <Avatar>
-          <AvatarImage src="" className="bg-white" />
+          <AvatarImage src="" alt="profile" className="bg-white" />
           <AvatarFallback className="bg-white">U</AvatarFallback>
         </Avatar>
         <p className="text-sm font-medium">홍길동</p>
