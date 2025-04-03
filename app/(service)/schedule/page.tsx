@@ -1,3 +1,5 @@
-export default function Schedule() {
-  return <>Schedule</>;
+import Schedule from '@/components/service/schedule/Schedule'
+
+export default function SchedulePage() {
+  return <Schedule />
 }

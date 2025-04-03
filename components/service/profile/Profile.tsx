@@ -1,4 +1,4 @@
-export const ChatbotContainer = () => {
+export const Profile = () => {
   return (
     <>
       {/* 나중에 컴포넌트들 추가 */}

@@ -1,3 +1,5 @@
-export default function Profile() {
-  return <>Profile</>;
+import Profile from '@/components/service/profile/Profile'
+
+export default function ProfilePage() {
+  return <Profile />
 }
