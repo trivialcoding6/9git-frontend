@@ -1,7 +1,12 @@
+import { Header } from "@/components/shared/Header";
+import { Menu } from "lucide-react";
+
 export const Chatbot = () => {
   return (
     <>
-      {/* 나중에 컴포넌트들 추가 */}
+      <Header>
+        <Menu width={28} height={28} className="cursor-pointer m-2" />
+      </Header>
     </>
   );
 };
