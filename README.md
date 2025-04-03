@@ -2,6 +2,24 @@
 
 필요한 순간만 접어놓다, 내 하루의 구깃
 
+## 👥 Team Members
+
+- 임헌찬 [@trivialcoding6](https://github.com/trivialcoding6)
+- 윤소영 [@Yoonsoyoung02](https://github.com/Yoonsoyoung02)
+- 윤정민 [@Kristyn-Yoon](https://github.com/Kristyn-Yoon)
+
+## 할당 업무
+
+- 임헌찬
+  - 회원가입/로그인 페이지 개발
+  - 일정 페이지 개발
+- 윤소영
+  - Home 페이지 개발
+  - 분석 페이지 개발
+- 윤정민
+  - 챗봇 페이지 개발
+  - 프로필 페이지 개발
+
 ## 프로젝트 세팅
 
 ```bash
