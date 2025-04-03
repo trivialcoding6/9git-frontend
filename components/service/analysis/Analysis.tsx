@@ -1,7 +1,12 @@
+import { Logo } from "@/components/common/Logo";
+import { Header } from "@/components/shared/Header";
+
 export const Analysis = () => {
   return (
     <>
-      {/* 나중에 컴포넌트들 추가 */}
+      <Header>
+        <Logo width={45} height={45} />
+      </Header>
     </>
   );
 };

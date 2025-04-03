@@ -1,7 +1,12 @@
+import { Header } from "@/components/shared/Header";
+import { ProfileHeaderContent } from "./ProfileHeaderContent";
+
 export const Profile = () => {
   return (
     <>
-      {/* 나중에 컴포넌트들 추가 */}
+      <Header>
+        <ProfileHeaderContent />
+      </Header>
     </>
   );
 };
