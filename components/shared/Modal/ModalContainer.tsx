@@ -13,7 +13,7 @@ export const ModalContainer = ({ children }: Props) => {
     // 모달 배경
     // 모달 노출 시 배경 흐리게
     <div
-      className="fixed inset-0 z-50 max-w-[400px] mx-auto flex items-center justify-center bg-black/10"
+      className="fixed inset-0 z-50 max-w-[400px] mx-auto flex items-center justify-center bg-black/70"
       onClick={closeModal} // 배경 클릭 시 모달 닫기
     >
       {/* 모달 본체 */}

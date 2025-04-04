@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { create } from "zustand";
 
 type ModalConfig = {
-  title: string;
+  title: string | ReactNode;
   component?: ReactNode;
 };
 
