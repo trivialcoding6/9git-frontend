@@ -1,19 +1,17 @@
 'use client';
-
 import { Button } from '@/components/ui/button';
-import { PencilLine } from 'lucide-react';
 import { useState } from 'react';
 
-interface CompleteButtonProps {
-  onClick?: () => void;
-}
+type Props = {
+  onClick: () => void;
+};
 
-export default function CompleteButton({ onClick }: CompleteButtonProps) {
+export default function CompleteButton({ onClick }: Props) {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const handleClick = () => {
     setIsCompleted(!isCompleted);
-    onClick?.();
+    onClick();
   };
 
   return (
@@ -27,8 +25,10 @@ export default function CompleteButton({ onClick }: CompleteButtonProps) {
         hover:text-[#A35F30] transition-colors duration-200
       `}
     >
-      <PencilLine size={16} strokeWidth={2} />
       완료
     </Button>
   );
 }
+
+// 다른 파일에서 사용시 아래 코드 입력
+//  <CompleteButton onClick={() => console.log('클릭됨!')} />
