@@ -15,7 +15,7 @@ export default function Card({
   children,
 }: CardProps) {
   return (
-    <section className={`bg-[#fff0d5] rounded-xl p-4 space-y-2 w-[90%] ${height}`}>
+    <section className="bg-[#fff0d5] rounded-xl p-4 w-[90%] flex flex-col gap-y-4">
       <div className="flex justify-between items-center font-semibold">
         <span>{title}</span>
         {isMore && (
