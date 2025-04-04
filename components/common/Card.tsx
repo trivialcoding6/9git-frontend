@@ -5,12 +5,14 @@ interface CardProps {
   title: string;
   height?: string;
   isMore?: boolean;
+  children?: React.ReactNode; //chilren 생성
 }
 
 export default function Card({
   title,
   height, //높이 수정
   isMore = false,
+  children,
 }: CardProps) {
   return (
     <section className={`bg-[#fff0d5] rounded-xl p-4 space-y-2 w-[90%] ${height}`}>
@@ -21,6 +23,8 @@ export default function Card({
         )}
       </div>
       <Separator className="bg-[#f4ddbd]" />
+
+      <div>{children}</div>
     </section>
   );
 }
