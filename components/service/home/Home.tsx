@@ -1,3 +1,4 @@
+'use client';
 import { Logo } from '@/components/common/Logo';
 import { Header } from '@/components/shared/Header';
 import Card from '@/components/common/Card';
