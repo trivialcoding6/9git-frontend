@@ -1,4 +1,4 @@
-// 목표 진행률
+'use client';
 import { Separator } from '@/components/ui/separator';
 
 interface CardProps {
