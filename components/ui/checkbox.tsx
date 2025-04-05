@@ -6,18 +6,16 @@ import { CheckIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-interface CheckboxProps extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
-  checked?: boolean;
-  onChange?: (checked: boolean) => void;
-}
+type CheckboxProps = React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>;
 
-function Checkbox({ className, checked, onChange, ...props }: CheckboxProps) {
+function Checkbox({ className, ...props }: CheckboxProps) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
-      checked={checked}
-      onCheckedChange={onChange}
-      className="w-[18px] h-[18px] border-[2px] border-[#744D2C] rounded-[4px] data-[state=checked]:bg-[#FCAA2B] data-[state=checked]:border-[#FCAA2B]"
+      className={cn(
+        'w-[18px] h-[18px] border-[2px] border-[#744D2C] rounded-[4px] data-[state=checked]:bg-[#FCAA2B] data-[state=checked]:border-[#FCAA2B]',
+        className
+      )}
       {...props}
     >
       <CheckboxPrimitive.Indicator

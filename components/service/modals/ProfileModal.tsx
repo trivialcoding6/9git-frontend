@@ -11,7 +11,10 @@ export default function ProfileModal() {
       <h2 className="text-lg font-semibold">나의 정보</h2>
       <p className="text-sm">이름: 홍길동</p>
 
-      <Checkbox checked={checked} onChange={setChecked} />
+      <Checkbox
+        checked={checked}
+        onCheckedChange={(checked) => setChecked(checked === 'indeterminate' ? false : checked)}
+      />
     </div>
   );
 }
