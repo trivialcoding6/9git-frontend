@@ -79,9 +79,7 @@ export const CalendarDay = ({
                     className={`
                       flex items-center justify-center text-sm rounded-xl w-8 h-6
                       ${
-                        day.isToday
-                          ? 'bg-[#F5B44B] text-white'
-                          : 'hover:bg-orange-100 cursor-pointer'
+                        day.isToday ? 'bg-primary text-white' : 'hover:bg-orange-100 cursor-pointer'
                       }
                     `}
                   >
@@ -94,7 +92,7 @@ export const CalendarDay = ({
                       {categoryMarkers.slice(0, 3).map((category, i) => (
                         <div
                           key={i}
-                          className="w-2 h-2 rounded-full"
+                          className={`w-2 h-2 rounded-full`}
                           style={{ backgroundColor: category.color }}
                         />
                       ))}

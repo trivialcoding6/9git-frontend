@@ -19,10 +19,10 @@ export default function Card({
       <div className="flex justify-between items-center font-semibold">
         <span>{title}</span>
         {isMore && (
-          <div className="text-sm text-[#7F4E28] font-semibold hover:text-[#A35F30]">+ 더보기</div>
+          <div className="text-sm text-secondary font-semibold hover:text-primary">+ 더보기</div>
         )}
       </div>
-      <Separator className="bg-[#f4ddbd]" />
+      <Separator className="bg-title-separator" />
 
       <div>{children}</div>
     </section>
