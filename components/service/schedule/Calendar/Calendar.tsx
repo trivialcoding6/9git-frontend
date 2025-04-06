@@ -29,6 +29,7 @@ import { MultiSelectInput } from '@/components/shared/MultiSelect/MultiSelectInp
 import { MultiSelectItem } from '@/components/shared/MultiSelect/MultiSelectItem';
 import { useSelectStore } from '@/stores/select';
 import { categoryItems } from '@/mocks/categories';
+import { useEffect } from 'react';
 
 export const Calendar = () => {
   const {
@@ -43,7 +44,7 @@ export const Calendar = () => {
   // 검색어와 검색된 카테고리 처리를 위한 스토어 상태 사용
   const searchText = useSelectStore((state) => state.searchText);
   const selectedItems = useSelectStore((state) => state.selectedItems);
-
+  const setItems = useSelectStore((state) => state.setItems);
   // 카테고리 데이터
   const categories = [
     { name: 'All', color: '#CCCCCC' },
@@ -58,6 +59,10 @@ export const Calendar = () => {
   const filteredCategories = categories.filter((category) =>
     category.name.toLowerCase().includes(searchText.toLowerCase())
   );
+
+  useEffect(() => {
+    setItems(categories.map((category) => category.name));
+  }, []);
 
   return (
     <div className="flex flex-col gap-4 bg-white rounded-lg p-4">
