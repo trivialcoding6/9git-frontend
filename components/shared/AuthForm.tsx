@@ -1,15 +1,10 @@
-"use client";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { useFormContext } from "react-hook-form";
+'use client';
+import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { useFormContext } from 'react-hook-form';
 
 type AuthFormField = {
   name: string;
@@ -42,7 +37,7 @@ export const AuthForm = ({ fields, submitButtonText }: Props) => {
                     <Input
                       className="h-[46px] bg-white opacity-80"
                       placeholder={field.placeholder}
-                      type={isShowPassword ? "text" : "password"}
+                      type={isShowPassword ? 'text' : 'password'}
                       error={!!form.formState.errors[field.name]}
                       {...fieldProps}
                     />
@@ -66,7 +61,7 @@ export const AuthForm = ({ fields, submitButtonText }: Props) => {
                   <Input
                     className="h-[46px] bg-white opacity-80"
                     placeholder={field.placeholder}
-                    type={field.type || "text"}
+                    type={field.type || 'text'}
                     error={!!form.formState.errors[field.name]}
                     {...fieldProps}
                   />
@@ -78,11 +73,9 @@ export const AuthForm = ({ fields, submitButtonText }: Props) => {
         />
       ))}
 
-      <Button className="w-full bg-[#FDA63A] text-white h-[45px] mt-4">
-        {submitButtonText}
-      </Button>
+      <Button className="w-full bg-primary text-white h-[45px] mt-4">{submitButtonText}</Button>
 
-      <p className="text-sm text-[#6B7280] text-center">아이디/비밀번호 찾기</p>
+      <p className="text-sm text-gray-500 text-center">아이디/비밀번호 찾기</p>
     </div>
   );
 };

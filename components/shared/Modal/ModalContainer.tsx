@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useModalStore } from "@/stores/modal";
+import { useModalStore } from '@/stores/modal';
 
 type Props = {
   children: React.ReactNode;
@@ -22,7 +22,7 @@ export const ModalContainer = ({ children }: Props) => {
       relative 
       w-[90%]
       rounded-lg 
-      bg-[#FEF4E6] 
+      bg-beige-light
       p-4 
       shadow-md
     "

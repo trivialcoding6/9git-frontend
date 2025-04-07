@@ -15,14 +15,14 @@ export default function Card({
   children,
 }: CardProps) {
   return (
-    <section className="bg-[#fff0d5] rounded-xl p-4 w-[90%] flex flex-col gap-y-4">
+    <section className="bg-primary-light rounded-xl p-4 w-[90%] flex flex-col gap-y-4">
       <div className="flex justify-between items-center font-semibold">
         <span>{title}</span>
         {isMore && (
-          <div className="text-sm text-[#7F4E28] font-semibold hover:text-[#A35F30]">+ 더보기</div>
+          <div className="text-sm text-secondary font-semibold hover:text-primary">+ 더보기</div>
         )}
       </div>
-      <Separator className="bg-[#f4ddbd]" />
+      <Separator className="bg-beige-deco" />
 
       <div>{children}</div>
     </section>

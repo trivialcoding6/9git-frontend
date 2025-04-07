@@ -41,6 +41,17 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* 커스텀 컬러 */
+  --color-beige-light: var(--beige-light);
+  --color-beige-base: var(--beige-base);
+  --color-category-all: var(--category-all);
+  --color-category-coding: var(--category-coding);
+  --color-category-exercise: var(--category-exercise);
+  --color-beige-deco: var(--beige-deco);
+  --color-primary-light: var(--primary-light);
+  --color-main-gray: var(--main-gray);
+  --color-chat-gray: var(--chat-gray);
 }
 
 :root {
@@ -51,9 +62,9 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: oklch(0.76 0.168 51.681); /* #FDA63A와 동일 */
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --secondary: oklch(0.46 0.078 51.681); /* #744D2C와 동일 */
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -76,6 +87,17 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* 커스텀 컬러 */
+  --beige-light: oklch(0.96 0.03 79.446); /* #FEF4E6 */
+  --beige-base: oklch(0.94 0.05 75.234); /* #FDE8CE */
+  --category-all: oklch(0.85 0 0); /* #CCCCCC */
+  --category-coding: oklch(0.65 0.1 254.458); /* #6C88C4 */
+  --category-exercise: oklch(0.46 0.12 115.567); /* #556B2F */
+  --beige-deco: oklch(0.88 0.04 70.123); /* #F4DDBD */
+  --primary-light: oklch(0.96 0.03 83.72); /* #FFF0DC */
+  --main-gray: oklch(0.392 0.022 264.86); /* #4B5563 */
+  --chat-gray: oklch(0.961 0.015 262.33); /* #F3F4F6 */
 }
 
 .dark {
@@ -85,10 +107,10 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.76 0.168 51.681); /* #FDA63A와 동일 */
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.46 0.078 51.681); /* #744D2C와 동일 */
+  --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
@@ -110,6 +132,17 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* 커스텀 컬러 */
+  --beige-light: oklch(0.96 0.03 79.446); /* #FEF4E6 */
+  --beige-base: oklch(0.94 0.05 75.234); /* #FDE8CE */
+  --category-all: oklch(0.85 0 0); /* #CCCCCC */
+  --category-coding: oklch(0.65 0.1 254.458); /* #6C88C4 */
+  --category-exercise: oklch(0.46 0.12 115.567); /* #556B2F */
+  --beige-deco: oklch(0.88 0.04 70.123); /* #F4DDBD */
+  --primary-light: oklch(0.96 0.03 83.72); /* #FFF0DC */
+  --main-gray: oklch(0.392 0.022 264.86); /* #4B5563 */
+  --chat-gray: oklch(0.961 0.015 262.33); /* #F3F4F6 */
 }
 
 @layer base {

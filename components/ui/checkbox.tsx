@@ -13,7 +13,7 @@ function Checkbox({ className, ...props }: CheckboxProps) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        'w-[18px] h-[18px] border-[2px] border-[#744D2C] rounded-[4px] data-[state=checked]:bg-[#FCAA2B] data-[state=checked]:border-[#FCAA2B]',
+        'w-[18px] h-[18px] border-[2px] border-secondary rounded-[4px] data-[state=checked]:bg-primary data-[state=checked]:border-primary',
         className
       )}
       {...props}
@@ -22,7 +22,7 @@ function Checkbox({ className, ...props }: CheckboxProps) {
         data-slot="checkbox-indicator"
         className="flex items-center justify-center text-current transition-none"
       >
-        <CheckIcon className="size-3.5 text-[#FEF4E6]" />
+        <CheckIcon className="size-3.5 text-beige-light" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );

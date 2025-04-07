@@ -31,7 +31,7 @@ export function MultiSelectInput({ placeholder = '검색...' }: MultiSelectInput
     <div className="px-3 pb-2">
       <input
         type="text"
-        className="w-full px-3 py-2 text-sm border rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#F5B44B]"
+        className="w-full px-3 py-2 text-sm border rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary"
         placeholder={placeholder}
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}

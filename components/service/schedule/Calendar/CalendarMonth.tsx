@@ -35,7 +35,7 @@ export const CalendarMonth = ({ year, month, onPrevMonth, onNextMonth }: Calenda
       <CircleChevronLeft
         width={18}
         height={18}
-        fill="#F5B44B"
+        fill="#FDA63A"
         color="#fff"
         onClick={onPrevMonth}
         className="cursor-pointer"
@@ -47,7 +47,7 @@ export const CalendarMonth = ({ year, month, onPrevMonth, onNextMonth }: Calenda
       <CircleChevronRight
         width={18}
         height={18}
-        fill="#F5B44B"
+        fill="#FDA63A"
         color="#fff"
         onClick={onNextMonth}
         className="cursor-pointer"
