@@ -4,7 +4,7 @@ import { Calendar } from './Calendar/Calendar';
 
 export const Schedule = () => {
   return (
-    <main className="flex flex-col gap-4 bg-light h-full">
+    <main className="flex flex-col gap-4 bg-beige-light h-full">
       <Header>
         <Logo width={45} height={45} />
       </Header>

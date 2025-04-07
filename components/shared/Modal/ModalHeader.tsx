@@ -20,7 +20,7 @@ export const ModalHeader = ({ children }: Props) => {
           <XIcon className="w-5 h-5" />
         </button>
       </div>
-      <Separator className="bg-title-separator" />
+      <Separator className="bg-beige-deco" />
     </>
   );
 };

@@ -36,8 +36,8 @@ export function MultiSelectItem({ children, value, color }: MultiSelectItemProps
 
   return (
     <div
-      className={`flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-light ${
-        isItemSelected() ? 'bg-lighter' : ''
+      className={`flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-beige-light ${
+        isItemSelected() ? 'bg-beige-base' : ''
       }`}
       onClick={() => {
         toggleItem(value);

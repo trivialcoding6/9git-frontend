@@ -29,7 +29,7 @@ export function MultiSelectTrigger({ children }: MultiSelectTriggerProps) {
 
   return (
     <button
-      className="flex items-center justify-between w-[140px] px-3 py-2 text-sm border rounded-lg border-primary bg-light text-secondary"
+      className="flex items-center justify-between w-[140px] px-3 py-2 text-sm border rounded-lg border-primary bg-beige-light text-secondary"
       onClick={() => setIsOpen(!isOpen)}
     >
       <div className="flex items-center space-x-1">

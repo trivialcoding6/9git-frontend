@@ -22,7 +22,7 @@ export const ModalContainer = ({ children }: Props) => {
       relative 
       w-[90%]
       rounded-lg 
-      bg-light
+      bg-beige-light
       p-4 
       shadow-md
     "

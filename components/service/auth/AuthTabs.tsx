@@ -17,8 +17,7 @@ export const AuthTabs = () => {
           className={`py-3 w-full text-center ${
             isLogin
               ? 'border-b-2 border-primary text-primary'
-              : // separator 회색에서 title-separator 로 변경했는데 괜찮은지 확인해주세요
-                'border-b-1 border-title-separator text-title-separator hover:text-primary'
+              : 'border-b-1 border-beige-deco text-beige-deco hover:text-primary'
           }`}
         >
           로그인
@@ -30,7 +29,7 @@ export const AuthTabs = () => {
           className={`py-3 w-full text-center ${
             isRegister
               ? 'border-b-2 border-primary text-primary'
-              : 'border-b-1 border-title-separator text-title-separator hover:text-primary'
+              : 'border-b-1 border-beige-deco text-beige-deco hover:text-primary'
           }`}
         >
           회원가입
