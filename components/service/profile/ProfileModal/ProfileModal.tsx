@@ -55,7 +55,6 @@ export default function ProfileModal() {
           {/* 아이디 */}
           <h2 className="text-lg text-secondary font-semibold">아이디</h2>
           <p className="text-sm text-secondary mb-3">user0408</p>
-
           {/* 성별 */}
           <GenderRadio selectedGender={selectedGender} setSelectedGender={setSelectedGender} />
 
