@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { useModalStore } from "@/stores/modal";
-import ProfileModal from "../modals/ProfileModal";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { useModalStore } from '@/stores/modal';
+import ProfileModal from './ProfileModal/ProfileModal';
 
 export const ProfileHeaderContent = () => {
   const { openModal } = useModalStore();
 
   const clickProfile = () => {
     openModal({
-      title: "나의 정보",
+      title: '나의 정보',
       component: <ProfileModal />,
     });
   };
@@ -32,10 +32,7 @@ export const ProfileHeaderContent = () => {
         >
           나의 정보
         </Button>
-        <Button
-          variant="outline"
-          className="border-none shadow-none cursor-pointer"
-        >
+        <Button variant="outline" className="border-none shadow-none cursor-pointer">
           로그아웃
         </Button>
       </div>
