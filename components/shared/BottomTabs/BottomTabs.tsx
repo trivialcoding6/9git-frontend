@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Home, Calendar, User, Bot, ChartBar } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { NavItem } from "./NavItem";
-import { ROUTES } from "@/constants/routes";
+import { Home, Calendar, User, Bot, ChartBar } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { NavItem } from './NavItem';
+import { ROUTES } from '@/constants/routes';
 export const BottomTabs = () => {
   const pathname = usePathname();
   return (

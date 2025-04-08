@@ -13,7 +13,7 @@ function Checkbox({ className, ...props }: CheckboxProps) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        'w-[18px] h-[18px] border-[2px] border-secondary rounded-[4px] data-[state=checked]:bg-primary data-[state=checked]:border-primary',
+        'w-[18px] h-[18px] border-[2px] border-secondary rounded-[4px] data-[state=checked]:bg-primary data-[state=checked]:border-primary cursor-pointer',
         className
       )}
       {...props}
