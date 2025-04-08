@@ -19,7 +19,7 @@ const occupations = [
   '기타',
 ] as const;
 
-type Job = (typeof occupations)[number];
+export type Job = (typeof occupations)[number];
 
 type Props = {
   selectedJob: Job | ''; // 선택된 직업
