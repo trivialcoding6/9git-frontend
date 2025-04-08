@@ -29,7 +29,11 @@ const AgeInput: React.FC = () => {
   const onSubmit = form.handleSubmit((data) => {
     const submissionData = {
       ...data,
+<<<<<<< HEAD
       age: data.age === '' ? null : data.age,
+=======
+      age: data.age === '' ? '999' : data.age,
+>>>>>>> e8fe527 (✨ [SCRUM-114] FE 나이 입력 컴포넌트 제작)
     };
     console.log('나이 제출됨:', submissionData);
     // 필요한 로직 처리
@@ -46,7 +50,12 @@ const AgeInput: React.FC = () => {
               <FormLabel className="text-lg font-bold text-secondary">나이</FormLabel>
               <FormControl>
                 <input
+<<<<<<< HEAD
                   type="number"
+=======
+                  type="text"
+                  inputMode="numeric"
+>>>>>>> e8fe527 (✨ [SCRUM-114] FE 나이 입력 컴포넌트 제작)
                   maxLength={3}
                   {...field}
                   onChange={(e) => {

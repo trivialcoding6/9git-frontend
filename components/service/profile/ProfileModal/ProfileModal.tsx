@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+<<<<<<< HEAD
 
+=======
+>>>>>>> e8fe527 (✨ [SCRUM-114] FE 나이 입력 컴포넌트 제작)
 import { useForm, FormProvider } from 'react-hook-form';
 import { GenderRadio } from '@/components/service/profile/ProfileModal/GenderRadio';
 import AgeInput from '@/components/service/profile/ProfileModal/AgeInput';
@@ -36,11 +39,22 @@ type FormValues = {
 };
 
 export default function ProfileModal() {
+<<<<<<< HEAD
   const methods = useForm<FormValues>({
     defaultValues: {
       age: '',
       gender: 'M',
       job: '',
+=======
+  const [selectedGender, setSelectedGender] = useState<'M' | 'F' | undefined>(undefined);
+  const [selectedJob, setSelectedJob] = useState<Job | ''>('');
+
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      age: '',
+      gender: selectedGender ?? 'M',
+      job: selectedJob,
+>>>>>>> e8fe527 (✨ [SCRUM-114] FE 나이 입력 컴포넌트 제작)
     },
   });
 
@@ -51,6 +65,7 @@ export default function ProfileModal() {
 
   return (
     <FormProvider {...methods}>
+<<<<<<< HEAD
       <form {...form} onSubmit={handleSubmit}>
         <div className="p-4 space-y-3">
           {/* 아이디 */}
@@ -73,6 +88,30 @@ export default function ProfileModal() {
           <ConsentConfirm onConfirm={handleSubmit} />
         </div>
       </form>
+=======
+      <div className="p-4 space-y-3">
+        {/* 헤더 */}
+        <h2 className="text-lg font-semibold">나의 정보</h2>
+        {/* 아이디 */}
+        <p className="text-sm">이름: 홍길동</p>
+
+        {/* 성별 */}
+        <GenderRadio selectedGender={selectedGender} setSelectedGender={setSelectedGender} />
+
+        {/* 나이 */}
+        <AgeInput />
+
+        {/* 직업 */}
+        <JobSelectbar selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
+
+        {/* 개인정보 동의서 */}
+        <Separator className="bg-beige-deco" />
+        <TextScroll text={PERSONAL_INFORMATION_AGREEMENT} />
+
+        {/* 체크박스 + 완료 버튼 */}
+        <ConsentConfirm onConfirm={handleSubmit} />
+      </div>
+>>>>>>> e8fe527 (✨ [SCRUM-114] FE 나이 입력 컴포넌트 제작)
     </FormProvider>
   );
 }
