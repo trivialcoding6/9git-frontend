@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useModalStore } from '@/stores/modal';
-import ProfileModal from './ProfileModal/ProfileModal';
+import ProfileModal from '@/components/service/profile/ProfileModal/ProfileModal';
 
 export const ProfileHeaderContent = () => {
   const { openModal } = useModalStore();
