@@ -1,13 +1,11 @@
-// components/common/SectionTitle.tsx
-
 import { ReactNode } from 'react';
 
-interface SectionTitleProps {
+type Props = {
   icon: ReactNode;
   text: string;
-}
+};
 
-export const SectionTitle = ({ icon, text }: SectionTitleProps) => {
+export const SectionTitle = ({ icon, text }: Props) => {
   return (
     <div className="flex items-center gap-2 text-secondary font-bold text-sm mb-2">
       {icon}

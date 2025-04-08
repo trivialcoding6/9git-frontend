@@ -14,7 +14,7 @@ export const ProgressBar = ({ value, title }: Props) => {
       </div>
       <Progress
         value={value}
-        className="h-2 rounded-full bg-beige-base"
+        className="h-2 rounded-full bg-beige-deco"
         indicatorClassName="bg-primary"
       />
     </div>

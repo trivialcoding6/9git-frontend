@@ -28,9 +28,9 @@ export default function TodayTodo() {
 
   return (
     <>
-      {/* 🎯 목표 설정 */}
+      {/* 목표 설정 */}
       <section className="mb-5">
-        <SectionTitle icon={<Goal size={16} color="#FDA63A" />} text="목표 설정" />
+        <SectionTitle icon={<Goal size={16} className="text-primary" />} text="목표 설정" />
         <SectionContent className="flex flex-wrap justify-center gap-15">
           {goals.map((goal) => {
             const colorClass = ColorMap[goal] ?? 'bg-gray-200';
@@ -42,7 +42,7 @@ export default function TodayTodo() {
                 onToggle={() => toggleItem(goal, selectedGoals, setSelectedGoals)}
                 className="px-3 py-1 rounded-md text-sm font-semibold border-2"
                 selectedClassName={`${colorClass} text-white border-transparent`}
-                unselectedClassName="bg-[#FDF2E6] text-secondary border-primary"
+                unselectedClassName="bg-beige-light text-secondary border-primary"
               >
                 {goal}
               </ToggleButton>
@@ -51,9 +51,9 @@ export default function TodayTodo() {
         </SectionContent>
       </section>
 
-      {/* 🗓️ 기간 설정 */}
+      {/* 기간 설정 */}
       <section className="mb-5">
-        <SectionTitle icon={<Calendar size={16} color="#FDA63A" />} text="기간 설정" />
+        <SectionTitle icon={<Calendar size={16} className="text-primary" />} text="기간 설정" />
         <div className="flex items-center justify-center gap-3">
           <DatePickerSection date={startDate} setDate={setStartDate} />
           <span className="text-secondary text-lg">~</span>
@@ -61,9 +61,9 @@ export default function TodayTodo() {
         </div>
       </section>
 
-      {/* 🔁 반복 여부 */}
+      {/* 반복 여부 */}
       <section className="mb-5">
-        <SectionTitle icon={<Repeat size={16} color="#FDA63A" />} text="반복 여부" />
+        <SectionTitle icon={<Repeat size={16} className="text-primary" />} text="반복 여부" />
         <SectionContent gap={4}>
           {days.map((day) => (
             <ToggleButton
@@ -72,8 +72,8 @@ export default function TodayTodo() {
               isSelected={selectedDays.includes(day)}
               onToggle={() => toggleItem(day, selectedDays, setSelectedDays)}
               className="w-8 h-8 rounded-md text-sm font-bold flex items-center justify-center"
-              selectedClassName="bg-[#6C542C] text-white"
-              unselectedClassName="bg-[#FDF2E6] text-secondary"
+              selectedClassName="bg-secondary text-white"
+              unselectedClassName="bg-beige-deco text-secondary"
             >
               {day}
             </ToggleButton>
@@ -81,16 +81,16 @@ export default function TodayTodo() {
         </SectionContent>
       </section>
 
-      {/* ✅ 오늘 할 일 */}
+      {/* 오늘 할 일 */}
       <section className="mb-1">
-        <SectionTitle icon={<ListTodo size={16} color="#FDA63A" />} text="오늘 할 일" />
+        <SectionTitle icon={<ListTodo size={16} className="text-primary" />} text="오늘 할 일" />
         <SectionContent>
           <input
             type="text"
             value={todoInput}
             onChange={(e) => setTodoInput(e.target.value)}
             placeholder="오늘 할 일을 작성해주세요"
-            className="flex-1 text-sm px-1 py-1 bg-transparent text-secondary placeholder-[#C7A98E] focus:outline-none border-b border-[#F6C98E]"
+            className="flex-1 text-sm px-1 py-1 bg-transparent text-secondary placeholder-beige-deco focus:outline-none border-b bg-beige-deco"
           />
           <ActionButton onClick={() => console.log('추가')} icon={<Plus size={16} />}>
             추가
