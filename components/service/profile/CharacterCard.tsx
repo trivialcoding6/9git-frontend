@@ -24,7 +24,7 @@ function CharacterCard({ imageLink, isLocked, name, className }: CharacterCardPr
     <div
       data-slot="character-card"
       className={cn(
-        'w-32 h-48 bg-orange-100 shadow-[2px_2px_4px_0px_rgba(246,209,165,1.00)] rounded-md',
+        'w-32 h-48 bg-beige-base shadow-[2px_2px_4px_0px_rgba(246,209,165,1.00)] rounded-md',
         className
       )}
     >
