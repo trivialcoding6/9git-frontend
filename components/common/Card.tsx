@@ -5,7 +5,8 @@ interface CardProps {
   title: React.ReactNode;
   height?: string;
   isMore?: boolean;
-  children?: React.ReactNode; //chilren 생성
+  children?: React.ReactNode;
+  rightAction?: React.ReactNode;
 }
 
 export default function Card({

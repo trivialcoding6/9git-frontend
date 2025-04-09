@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DatePickerSection } from '@/components/common/DatePickerSection';
+import { DatePickerSection } from '@/components/shared/DatePickerSection';
 import { SectionTitle } from '@/components/shared/SectionTitle';
 import { SectionContent } from '@/components/common/SectionContent';
 import { ToggleButton } from '@/components/common/ToggleButton';
