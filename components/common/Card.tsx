@@ -2,7 +2,7 @@
 import { Separator } from '@/components/ui/separator';
 
 interface CardProps {
-  title: string;
+  title: React.ReactNode;
   height?: string;
   isMore?: boolean;
   children?: React.ReactNode; //chilren 생성
