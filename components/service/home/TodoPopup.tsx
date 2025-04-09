@@ -9,7 +9,7 @@ import { ActionButton } from '@/components/common/ActionButton';
 import { Goal, Calendar, Repeat, ListTodo, Plus } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 
-export default function TodayTodo() {
+export default function TodoPopup() {
   const [todoInput, setTodoInput] = useState('');
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
