@@ -16,7 +16,7 @@ type FormValues = {
 export function GenderRadio({ selectedGender, setSelectedGender }: Props) {
   const form = useForm<FormValues>({
     defaultValues: {
-      type: selectedGender ?? 'M',
+      type: selectedGender ?? undefined,
     },
   });
 

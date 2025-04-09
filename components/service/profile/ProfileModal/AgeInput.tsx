@@ -29,7 +29,7 @@ const AgeInput: React.FC = () => {
   const onSubmit = form.handleSubmit((data) => {
     const submissionData = {
       ...data,
-      age: data.age === '' ? '999' : data.age,
+      age: data.age === '' ? null : data.age,
     };
     console.log('나이 제출됨:', submissionData);
     // 필요한 로직 처리
@@ -46,8 +46,7 @@ const AgeInput: React.FC = () => {
               <FormLabel className="text-lg font-bold text-secondary">나이</FormLabel>
               <FormControl>
                 <input
-                  type="text"
-                  inputMode="numeric"
+                  type="number"
                   maxLength={3}
                   {...field}
                   onChange={(e) => {
