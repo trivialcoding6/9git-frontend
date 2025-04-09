@@ -8,9 +8,13 @@ import MemoList from '@/components/shared/Memo/MemoList';
 import { PenLine, Plus } from 'lucide-react';
 import { ActionButton } from '@/components/common/ActionButton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { useModalStore } from '@/stores/modal';
+import TodoPopup from './TodoPopup';
 
 export default function HomeContainer() {
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
+  const { openModal } = useModalStore();
+
   return (
     <div className="bg-white min-h-screen flex flex-col">
       {/* 프로필 + 경험치바 전체 영역 */}
@@ -67,7 +71,15 @@ export default function HomeContainer() {
           <TodoItem category="코딩" text="파이썬 공부 교재 보기" />
           <TodoItem category="운동" text="저녁 조깅하기" />
           <div className="flex justify-center mt-4">
-            <ActionButton onClick={() => console.log('추가')} icon={<Plus size={16} />}>
+            <ActionButton
+              onClick={() =>
+                openModal({
+                  title: '오늘의 ToDo',
+                  component: <TodoPopup />,
+                })
+              }
+              icon={<Plus size={16} />}
+            >
               추가
             </ActionButton>
           </div>

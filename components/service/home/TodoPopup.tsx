@@ -69,7 +69,7 @@ export default function TodoPopup() {
         </div>
 
         {isRepeat && (
-          <SectionContent gap={4}>
+          <SectionContent gap={3}>
             <ToggleButton
               items={days}
               initialSelected={selectedDays}
