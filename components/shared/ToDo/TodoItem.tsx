@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import CustomBadge from '../common/CutstomBadge';
+import CustomBadge from './CutstomBadge';
 import { ColorMap } from '@/constants/color';
 
 type Props = {
