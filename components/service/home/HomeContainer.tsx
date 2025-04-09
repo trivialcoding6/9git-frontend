@@ -10,6 +10,7 @@ import { ActionButton } from '@/components/common/ActionButton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useModalStore } from '@/stores/modal';
 import TodoPopup from './TodoPopup';
+import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 
 export default function HomeContainer() {
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
@@ -64,6 +65,25 @@ export default function HomeContainer() {
             </div>
           </Card>
         )}
+
+        {/* 오늘의 투두 초기 화면 */}
+        <Card title="오늘의 To Do">
+          <TodoItem category="영어" text="영어 단어 20개 외우기" />
+          <ChatbotHelperBox />
+          <div className="flex justify-center mt-4">
+            <ActionButton
+              onClick={() =>
+                openModal({
+                  title: '오늘의 ToDo',
+                  component: <TodoPopup />,
+                })
+              }
+              icon={<Plus size={16} />}
+            >
+              추가
+            </ActionButton>
+          </div>
+        </Card>
 
         {/* 오늘의 투두 */}
         <Card title="오늘의 To Do">
