@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 import { useState, ReactNode } from 'react';
 
 type Props = {
-  onClick?: () => void; // ✅ 선택형으로 바꿔서 하위 호환 보장
+  onClick?: () => void;
   icon?: ReactNode;
   children: ReactNode;
-  type?: 'button' | 'submit' | 'reset'; // ✅ 타입 추가
-  className?: string; // ✅ 유연하게 스타일 덮어쓸 수 있도록 추가
+  type?: 'button' | 'submit' | 'reset';
+  className?: string;
 };
 
 export const ActionButton = ({ icon, onClick, children, type = 'button', className }: Props) => {
@@ -16,12 +16,12 @@ export const ActionButton = ({ icon, onClick, children, type = 'button', classNa
 
   const handleClick = () => {
     setIsCompleted(!isCompleted);
-    onClick?.(); // ✅ 안전하게 처리
+    onClick?.();
   };
 
   return (
     <Button
-      type={type} // ✅ 추가 완료!
+      type={type}
       onClick={handleClick}
       variant="ghost"
       className={`
