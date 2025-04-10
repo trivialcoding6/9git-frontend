@@ -11,7 +11,13 @@ type Props = {
   className?: string;
 };
 
-export const ActionButton = ({ icon, onClick, children, type = 'button', className }: Props) => {
+export const ActionButton = ({
+  icon,
+  onClick,
+  children,
+  type = 'button',
+  className = '',
+}: Props) => {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const handleClick = () => {

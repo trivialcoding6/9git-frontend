@@ -5,7 +5,7 @@ interface CardProps {
   title: React.ReactNode;
   height?: string;
   isMore?: boolean;
-  children?: React.ReactNode;
+  children: React.ReactNode;
   rightAction?: React.ReactNode;
 }
 

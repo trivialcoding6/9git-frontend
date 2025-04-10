@@ -1,7 +1,6 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { ActionButton } from '../common/ActionButton';
@@ -9,13 +8,6 @@ import { SectionTitle } from '@/components/shared/SectionTitle';
 import { DatePickerSection } from './DatePickerSection';
 import { CalendarIcon, StarIcon, FileTextIcon, PenLine, X } from 'lucide-react';
 import Card from '@/components/common/Card';
-
-const memoSchema = z.object({
-  title: z.string().optional(),
-  content: z.string().min(1, '내용은 필수입니다.'),
-  startDate: z.date({ required_error: '시작일을 선택해주세요.' }),
-  endDate: z.date({ required_error: '종료일을 선택해주세요.' }),
-});
 
 type MemoFormData = z.infer<typeof memoSchema>;
 
