@@ -16,11 +16,11 @@ import {
 
 import Card from '@/components/common/Card';
 import {
-  totalProgressData, // 전체 달성도 원형 차트 데이터
-  totalProgressComment, // 전체 달성도 텍스트 코멘트
-  goalData, // 목표별 달성 현황 (라인 차트)
-  analysisComments, // 강점/개선점 분석
-  recommendedChallenges, // AI 추천 도전과제
+  totalProgressData,
+  totalProgressComment,
+  goalData,
+  analysisComments,
+  recommendedChallenges,
 } from '@/mocks/analysisData';
 
 const COLORS = ['#FDA63A', '#556B2F', '#6C88C4']; // 영어, 운동, 코딩
