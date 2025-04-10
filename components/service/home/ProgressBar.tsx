@@ -1,22 +1,25 @@
-import { Progress } from '@/components/ui/progress';
-
+// ProgressBar.tsx
 type Props = {
   value: number;
   title: string;
+  emoji?: string;
+  titleColor?: string;
 };
 
-export const ProgressBar = ({ value, title }: Props) => {
+export function ProgressBar({ value, title, emoji, titleColor }: Props) {
   return (
-    <div className="w-[90%] max-w-xs mx-auto space-y-2">
-      <div className="flex justify-between">
-        <p className="text-xs text-secondary font-semibold">{title}</p>
-        <p className="text-xs text-secondary font-semibold">{value}% 달성</p>
+    <div className="space-y-1">
+      <div className="flex items-center gap-2">
+        {emoji && <span className="text-lg">{emoji}</span>}
+        <span className={`font-semibold text-sm ${titleColor}`}>{title}</span>
       </div>
-      <Progress
-        value={value}
-        className="h-2 rounded-full bg-beige-deco"
-        indicatorClassName="bg-primary"
-      />
+      <div className="w-full bg-gray-200 rounded-full h-2">
+        <div
+          className="bg-[#FBAA24] h-2 rounded-full transition-all duration-300"
+          style={{ width: `${value}%` }}
+        ></div>
+      </div>
+      <p className="text-xs text-gray-500">{value}% 달성</p>
     </div>
   );
-};
+}

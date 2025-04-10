@@ -17,7 +17,7 @@ const memoList = [
 
 export default function MemoList() {
   return (
-    <div className="p-6">
+    <div className="pt-2 pb-1 px-1 flex flex-col gap-2">
       {memoList.map((memo, index) => (
         <MemoCard key={index} title={memo.title} description={memo.description} />
       ))}

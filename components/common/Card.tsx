@@ -10,7 +10,7 @@ type Props = {
 
 export default function Card({ title, isMore = false, onMoreClick, children }: Props) {
   return (
-    <section className="bg-primary-light rounded-xl p-4 w-[90%] flex flex-col gap-y-4">
+    <section className="bg-beige-light rounded-xl p-4 w-[90%] flex flex-col gap-y-4">
       <div className="text-secondary flex justify-between items-center font-semibold">
         <span>{title}</span>
         {isMore && (
