@@ -14,7 +14,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const COLORS = ['#FDA63A', '#556B2F', '#6C88C4']; // 영어, 운동, 코딩
+const COLORS = ['#FDA63A', '#556B2F', '#6C88C4'];
 
 const totalProgress = [
   { name: '영어', value: 85 },
