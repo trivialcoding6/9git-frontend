@@ -2,23 +2,18 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { memoSchema, MemoFormData } from '@/schemas/memo';
 
+import { Form, FormField, FormItem, FormControl } from '@/components/ui/form';
 import { ActionButton } from '../common/ActionButton';
 import { SectionTitle } from '@/components/shared/SectionTitle';
 import { DatePickerSection } from './DatePickerSection';
 import { CalendarIcon, StarIcon, FileTextIcon, PenLine, X } from 'lucide-react';
+
 import Card from '@/components/common/Card';
 
-type MemoFormData = z.infer<typeof memoSchema>;
-
 export default function MemoPopup() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<MemoFormData>({
+  const form = useForm<MemoFormData>({
     resolver: zodResolver(memoSchema),
     defaultValues: {
       title: '',
@@ -28,9 +23,18 @@ export default function MemoPopup() {
     },
   });
 
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = form;
+
   const onSubmit = (data: MemoFormData) => {
     console.log('폼 제출됨:', data);
   };
+
+  const contentLength = watch('content')?.length ?? 0;
 
   return (
     <Card
@@ -42,64 +46,106 @@ export default function MemoPopup() {
       }
       rightAction={<X size={16} />}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-        {/* 제목 */}
-        <div>
-          <SectionTitle icon={<FileTextIcon size={16} className="primary" />} text="제목" />
-          <input
-            {...register('title')}
-            className="w-full p-2 border border-orange-300 rounded-md bg-transparent 
-                       placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm"
-            placeholder="제목을 작성해주세요"
-          />
-        </div>
-
-        {/* 메모 내용 */}
-        <div>
-          <SectionTitle icon={<StarIcon size={16} className="primary" />} text="메모 내용 *" />
-          <textarea
-            {...register('content')}
-            rows={2}
-            maxLength={30}
-            className="w-full p-2 border border-orange-300 rounded-md bg-transparent 
-                       placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm resize-none"
-            placeholder="메모 내용을 입력해주세요"
-          />
-          <div className="flex justify-between mt-1 text-xs text-secondary">
-            {errors.content && <span className="text-primary">{errors.content.message}</span>}
-            <span className="ml-auto">{watch('content')?.length ?? 0}/30</span>
-          </div>
-        </div>
-
-        {/* 기간 설정 */}
-        <div>
-          <SectionTitle icon={<CalendarIcon size={16} className="primary" />} text="기간 설정" />
-          <div className="flex items-center gap-3 mt-2">
-            <DatePickerSection
-              date={watch('startDate')}
-              setDate={(date) => setValue('startDate', date as Date)}
-            />
-            <span className="text-secondary text-lg">~</span>
-            <DatePickerSection
-              date={watch('endDate')}
-              setDate={(date) => setValue('endDate', date as Date)}
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
+          {/* 제목 */}
+          <div>
+            <SectionTitle icon={<FileTextIcon size={16} className="primary" />} text="제목" />
+            <FormField
+              control={control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <input
+                      {...field}
+                      className="w-full p-2 border border-orange-300 rounded-md bg-transparent 
+                        placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm"
+                      placeholder="제목을 작성해주세요"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
             />
           </div>
-          {(errors.startDate || errors.endDate) && (
-            <p className="mt-1 text-xs text-primary">
-              {errors.startDate?.message || errors.endDate?.message}
-            </p>
-          )}
-        </div>
 
-        {/* 하단 버튼 */}
-        <div className="flex justify-between mt-6 bg-transparent px-4">
-          <ActionButton type="button" onClick={() => console.log('삭제')}>
-            삭제
-          </ActionButton>
-          <ActionButton type="submit">완료</ActionButton>
-        </div>
-      </form>
+          {/* 메모 내용 */}
+          <div>
+            <SectionTitle icon={<StarIcon size={16} className="primary" />} text="메모 내용 *" />
+            <FormField
+              control={control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <textarea
+                      {...field}
+                      rows={2}
+                      maxLength={30}
+                      className="w-full p-2 border border-orange-300 rounded-md bg-transparent 
+                        placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm resize-none"
+                      placeholder="메모 내용을 입력해주세요"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-between mt-1 text-xs text-secondary">
+              {errors.content && <span className="text-primary">{errors.content.message}</span>}
+              <span className="ml-auto">{contentLength}/30</span>
+            </div>
+          </div>
+
+          {/* 기간 설정 */}
+          <div>
+            <SectionTitle icon={<CalendarIcon size={16} className="primary" />} text="기간 설정" />
+            <div className="flex justify-around mt-2">
+              <FormField
+                control={control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <DatePickerSection
+                        date={field.value}
+                        setDate={(date) => field.onChange(date as Date)}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <span className="text-secondary text-lg">~</span>
+              <FormField
+                control={control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <DatePickerSection
+                        date={field.value}
+                        setDate={(date) => field.onChange(date as Date)}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            {(errors.startDate || errors.endDate) && (
+              <p className="mt-1 text-xs text-primary">
+                {errors.startDate?.message || errors.endDate?.message}
+              </p>
+            )}
+          </div>
+
+          {/* 하단 버튼 */}
+          <div className="flex justify-between mt-6 bg-transparent px-4">
+            <ActionButton type="button" onClick={() => console.log('삭제')}>
+              삭제
+            </ActionButton>
+            <ActionButton type="submit">완료</ActionButton>
+          </div>
+        </form>
+      </Form>
     </Card>
   );
 }
