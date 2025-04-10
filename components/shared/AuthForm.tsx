@@ -22,6 +22,10 @@ export const AuthForm = ({ fields, submitButtonText }: Props) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const form = useFormContext();
 
+  const hasError = Object.keys(form.formState.errors).length > 0;
+
+  const isDisabled = form.formState.isSubmitting || hasError;
+
   return (
     <div className="p-6 space-y-4">
       {fields.map((field) => (
@@ -58,13 +62,15 @@ export const AuthForm = ({ fields, submitButtonText }: Props) => {
                     )}
                   </div>
                 ) : (
-                  <Input
-                    className="h-[46px] bg-white opacity-80"
-                    placeholder={field.placeholder}
-                    type={field.type || 'text'}
-                    error={!!form.formState.errors[field.name]}
-                    {...fieldProps}
-                  />
+                  <div key={field.name}>
+                    <Input
+                      className="h-[46px] bg-white opacity-80"
+                      placeholder={field.placeholder}
+                      type={field.type || 'text'}
+                      error={!!form.formState.errors[field.name]}
+                      {...fieldProps}
+                    />
+                  </div>
                 )}
               </FormControl>
               <FormMessage />
@@ -73,7 +79,9 @@ export const AuthForm = ({ fields, submitButtonText }: Props) => {
         />
       ))}
 
-      <Button className="w-full bg-primary text-white h-[45px] mt-4">{submitButtonText}</Button>
+      <Button className="w-full bg-primary text-white h-[45px] mt-4" disabled={isDisabled}>
+        {submitButtonText}
+      </Button>
 
       <p className="text-sm text-gray-500 text-center">아이디/비밀번호 찾기</p>
     </div>
