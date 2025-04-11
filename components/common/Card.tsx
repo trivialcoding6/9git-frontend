@@ -3,18 +3,12 @@ import { Separator } from '@/components/ui/separator';
 
 interface CardProps {
   title: React.ReactNode;
-  height?: string;
   isMore?: boolean;
   children: React.ReactNode;
   rightAction?: React.ReactNode;
 }
 
-export default function Card({
-  title,
-  height, //높이 수정
-  isMore = false,
-  children,
-}: CardProps) {
+export default function Card({ title, isMore = false, children }: CardProps) {
   return (
     <section className="bg-primary-light rounded-xl p-4 w-[90%] flex flex-col gap-y-4">
       <div className="flex justify-between items-center font-semibold">
