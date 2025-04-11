@@ -9,6 +9,7 @@
  * 3. 달력 날짜 배열 생성 (현재 월의 날짜, 오늘 날짜 표시)
  * 4. 특정 날짜의 카테고리 마커 계산
  */
+import { CategoryItem } from '@/types/category';
 import { getDaysInMonth, getFirstDayOfMonth } from '@/utils/date';
 import { useMemo, useState } from 'react';
 
@@ -97,32 +98,20 @@ export const useCalendar = () => {
   // 달력 날짜 배열을 useMemo로 최적화하여 저장
   const calendarDays = useMemo(() => generateCalendarDays(), [selectedYear, selectedMonth]);
 
-  /**
-   * 특정 날짜에 해당하는 카테고리 마커 가져오기
-   * @param date - 날짜 (1~31)
-   * @param categoryItems - 카테고리 아이템 배열
-   * @param selectedCategories - 선택된 카테고리 이름 배열
-   * @returns 해당 날짜에 표시할 카테고리 객체 배열 {name, color}
-   */
   const getCategoryMarkersForDate = (
     date: number,
-    categoryItems: Array<{
-      start_date: Date;
-      end_date: Date;
-      category_name: string;
-      category_color: string;
-    }>,
+    categoryItems: CategoryItem[],
     selectedCategories: string[]
   ) => {
     const targetDate = new Date(selectedYear, selectedMonth - 1, date);
     targetDate.setHours(0, 0, 0, 0);
 
-    // 해당 날짜가 start_date와 end_date 사이에 있는 카테고리 아이템 필터링
+    // 해당 날짜가 startDate와 endDate 사이에 있는 카테고리 아이템 필터링
     let filteredItems = categoryItems.filter((item) => {
-      const startDate = new Date(item.start_date);
+      const startDate = new Date(item.startDate);
       startDate.setHours(0, 0, 0, 0);
 
-      const endDate = new Date(item.end_date);
+      const endDate = new Date(item.endDate);
       endDate.setHours(23, 59, 59, 999);
 
       return targetDate >= startDate && targetDate <= endDate;
@@ -131,7 +120,7 @@ export const useCalendar = () => {
     // 선택된 카테고리로 필터링
     if (!selectedCategories.includes('All')) {
       filteredItems = filteredItems.filter((item) =>
-        selectedCategories.includes(item.category_name)
+        selectedCategories.includes(item.categoryName)
       );
     }
 
@@ -139,8 +128,8 @@ export const useCalendar = () => {
     const uniqueCategories = Array.from(
       new Map(
         filteredItems.map((item) => [
-          item.category_name,
-          { name: item.category_name, color: item.category_color },
+          item.categoryName,
+          { name: item.categoryName, color: item.categoryColor },
         ])
       ).values()
     );

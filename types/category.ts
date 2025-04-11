@@ -3,18 +3,28 @@ export type Category = {
   color: string;
 };
 
+export type Todo = {
+  id: string;
+  isCompleted: boolean;
+  content: string;
+};
+
+export type Memo = {
+  id: string;
+  title: string;
+  content: string;
+};
+
 export type CategoryItem = {
-  goal_id: string;
-  user_id: string;
-  category_name: string;
-  category_color: string;
-  todo_content: string;
-  start_date: Date;
-  end_date: Date;
-  is_completed: boolean;
-  is_repeat: boolean;
-  created_at: Date;
-  updated_at: Date;
+  id: string;
+  categoryName: string;
+  categoryColor: string;
+  todos: Todo[];
+  memos: Memo[];
+  startDate: string;
+  endDate: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type ExtendedDay = {

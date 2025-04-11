@@ -28,8 +28,9 @@ import { MultiSelectContent } from '@/components/shared/MultiSelect/MultiSelectC
 import { MultiSelectInput } from '@/components/shared/MultiSelect/MultiSelectInput';
 import { MultiSelectItem } from '@/components/shared/MultiSelect/MultiSelectItem';
 import { useSelectStore } from '@/stores/select';
-import { categoryItems } from '@/mocks/categories';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getCategoryItems } from '@/apis/category';
+import { CategoryItem } from '@/types/category';
 
 export const Calendar = () => {
   const {
@@ -40,6 +41,8 @@ export const Calendar = () => {
     goToNextMonth,
     getCategoryMarkersForDate,
   } = useCalendar();
+
+  const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([]);
 
   // 검색어와 검색된 카테고리 처리를 위한 스토어 상태 사용
   const searchText = useSelectStore((state) => state.searchText);
@@ -62,6 +65,21 @@ export const Calendar = () => {
 
   useEffect(() => {
     setItems(categories.map((category) => category.name));
+  }, []);
+
+  useEffect(() => {
+    const fetchCategoryItems = async () => {
+      try {
+        const items = await getCategoryItems({
+          startDate: new Date(2025, 2, 1),
+          endDate: new Date(2025, 6, 30),
+        });
+        setCategoryItems(items);
+      } catch (error) {
+        console.error('Error fetching category items:', error);
+      }
+    };
+    fetchCategoryItems();
   }, []);
 
   return (
