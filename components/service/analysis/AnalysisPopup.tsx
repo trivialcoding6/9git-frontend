@@ -1,4 +1,7 @@
+import { useModalStore } from '@/stores/modal';
+
 export function AnalysisPopup() {
+  const { closeModal } = useModalStore();
   return (
     <div className="bg-[#FFF6EC] rounded-xl p-4 text-sm text-[#5C3A1E]">
       <p className="whitespace-pre-line text-center">
@@ -6,7 +9,10 @@ export function AnalysisPopup() {
         추천해드릴게요!
       </p>
       <div className="flex justify-center mt-3">
-        <button className="bg-[#F68047] text-white text-xs px-4 py-1 rounded-full shadow">
+        <button
+          className="bg-[#F68047] text-white text-xs px-4 py-1 rounded-full shadow cursor-pointer"
+          onClick={closeModal}
+        >
           확인 🐾
         </button>
       </div>

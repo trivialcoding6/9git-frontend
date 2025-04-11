@@ -15,12 +15,14 @@ import {
 import { Info } from 'lucide-react';
 import Card from '@/components/common/Card';
 import { chartData, insights, aiChallenges } from '@/mocks/analysisData';
-
+import { AnalysisPopup } from './AnalysisPopup';
+import { ActionButton } from '@/components/common/ActionButton';
 const COLORS = ['#FDA63A', '#556B2F', '#6C88C4'];
+import { useModalStore } from '@/stores/modal';
 
 export default function AnalysisPage() {
   const [selectedCategories, setSelectedCategories] = useState(['영어', '운동', '코딩']);
-
+  const { openModal } = useModalStore();
   const getCategoryColor = (category: string) => {
     switch (category) {
       case '영어':
@@ -209,7 +211,16 @@ export default function AnalysisPage() {
           title={
             <div className="w-full flex justify-between items-center">
               AI 추천 도전과제
-              <Info className="w-6 h-6 text-white fill-primary cursor-pointer" />
+              {/* <Info className="w-6 h-6 text-white fill-primary cursor-pointer" /> */}
+              <ActionButton
+                onClick={() =>
+                  openModal({
+                    title: '안내',
+                    component: <AnalysisPopup />,
+                  })
+                }
+                icon={<Info className="w-8 h-8 text-white fill-primary cursor-pointer" />}
+              />
             </div>
           }
         >
