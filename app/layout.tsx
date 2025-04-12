@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from 'sonner';
+import { MSWProvider } from '@/components/providers/MSWProvider';
 
 export const metadata: Metadata = {
   title: '구깃',
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <Toaster position="top-center" />
         {children}
+        <MSWProvider>{children}</MSWProvider>
       </body>
     </html>
   );

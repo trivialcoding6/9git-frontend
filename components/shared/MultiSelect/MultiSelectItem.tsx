@@ -39,12 +39,13 @@ export function MultiSelectItem({ children, value, color }: MultiSelectItemProps
       className={`flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-beige-light ${
         isItemSelected() ? 'bg-beige-base' : ''
       }`}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation(); // 이벤트 전파 방지
         toggleItem(value);
       }}
     >
       <div className="flex-1 flex items-center">
-        {color && <div className={`w-3 h-3 rounded-full mr-2 bg-${color}`} />}
+        {color && <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: color }} />}
         {children}
       </div>
       {isItemSelected() && <Check size={16} className="text-primary" />}
