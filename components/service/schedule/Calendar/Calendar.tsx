@@ -48,15 +48,15 @@ export const Calendar = () => {
   const searchText = useSelectStore((state) => state.searchText);
   const selectedItems = useSelectStore((state) => state.selectedItems);
   const setItems = useSelectStore((state) => state.setItems);
+
   // 카테고리 데이터
   const categories = [
     { name: 'All', color: '#CCCCCC' },
-    { name: '코딩', color: '#FDA63A' },
-    { name: '영어', color: '#6C88C4' },
-    { name: '운동', color: '#556B2F' },
+    ...categoryItems.map((item) => ({
+      name: item.categoryName,
+      color: item.categoryColor,
+    })),
   ];
-
-  // Mock 카테고리 아이템 데이터
 
   // 검색어에 따른 필터링된 카테고리
   const filteredCategories = categories.filter((category) =>
@@ -65,7 +65,7 @@ export const Calendar = () => {
 
   useEffect(() => {
     setItems(categories.map((category) => category.name));
-  }, []);
+  }, [selectedItems]);
 
   useEffect(() => {
     const fetchCategoryItems = async () => {

@@ -27,33 +27,11 @@ type MultiSelectContentProps = {
 
 export function MultiSelectContent({ children }: MultiSelectContentProps) {
   const isOpen = useSelectStore((state) => state.isOpen);
-  const setIsOpen = useSelectStore((state) => state.setIsOpen);
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  // 외부 클릭 감지
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (contentRef.current && !contentRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, setIsOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={contentRef}
-      className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-2"
-    >
+    <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
       {children}
     </div>
   );
