@@ -16,7 +16,9 @@ export const ActionButton = ({
   onClick,
   children,
   type = 'button',
-  className = '',
+  className = `bg-transparent hover:bg-transparent shadow-none border-none px-0 py-0 h-auto
+        flex items-center gap-1 text-sm font-bold text-secondary
+        hover:text-primary transition-colors duration-200`,
 }: Props) => {
   const [isCompleted, setIsCompleted] = useState(false);
 
@@ -26,17 +28,7 @@ export const ActionButton = ({
   };
 
   return (
-    <Button
-      type={type}
-      onClick={handleClick}
-      variant="ghost"
-      className={`
-        bg-transparent hover:bg-transparent shadow-none border-none px-0 py-0 h-auto
-        flex items-center gap-1 text-sm font-bold text-secondary
-        hover:text-primary transition-colors duration-200
-        ${className ?? ''}
-      `}
-    >
+    <Button type={type} onClick={handleClick} variant="ghost" className={className}>
       {icon && <div>{icon}</div>}
       {children}
     </Button>

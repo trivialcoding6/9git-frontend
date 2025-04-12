@@ -7,7 +7,7 @@ export const memoSchema = z
     startDate: z.date({ required_error: '시작일을 선택해주세요.' }),
     endDate: z.date({ required_error: '종료일을 선택해주세요.' }),
   })
-  .refine((data) => data.startDate < data.endDate, {
+  .refine((data) => data.startDate <= data.endDate, {
     path: ['endDate'],
     message: '종료일은 시작일 이후여야 합니다.',
   });
