@@ -1,5 +1,5 @@
 export type TResponse<T> = {
-  statusCode: number;
+  status_code: number;
   data?: T;
   error?: string;
 };

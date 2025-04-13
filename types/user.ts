@@ -11,4 +11,12 @@ export type TUser = {
   characterCount: number;
 };
 
+export type TLoginResponse = {
+  userId: string;
+  email: string;
+  name: string;
+  accessToken: string;
+  tokenType: string;
+};
+
 // ... existing code ...
