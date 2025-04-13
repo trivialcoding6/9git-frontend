@@ -8,6 +8,7 @@ type Props = {
   onMoreClick?: () => void;
   bgColor?: string;
   shadowColor?: string;
+  className?: string;
 };
 
 export default function Card({
@@ -15,11 +16,12 @@ export default function Card({
   isMore = false,
   children,
   bgColor = '#FDE8CE',
-  shadowColor = '#F6D1A5', // #F6D1A5
+  shadowColor = '#F6D1A5',
+  className = '',
 }: Props) {
   return (
     <section
-      className="rounded-xl p-4 w-[90%] flex flex-col gap-y-4"
+      className={`rounded-xl p-4 w-[90%] flex flex-col gap-y-4 ${className}`}
       style={{
         backgroundColor: bgColor,
         boxShadow: `2px 2px 0 ${shadowColor}`,
@@ -36,7 +38,7 @@ export default function Card({
         </div>
         <Separator className="bg-beige-deco" />
       </div>
-      <div>{children}</div>
+      <div className="h-full">{children}</div>
     </section>
   );
 }
