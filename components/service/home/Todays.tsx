@@ -14,13 +14,29 @@ import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 export default function Todays() {
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
   const { openModal } = useModalStore();
+  const categoryProgresses = [
+    { title: '영어', value: 40 },
+    { title: '코딩', value: 50 },
+    { title: '운동', value: 65 },
+  ];
+
+  const handleOpenTodoModal = () => {
+    openModal({
+      title: '오늘의 ToDo',
+      component: <TodoPopup />,
+    });
+  };
+
+  const handleAddMemo = () => {
+    console.log('추가');
+  };
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
       {/* 카드 리스트 + 하단 영역 */}
       <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-none">
         <div
-          className="absolute top-0 left-4 w-8 h-10 bg-primary z-30"
+          className="absolute top-0 left-4 w-8 h-10 bg-primary z-5"
           style={{
             clipPath: 'polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%)',
           }}
@@ -37,9 +53,14 @@ export default function Todays() {
         {showCategoryProgress && (
           <Card title="목표별 현황">
             <div className="flex flex-col space-y-4">
-              <ProgressBar value={75} title="영어" titleColor="text-secondary" />
-              <ProgressBar value={50} title="코딩" titleColor="text-secondary" />
-              <ProgressBar value={65} title="운동" titleColor="text-secondary" />
+              {categoryProgresses.map((item, idx) => (
+                <ProgressBar
+                  key={idx}
+                  value={item.value}
+                  title={item.title}
+                  titleColor="text-secondary"
+                />
+              ))}
             </div>
           </Card>
         )}
@@ -48,15 +69,7 @@ export default function Todays() {
           <TodoItem category="영어" text="영어 단어 20개 외우기" />
           <ChatbotHelperBox />
           <div className="flex justify-center mt-4">
-            <ActionButton
-              onClick={() =>
-                openModal({
-                  title: '오늘의 ToDo',
-                  component: <TodoPopup />,
-                })
-              }
-              icon={<Plus size={16} />}
-            >
+            <ActionButton onClick={handleOpenTodoModal} icon={<Plus size={16} />}>
               추가
             </ActionButton>
           </div>
@@ -73,7 +86,7 @@ export default function Todays() {
         >
           <MemoList />
           <div className="flex justify-center mt-4">
-            <ActionButton onClick={() => console.log('추가')} icon={<Plus size={16} />}>
+            <ActionButton onClick={handleAddMemo} icon={<Plus size={16} />}>
               추가
             </ActionButton>
           </div>

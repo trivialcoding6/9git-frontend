@@ -13,11 +13,11 @@ export function ProgressBar({ value, title, emoji, titleColor }: Props) {
         {emoji && <span className="text-lg">{emoji}</span>}
         <span className={`font-semibold text-sm ${titleColor}`}>{title}</span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div className="w-full bg-beige-deco rounded-full h-2">
         <div
-          className="bg-[#FBAA24] h-2 rounded-full transition-all duration-300"
+          className="bg-primary h-2 rounded-full transition-all duration-300"
           style={{ width: `${value}%` }}
-        ></div>
+        />
       </div>
       <p className="text-xs text-gray-500">{value}% 달성</p>
     </div>

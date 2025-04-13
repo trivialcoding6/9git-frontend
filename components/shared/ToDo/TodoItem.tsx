@@ -21,7 +21,7 @@ export default function TodoItem({ category, text }: Props) {
 
       {/* 투두 텍스트 */}
       <p
-        className={`text-sm font-semibold text-[#744D2C] mx-4 flex-1 text-center ${
+        className={`text-sm font-semibold text-secondary mx-4 flex-1 text-center ${
           checked ? 'line-through opacity-50' : ''
         }`}
       >
