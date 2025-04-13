@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useCallback, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import clsx from 'clsx';
 import { ColorMap } from '@/constants/color';
 
 type ToggleButtonProps<T> = {
   items: T[];
+  selected: T[];
+  onChange: (selected: T[]) => void;
   renderItem?: (item: T, isSelected: boolean) => ReactNode;
-  onChange?: (selected: T[]) => void;
-  initialSelected?: T[];
   className?: string;
   selectedClassName?: string;
   unselectedClassName?: string;
@@ -16,30 +16,23 @@ type ToggleButtonProps<T> = {
 
 export function ToggleButton<T extends string>({
   items,
-  renderItem = (item) => item,
+  selected = [],
   onChange,
-  initialSelected = [],
+  renderItem = (item) => item,
   className = '',
   selectedClassName = '',
   unselectedClassName = '',
 }: ToggleButtonProps<T>) {
-  const [selectedItems, setSelectedItems] = useState<T[]>(initialSelected);
-
-  const toggle = useCallback(
-    (item: T) => {
-      const next = selectedItems.includes(item)
-        ? selectedItems.filter((i) => i !== item)
-        : [...selectedItems, item];
-      setSelectedItems(next);
-      onChange?.(next);
-    },
-    [selectedItems, onChange]
-  );
+  const toggle = (item: T) => {
+    const isSelected = selected.includes(item);
+    const newSelected = isSelected ? selected.filter((i) => i !== item) : [...selected, item];
+    onChange(newSelected);
+  };
 
   return (
     <>
       {items.map((item, idx) => {
-        const isSelected = selectedItems.includes(item);
+        const isSelected = selected.includes(item);
         const bgColorClass = isSelected ? ColorMap[item] ?? 'bg-gray-300' : '';
         return (
           <button
