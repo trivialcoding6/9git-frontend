@@ -1,4 +1,5 @@
 import { useModalStore } from '@/stores/modal';
+import { PawPrint } from 'lucide-react';
 
 export function AnalysisPopup() {
   const { closeModal } = useModalStore();
@@ -10,10 +11,11 @@ export function AnalysisPopup() {
       </p>
       <div className="flex justify-center mt-3">
         <button
-          className="bg-[#F68047] text-white text-base  px-4 py-1 rounded-full shadow cursor-pointer"
+          className="bg-primary-light border-primary border-2 text-secondary text-xl px-4 py-1 rounded-full shadow cursor-pointer flex items-center gap-1"
           onClick={closeModal}
         >
-          확인 🐾
+          확인
+          <PawPrint className="w-4.5 h-4.5 fill-secondary" />
         </button>
       </div>
     </div>

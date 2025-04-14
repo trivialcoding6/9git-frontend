@@ -216,16 +216,16 @@ export default function AnalysisPage() {
   return (
     <div className="min-h-screen bg-[var(--beige-light)] text-[var(--main-gray)] flex justify-center px-4 py-10">
       <div className="w-full max-w-[800px] flex flex-col gap-12 items-center">
-        <h2 className="text-xl w-full text-left pl-4 text-secondary">AI 종합평가</h2>
+        <h2 className="text-2xl text-secondary w-full text-left pl-4">AI 종합평가</h2>
 
-        <Card title={<div className="text-secondary">전체 달성도</div>}>
+        <Card title={<div className="text-secondary">전체 달성도</div>} bgColor="var(--beige-base)">
           <div className="flex flex-col items-center justify-center">
             <PieChartBox value={totalAchievementRate} />
 
             {/* 초기 상태 텍스트 박스 */}
             {!hasData && (
               <div className="w-full flex justify-center mt-4">
-                <div className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm w-[95%] min-h-[80px] flex items-center justify-center mx-auto">
+                <div className="bg-[var(--beige-light)] rounded-xl p-4  w-[95%] min-h-[80px] flex items-center justify-center mx-auto">
                   <p className="text-base whitespace-pre-line text-secondary text-center">
                     {initialStateTexts.totalAchievement}
                   </p>
@@ -276,12 +276,15 @@ export default function AnalysisPage() {
           ))}
         </div>
 
-        <Card title={<div className="text-secondary">목표별 달성현황</div>}>
+        <Card
+          title={<div className="text-secondary">목표별 달성현황</div>}
+          bgColor="var(--beige-base)"
+        >
           <div className="flex flex-col items-center justify-center w-full">
             {/* 초기 상태 텍스트 박스 */}
             {!hasData && (
               <div className="w-full flex justify-center mb-4">
-                <div className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm w-[95%] min-h-[80px] flex items-center justify-center mx-auto">
+                <div className="bg-[var(--beige-light)] rounded-xl p-4 w-[95%] min-h-[80px] flex items-center justify-center mx-auto">
                   <p className="text-base whitespace-pre-line text-secondary text-center">
                     {initialStateTexts.chart}
                   </p>
@@ -293,7 +296,7 @@ export default function AnalysisPage() {
             <div className="flex justify-center w-full mb-4">
               <div className="inline-flex rounded-full border border-[var(--beige-deco)] bg-[var(--beige-base)] p-0.5">
                 <button
-                  className={`px-3 py-1 text-base rounded-full transition-all duration-150 ${
+                  className={`px-4 py-0 text-base rounded-full transition-all duration-150 ${
                     activeTab === 'monthly'
                       ? 'bg-[var(--primary)] text-white shadow-sm'
                       : 'text-secondary'
@@ -303,7 +306,7 @@ export default function AnalysisPage() {
                   월평균
                 </button>
                 <button
-                  className={`px-3 py-1 text-base rounded-full transition-all duration-150 ${
+                  className={`px-4 py-0 text-base rounded-full transition-all duration-150 ${
                     activeTab === 'daily'
                       ? 'bg-[var(--primary)] text-white shadow-sm'
                       : 'text-secondary'
@@ -435,10 +438,10 @@ export default function AnalysisPage() {
                         isSelected ? prev.filter((c) => c !== category) : [...prev, category]
                       )
                     }
-                    className={`px-3.5 py-1 rounded-full border text-sm transition-all ${
+                    className={`px-3.5 py-0 rounded-full border text-base transition-all ${
                       isSelected
                         ? 'text-white border-transparent'
-                        : 'text-[var(--main-gray)] border-gray-300 bg-white'
+                        : 'text-secondary border-primary border-2 bg-white'
                     }`}
                     style={
                       isSelected
@@ -459,29 +462,29 @@ export default function AnalysisPage() {
 
         <Card
           title={
-            <div className="w-full flex justify-between items-center">
-              <span className="text-secondary">AI 추천 도전과제</span>
-              <ActionButton
+            <div className="-mx-4 px-4 flex justify-between items-center">
+              <div className="text-secondary text-xl">AI 추천 도전과제</div>
+              <div
+                className="cursor-pointer"
                 onClick={() =>
                   openModal({
                     title: '안내',
                     component: <AnalysisPopup />,
                   })
                 }
-                icon={<Info className="w-8 h-8 text-white fill-[var(--primary)] cursor-pointer" />}
-              />
+              >
+                <Info className="w-4 h-4 text-white fill-[var(--primary)]" />
+              </div>
             </div>
           }
+          bgColor="var(--beige-base)"
         >
           <div className="flex flex-col gap-4">
             {hasData ? (
               aiChallenges.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm w-[95%] mx-auto"
-                >
+                <div key={idx} className="bg-[var(--beige-light)] rounded-xl p-4 w-[95%] mx-auto">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-base  text-[var(--primary)]">• {item.title}</h3>
+                    <h3 className="text-base text-[var(--primary)]">• {item.title}</h3>
                     <span className="text-base bg-[var(--primary-light)] text-[var(--primary)] px-2 py-0.5 rounded-full">
                       추천
                     </span>
@@ -508,7 +511,7 @@ export default function AnalysisPage() {
                 </div>
               ))
             ) : (
-              <div className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm min-h-[80px] flex items-center justify-center w-[95%] mx-auto">
+              <div className="bg-[var(--beige-light)] rounded-xl p-4 min-h-[80px] flex items-center justify-center w-[95%] mx-auto">
                 <p className="text-base whitespace-pre-line text-secondary text-center">
                   {initialStateTexts.aiChallenges}
                 </p>
