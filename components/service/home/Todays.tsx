@@ -46,7 +46,7 @@ export default function Todays() {
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
-      <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-none">
+      <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-t-2xl">
         {/* 오늘의 목표 진행률 */}
         <Card
           title="오늘의 목표 진행률"
@@ -95,7 +95,7 @@ export default function Todays() {
                 />
               ))
             ) : (
-              <p className="text-sm text-center text-secondary">오늘의 할 일이 아직 없어요!</p>
+              <p className="text-lg text-center text-secondary mb-2">오늘 할 일이 아직 없어요!</p>
             )}
           </div>
 
@@ -107,11 +107,11 @@ export default function Todays() {
               icon={<Plus size={16} />}
               disabled={todoList.length >= 10}
             >
-              추가
+              <span className="text-base">추가</span>
             </ActionButton>
           </div>
           {todoList.length >= 10 && (
-            <p className="text-xs text-primary mt-2 text-center">
+            <p className="text-sm text-primary mt-2 text-center">
               할 일은 최대 10개까지만 추가할 수 있어요.
             </p>
           )}
@@ -119,18 +119,13 @@ export default function Todays() {
 
         {/* 오늘의 메모 */}
         <Card
-          title={
-            <div className="flex items-center gap-2 font-semibold text-base">
-              <PenLine className="w-4 h-4 text-secondary" />
-              오늘의 메모
-            </div>
-          }
+          title={<div className="flex items-center gap-2 text-xl">오늘의 메모</div>}
           isMore={false}
         >
           {memoList.length > 0 ? (
             <MemoList />
           ) : (
-            <p className="text-sm text-center text-secondary">
+            <p className="text-lg text-center text-secondary">
               오늘의 할 일을 추가해주세요! <br /> 오늘의 메모로는 어떤게 있을까요?
             </p>
           )}
@@ -141,11 +136,11 @@ export default function Todays() {
               icon={<Plus size={16} />}
               disabled={memoList.length >= 10}
             >
-              추가
+              <span className="text-base">추가</span>
             </ActionButton>
           </div>
           {memoList.length >= 10 && (
-            <p className="text-xs text-primary mt-2 text-center">
+            <p className="text-sm text-primary mt-2 text-center">
               메모는 최대 10개까지만 작성할 수 있어요.
             </p>
           )}

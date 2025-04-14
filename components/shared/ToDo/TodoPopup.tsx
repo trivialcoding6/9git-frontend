@@ -155,7 +155,7 @@ export default function TodoPopup() {
   return (
     <>
       {/* 목표 설정 */}
-      <section className="mb-5 px-4">
+      <section className="mb-5 px-4 text-xl">
         <SectionTitle icon={<Goal size={16} className="text-primary" />} text="목표 설정" />
         <SectionContent className="flex items-center gap-8 mt-2">
           <ToggleButton
@@ -165,7 +165,7 @@ export default function TodoPopup() {
               setSelectedCategory(selected[0] || '');
               setCategoryError('');
             }}
-            className="px-4 py-1 text-sm font-semibold border-2 rounded-md transition-colors"
+            className="px-4 py-0.3 text-lg  border-2 rounded-md transition-colors"
             selectedClassName="text-white border-transparent"
             unselectedClassName="bg-beige-light text-secondary border-primary"
           />
@@ -176,11 +176,12 @@ export default function TodoPopup() {
       {/* 기간 설정 */}
       <section className="mb-5 px-4">
         <SectionTitle icon={<Calendar size={16} className="text-primary" />} text="기간 설정" />
-        <div className="flex items-center justify-center gap-3 mt-2">
+        <div className="flex items-center justify-between gap-2 w-full">
           <DatePickerSection date={startDate} setDate={setStartDate} />
-          <span className="text-secondary text-lg">~</span>
+          <span className="text-primary">~</span>
           <DatePickerSection date={endDate} setDate={setEndDate} />
         </div>
+
         {dateError && <p className="text-sm text-primary mt-1 text-center">{dateError}</p>}
       </section>
 
@@ -203,7 +204,7 @@ export default function TodoPopup() {
               items={DAYS}
               selected={selectedDays}
               onChange={setSelectedDays}
-              className="w-8 h-8 rounded-md text-sm font-bold flex items-center justify-center"
+              className="w-8 h-8 rounded-md text-lg flex items-center justify-center"
               selectedClassName="bg-secondary text-white"
               unselectedClassName="bg-beige-deco text-secondary"
             />
@@ -211,7 +212,6 @@ export default function TodoPopup() {
         )}
       </section>
 
-      {/* 오늘 할 일 */}
       {/* 오늘 할 일 */}
       <section className="mb-5 px-4">
         <SectionTitle icon={<ListTodo size={16} className="text-primary" />} text="오늘 할 일" />
@@ -226,9 +226,8 @@ export default function TodoPopup() {
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 placeholder="오늘 할 일을 작성해주세요"
                 title={todo.text}
-                className="flex-1 text-sm px-1 py-1 bg-transparent text-secondary placeholder-beige-deco 
-            focus:outline-none border-b bg-beige-deco 
-            overflow-hidden text-ellipsis whitespace-nowrap"
+                className="flex-1 text-lg px-1 py-1 bg-transparent text-secondary placeholder-beige-deco 
+            focus:outline-none border-b bg-beige-deco overflow-hidden text-ellipsis whitespace-nowrap"
               />
               {isLast ? (
                 <ActionButton

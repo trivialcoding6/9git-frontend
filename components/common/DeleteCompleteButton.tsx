@@ -19,14 +19,14 @@ export const DeleteCompleteButtons = ({
       <div className="flex justify-between">
         <Button
           onClick={onDelete}
-          className="bg-[#5B3E1D] text-white hover:bg-[#4a2f17] rounded-full px-6 py-2 text-sm font-semibold shadow"
+          className="bg-[#5B3E1D] text-white hover:bg-[#4a2f17] rounded-full px-6 py-2 text-lg shadow"
         >
           삭제
         </Button>
         <Button
           onClick={onComplete}
           disabled={disableCompleteButton}
-          className={`rounded-full px-6 py-2 text-sm font-semibold shadow text-white ${
+          className={`rounded-full px-6 py-2 text-lg shadow text-white ${
             disableCompleteButton
               ? 'bg-gray-300 cursor-not-allowed'
               : 'bg-[#FBAA24] hover:bg-[#e8991a]'

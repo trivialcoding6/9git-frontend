@@ -85,7 +85,7 @@ export default function MemoPopup() {
       <form className="flex flex-col gap-y-4">
         {/* 제목 필드 */}
         <div>
-          <SectionTitle icon={<FileTextIcon size={16} className="primary" />} text="제목" />
+          <SectionTitle icon={<FileTextIcon size={16} className="text-primary" />} text="제목" />
           <FormField
             control={control}
             name="title"
@@ -95,7 +95,7 @@ export default function MemoPopup() {
                   <input
                     {...field}
                     className="w-full p-2 border border-orange-300 rounded-md bg-transparent 
-                    placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm"
+                    placeholder:text-beige-deco text-main-gray placeholder:text-lg text-lg"
                     placeholder="제목을 작성해주세요"
                   />
                 </FormControl>
@@ -105,8 +105,8 @@ export default function MemoPopup() {
         </div>
 
         {/* 메모 내용 */}
-        <div>
-          <SectionTitle icon={<StarIcon size={16} className="primary" />} text="메모 내용 *" />
+        <div className="mb-0">
+          <SectionTitle icon={<StarIcon size={16} className="text-primary" />} text="메모 내용" />
           <FormField
             control={control}
             name="content"
@@ -120,29 +120,32 @@ export default function MemoPopup() {
                     rows={2}
                     maxLength={30}
                     className="w-full p-2 border border-orange-300 rounded-md bg-transparent 
-                      placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm resize-none"
+                      placeholder:text-beige-deco text-main-gray placeholder:text-lg text-lg resize-none"
                     placeholder="메모 내용을 입력해주세요"
                   />
                 </FormControl>
               </FormItem>
             )}
           />
-          <div className="flex justify-between mt-1 text-xs text-secondary">
+          <div className="flex justify-between mt-1 text-base text-secondary">
             {errors.content && <span className="text-primary">{errors.content.message}</span>}
             <span className="ml-auto">{contentLength}/30</span>
           </div>
         </div>
 
         {/* 기간 설정 */}
-        <div>
-          <SectionTitle icon={<CalendarIcon size={16} className="primary" />} text="기간 설정" />
-          <div className="flex items-center justify-center gap-x-4 mt-2">
+        <div className="mt-0">
+          <SectionTitle
+            icon={<CalendarIcon size={16} className="text-primary" />}
+            text="기간 설정"
+          />
+          <div className="flex items-center justify-center gap-x-4 mt-0 w-full">
             <FormField
               control={control}
               name="startDate"
               render={({ field }) => (
-                <FormItem>
-                  <FormControl>
+                <FormItem className="w-full">
+                  <FormControl className="w-full">
                     <DatePickerSection
                       date={field.value}
                       setDate={(date) => field.onChange(date as Date)}
@@ -151,13 +154,13 @@ export default function MemoPopup() {
                 </FormItem>
               )}
             />
-            <span className="text-sm text-primary">~</span>
+            <span className="text-lg text-primary">~</span>
             <FormField
               control={control}
               name="endDate"
               render={({ field }) => (
-                <FormItem>
-                  <FormControl>
+                <FormItem className="w-full">
+                  <FormControl className="w-full">
                     <DatePickerSection
                       date={field.value}
                       setDate={(date) => field.onChange(date as Date)}

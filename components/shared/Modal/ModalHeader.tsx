@@ -14,7 +14,7 @@ export const ModalHeader = ({ children }: Props) => {
   return (
     <>
       <div className="flex justify-between items-center mb-2">
-        <div className="ml-2 text-lg font-bold text-secondary">{children}</div>
+        <div className="ml-2 text-xl text-secondary">{children}</div>
 
         <button className="text-secondary cursor-pointer" onClick={closeModal}>
           <XIcon className="w-5 h-5" />
