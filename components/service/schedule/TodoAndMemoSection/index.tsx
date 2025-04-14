@@ -8,9 +8,16 @@ import { todoListData } from '@/mocks/data';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
 import { useTodoListStore } from '@/stores/useTodoListStore';
+import { Memo } from '@/types/memo';
+import { Todo } from '@/types/todo';
 import { PencilLine, Plus } from 'lucide-react';
 
-export const TodoAndMemoSection = () => {
+type Props = {
+  todos: Todo[];
+  memos: Memo[];
+};
+
+export const TodoAndMemoSection = ({ todos, memos }: Props) => {
   //   const { todoList } = useTodoListStore();
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
@@ -40,10 +47,13 @@ export const TodoAndMemoSection = () => {
         </div>
       </div>
       <div className="flex flex-col gap-4 h-[300px] overflow-y-auto scrollbar-hide">
-        {[0, 1, 2, 3].map((memo) => (
-          <div className="flex flex-col justify-center w-full h-[96px] bg-beige-light rounded-lg p-4">
-            <div className="text-xl font-bold text-secondary">메모</div>
-            <div className="text-sm text-primary">한강 공원 오후 5시</div>
+        {memos.map((memo) => (
+          <div
+            key={memo.id}
+            className="flex flex-col justify-center w-full h-[96px] bg-beige-light rounded-lg p-4"
+          >
+            <div className="text-xl font-bold text-secondary">{memo.title}</div>
+            <div className="text-lg text-primary">{memo.content}</div>
           </div>
         ))}
       </div>
@@ -51,8 +61,8 @@ export const TodoAndMemoSection = () => {
       {/* todo 섹션 */}
       <Card title="오늘의 To Do" className="mt-7 w-full">
         <div className="space-y-2">
-          {todoListData.length > 0 ? (
-            todoListData.map((todo) => (
+          {todos.length > 0 ? (
+            todos.map((todo) => (
               <TodoItem
                 key={todo.id}
                 todo={todo}
@@ -81,7 +91,7 @@ export const TodoAndMemoSection = () => {
             <span className="text-base">추가</span>
           </ActionButton>
         </div>
-        {todoListData.length >= 10 && (
+        {todos.length >= 10 && (
           <p className="text-sm text-primary mt-2 text-center">
             할 일은 최대 10개까지만 추가할 수 있어요.
           </p>

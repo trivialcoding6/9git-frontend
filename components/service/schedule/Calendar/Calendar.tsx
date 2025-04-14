@@ -4,35 +4,34 @@
  * 캘린더 컴포넌트의 메인 엔트리 포인트
  *
  * 이 컴포넌트는 캘린더 전체 UI를 관리하고 하위 컴포넌트들을 조합합니다.
- * useCalendar 훅을 사용하여 캘린더 상태와 기능을 가져오고,
- * useSelectStore를 통해 카테고리 선택 관련 상태를 관리합니다.
+ * useCalendar 훅을 사용하여 캘린더 상태와 기능을 가져옵니다.
  *
  * 주요 기능:
  * 1. 월별 캘린더 표시 (CalendarMonth 사용)
- * 2. 카테고리 필터링을 위한 멀티셀렉트 드롭다운 제공
- * 3. 날짜별 일정 표시 (CalendarDay 사용)
- *
- * 구조:
- * - 상단: 연/월 표시 및 이전/다음 달 이동 버튼
- * - 중앙: 카테고리 필터 드롭다운
- * - 하단: 날짜 그리드와 카테고리 마커
+ * 2. 날짜별 일정 표시 (CalendarDay 사용)
  */
 'use client';
 
 import { CalendarMonth } from './CalendarMonth';
 import { CalendarDay } from './CalendarDay';
 import { useCalendar } from '@/hooks/useCalendar';
+import { CategoryItem } from '@/types/category';
 import { MultiSelect } from '@/components/shared/MultiSelect/MultiSelect';
 import { MultiSelectTrigger } from '@/components/shared/MultiSelect/MultiSelectTrigger';
 import { MultiSelectContent } from '@/components/shared/MultiSelect/MultiSelectContent';
 import { MultiSelectInput } from '@/components/shared/MultiSelect/MultiSelectInput';
 import { MultiSelectItem } from '@/components/shared/MultiSelect/MultiSelectItem';
+import { Todo } from '@/types/todo';
+import { Memo } from '@/types/memo';
 import { useSelectStore } from '@/stores/select';
-import { useEffect, useState } from 'react';
-import { getCategoryItems } from '@/apis/category';
-import { CategoryItem } from '@/types/category';
 
-export const Calendar = () => {
+type Props = {
+  categoryItems: CategoryItem[];
+  todos: Todo[];
+  memos: Memo[];
+};
+
+export const Calendar = ({ categoryItems, todos, memos }: Props) => {
   const {
     selectedYear,
     selectedMonth,
@@ -40,47 +39,22 @@ export const Calendar = () => {
     goToPrevMonth,
     goToNextMonth,
     getCategoryMarkersForDate,
-  } = useCalendar();
-
-  const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([]);
-
-  // 검색어와 검색된 카테고리 처리를 위한 스토어 상태 사용
+  } = useCalendar(todos, memos);
   const searchText = useSelectStore((state) => state.searchText);
   const selectedItems = useSelectStore((state) => state.selectedItems);
-  const setItems = useSelectStore((state) => state.setItems);
-
   // 카테고리 데이터
   const categories = [
     { name: 'All', color: '#CCCCCC' },
-    ...categoryItems.map((item) => ({
-      name: item.categoryName,
-      color: item.categoryColor,
+    ...categoryItems.map((category) => ({
+      name: category.categoryName,
+      color: category.categoryColor,
     })),
+    { name: '메모', color: '#744D2C' },
   ];
 
-  // 검색어에 따른 필터링된 카테고리
   const filteredCategories = categories.filter((category) =>
     category.name.toLowerCase().includes(searchText.toLowerCase())
   );
-
-  useEffect(() => {
-    setItems(categories.map((category) => category.name));
-  }, [selectedItems]);
-
-  useEffect(() => {
-    const fetchCategoryItems = async () => {
-      try {
-        const items = await getCategoryItems({
-          startDate: new Date(2025, 2, 1),
-          endDate: new Date(2025, 6, 30),
-        });
-        setCategoryItems(items);
-      } catch (error) {
-        console.error('Error fetching category items:', error);
-      }
-    };
-    fetchCategoryItems();
-  }, []);
 
   return (
     <div className="flex flex-col gap-4 bg-white rounded-lg p-4">
@@ -91,7 +65,7 @@ export const Calendar = () => {
         onNextMonth={goToNextMonth}
       />
 
-      {/* 카테고리 선택 컴포넌트 */}
+      {/* 라벨 표시 */}
       <div className="w-full flex justify-end">
         <MultiSelect>
           <MultiSelectTrigger />
@@ -110,9 +84,9 @@ export const Calendar = () => {
         calendarDays={calendarDays}
         categoryItems={categoryItems}
         selectedCategories={selectedItems}
-        year={selectedYear}
-        month={selectedMonth}
         getCategoryMarkersForDate={getCategoryMarkersForDate}
+        todos={todos}
+        memos={memos}
       />
     </div>
   );

@@ -36,7 +36,7 @@ export function MultiSelectItem({ children, value, color }: MultiSelectItemProps
 
   return (
     <div
-      className={`flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-beige-light ${
+      className={`flex items-center px-3 py-2 text-lg cursor-pointer hover:bg-beige-light ${
         isItemSelected() ? 'bg-beige-base' : ''
       }`}
       onClick={(e) => {
@@ -45,7 +45,11 @@ export function MultiSelectItem({ children, value, color }: MultiSelectItemProps
       }}
     >
       <div className="flex-1 flex items-center">
-        {color && <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: color }} />}
+        {color && value !== '메모' ? (
+          <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: color }} />
+        ) : (
+          <div className="w-3 h-1 rounded-full  mr-2" style={{ backgroundColor: color }} />
+        )}
         {children}
       </div>
       {isItemSelected() && <Check size={16} className="text-primary" />}

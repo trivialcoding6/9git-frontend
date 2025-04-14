@@ -22,6 +22,7 @@ import { create } from 'zustand';
 
 // 상수 정의
 const ALL_ITEM = 'All'; // 전체 선택 항목의 식별자
+const MEMO_ITEM = 'Memo'; // 메모 항목 식별자
 
 // 단순화된 상태 타입
 type SelectState = {
@@ -65,7 +66,7 @@ export const useSelectStore = create<SelectState>()((set, get) => ({
     }
 
     // 현재 상태 확인
-    const { selectedItems, items } = get();
+    const { selectedItems } = get();
 
     // 이미 선택된 항목이면 제거
     if (selectedItems.includes(item)) {
@@ -90,11 +91,8 @@ export const useSelectStore = create<SelectState>()((set, get) => ({
         // 기존 항목에 새 항목 추가
         const newSelectedItems = [...selectedItems, item];
 
-        // 실제 선택 가능한 항목 개수 계산 (All 제외)
-        const selectableItemCount = items.length - 1;
-
         // 모든 항목이 선택되었는지 확인
-        if (newSelectedItems.length === selectableItemCount) {
+        if (newSelectedItems.length === 4) {
           set({ selectedItems: [ALL_ITEM] });
         } else {
           set({ selectedItems: newSelectedItems });

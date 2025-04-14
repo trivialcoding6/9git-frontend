@@ -58,7 +58,7 @@ export default function TodoItem({ todo, onClick }: Props) {
       <button
         onClick={onClick}
         title={content}
-        className={`flex-1 text-left text-sm font-semibold text-secondary cursor-pointer truncate ${
+        className={`flex-1 text-left text-lg font-semibold text-secondary cursor-pointer truncate ${
           checked ? 'line-through opacity-50' : ''
         }`}
       >

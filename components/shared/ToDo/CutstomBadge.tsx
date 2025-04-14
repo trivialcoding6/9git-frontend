@@ -7,5 +7,9 @@ type Props = {
 };
 
 export default function CustomBadge({ label = 'Badge', color = '#FCAA2B' }: Props) {
-  return <Badge className={`rounded-sm font-semibold text-white ${color}`}>{label}</Badge>;
+  return (
+    <Badge className={`rounded-sm font-semibold text-white`} style={{ backgroundColor: color }}>
+      {label}
+    </Badge>
+  );
 }

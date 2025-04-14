@@ -1,14 +1,6 @@
-export const getCategoryItems = async ({
-  startDate,
-  endDate,
-}: {
-  startDate: Date;
-  endDate: Date;
-}) => {
+export const getCategoryItems = async () => {
   try {
-    const response = await fetch(
-      `http://localhost:8000/api/v1/todos?startDate=${startDate}&endDate=${endDate}`
-    );
+    const response = await fetch(`http://localhost:8000/api/v1/categories`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch category items');
