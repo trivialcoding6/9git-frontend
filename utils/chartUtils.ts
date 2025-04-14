@@ -12,7 +12,10 @@ export type MonthlyAverageItem = {
 // 현재 월 기준으로 1월부터 현재 달까지의 데이터를 추림
 function isWithinCurrentYearToNow(dateStr: string) {
   const date = new Date(dateStr);
-  return date.getFullYear() === 2025 && date.getMonth() <= 11; // 2025년의 모든 월 데이터 포함
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  return date.getFullYear() === currentYear && date.getMonth() <= currentMonth;
 }
 
 export const groupByMonthAndAverage = (rawData: RawProgressItem[]): MonthlyAverageItem[] => {

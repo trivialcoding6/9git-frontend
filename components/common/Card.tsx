@@ -15,8 +15,8 @@ export default function Card({
   title,
   isMore = false,
   children,
-  bgColor = '#FDE8CE',
-  shadowColor = '#F6D1A5',
+  bgColor = 'beige-light',
+  shadowColor = 'beige-deco',
   className = '',
 }: Props) {
   return (

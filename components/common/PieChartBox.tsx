@@ -26,7 +26,7 @@ export default function PieChartBox({ value }: Props) {
           dataKey="value"
         >
           <Cell fill="#FDA63A" />
-          <Cell fill="#EEE0CE" />
+          <Cell fill="#F4DDBD" />
         </Pie>
       </PieChart>
       <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center text-xl font-bold text-secondary">
