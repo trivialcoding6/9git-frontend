@@ -9,6 +9,7 @@ type Props = {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   children?: ReactNode;
+  variant?: string;
 };
 
 export const ActionButton = ({ icon, onClick, children, type = 'button', className }: Props) => {

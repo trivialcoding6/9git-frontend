@@ -8,16 +8,19 @@ import MemoList from '@/components/shared/Memo/MemoList';
 import { PenLine, Plus } from 'lucide-react';
 import { ActionButton } from '@/components/common/ActionButton';
 import { useModalStore } from '@/stores/modal';
-import TodoPopup from './TodoPopup';
+import TodoPopup from '../../shared/TodoPopup';
 import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import { useTodoEditStore } from '@/stores/todoEditStore';
+import MemoPopup from '@/components/shared/Memo/MemoPopup';
+import { useMemoStore } from '@/stores/useMemoStore';
 
 export default function Todays() {
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
   const { todoList } = useTodoListStore();
+  const { memoList, setEditingMemo } = useMemoStore();
 
   const categoryProgresses = [
     { title: '영어', value: 40 },
@@ -26,7 +29,10 @@ export default function Todays() {
   ];
 
   const handleAddMemo = () => {
-    console.log('추가');
+    openModal({
+      title: '오늘의 메모',
+      component: <MemoPopup />,
+    });
   };
 
   const handleOpenTodoModal = () => {
@@ -108,9 +114,20 @@ export default function Todays() {
           }
           isMore={false}
         >
-          <MemoList />
+          {memoList.length > 0 ? (
+            <MemoList />
+          ) : (
+            <p className="text-sm text-center text-secondary">오늘의 메모가 아직 없어요!</p>
+          )}
+
           <div className="flex justify-center mt-4">
-            <ActionButton onClick={handleAddMemo} icon={<Plus size={16} />}>
+            <ActionButton
+              onClick={() => {
+                setEditingMemo(null); // 초기화
+                openModal({ title: '메모 작성', component: <MemoPopup /> });
+              }}
+              icon={<Plus size={16} />}
+            >
               추가
             </ActionButton>
           </div>

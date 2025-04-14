@@ -6,7 +6,7 @@ import CustomBadge from './CutstomBadge';
 import { ColorMap } from '@/constants/color';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
-import TodoPopup from '@/components/service/home/TodoPopup';
+import TodoPopup from '@/components/shared/TodoPopup';
 
 type Props = {
   id: number;
