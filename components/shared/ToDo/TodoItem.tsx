@@ -40,7 +40,7 @@ export default function TodoItem({
       id,
       category,
       text,
-      startDate, // 이 값들이 props로 들어와 있어야 합니다.
+      startDate,
       endDate,
       isRepeat: isRepeat ?? false,
       repeatDays: repeatDays ?? [],
