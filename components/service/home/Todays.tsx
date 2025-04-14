@@ -8,7 +8,7 @@ import MemoList from '@/components/shared/Memo/MemoList';
 import { PenLine, Plus } from 'lucide-react';
 import { ActionButton } from '@/components/common/ActionButton';
 import { useModalStore } from '@/stores/modal';
-import TodoPopup from '../../shared/TodoPopup';
+import TodoPopup from '@/components/shared/ToDo/TodoPopup';
 import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import { useTodoEditStore } from '@/stores/todoEditStore';

@@ -28,3 +28,5 @@ export default function MemoList() {
     </div>
   );
 }
+
+// components/shared/Memo/MemoList.tsx

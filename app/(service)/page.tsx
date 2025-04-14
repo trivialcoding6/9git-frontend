@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function Today() {
-  return redirect("/home");
+  return redirect('/home');
 }
