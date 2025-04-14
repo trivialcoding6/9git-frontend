@@ -92,7 +92,9 @@ export default function Todays() {
                 />
               ))
             ) : (
-              <p className="text-sm text-center text-secondary">오늘의 할 일이 아직 없어요!</p>
+              <p className="text-sm text-center text-secondary">
+                오늘의 할 일을 추가해주세요! 오늘의 메모로는 어떤게 있을까요?
+              </p>
             )}
           </div>
 
