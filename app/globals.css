@@ -54,6 +54,14 @@
   --color-chat-gray: var(--chat-gray);
 }
 
+@font-face {
+  font-family: 'Gugit';
+  src: url('/font/font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -98,6 +106,7 @@
   --primary-light: oklch(0.96 0.03 83.72); /* #FFF0DC */
   --main-gray: oklch(0.392 0.022 264.86); /* #4B5563 */
   --chat-gray: oklch(0.961 0.015 262.33); /* #F3F4F6 */
+  --font-gugit: 'Gugit', sans-serif;
 }
 
 .dark {
@@ -143,6 +152,7 @@
   --primary-light: oklch(0.96 0.03 83.72); /* #FFF0DC */
   --main-gray: oklch(0.392 0.022 264.86); /* #4B5563 */
   --chat-gray: oklch(0.961 0.015 262.33); /* #F3F4F6 */
+  --font-gugit: 'Gugit', sans-serif;
 }
 
 @layer base {
