@@ -20,7 +20,7 @@ export function ProfileAvatar() {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
             <div
-              className="bg-[#FBAA24] h-2 rounded-full transition-all duration-300"
+              className="bg-primary h-2 rounded-full transition-all duration-300"
               style={{ width: '75%' }}
             ></div>
           </div>
