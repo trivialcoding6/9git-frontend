@@ -55,14 +55,15 @@ export default function TodoItem({
     <div className="flex items-center gap-3 w-full mb-4">
       <CustomBadge label={category} color={categoryColor} />
 
-      <p
+      <button
         onClick={onClick}
-        className={`text-sm font-semibold text-secondary mx-4 flex-1 text-center cursor-pointer ${
+        title={text}
+        className={`flex-1 text-left text-sm font-semibold text-secondary cursor-pointer truncate ${
           checked ? 'line-through opacity-50' : ''
         }`}
       >
         {text}
-      </p>
+      </button>
 
       <Checkbox
         checked={checked}

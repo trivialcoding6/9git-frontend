@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { memoSchema, MemoFormData } from '@/schemas/memo';
@@ -15,7 +15,9 @@ import type { Memo } from '@/stores/useMemoStore';
 
 export default function MemoPopup() {
   const { closeModal } = useModalStore();
-  const { editingMemo, setEditingMemo, addMemo, updateMemo, removeMemo } = useMemoStore();
+  const { editingMemo, setEditingMemo, addMemo, updateMemo, removeMemo, memoList } = useMemoStore();
+
+  const [limitError, setLimitError] = useState('');
 
   const form = useForm<MemoFormData>({
     resolver: zodResolver(memoSchema),
@@ -37,7 +39,6 @@ export default function MemoPopup() {
 
   const contentLength = watch('content')?.length ?? 0;
 
-  // 수정모드일 경우 값 채워주기
   useEffect(() => {
     if (editingMemo) {
       setValue('title', editingMemo.title);
@@ -47,11 +48,15 @@ export default function MemoPopup() {
     }
   }, [editingMemo, setValue]);
 
-  // 완료 버튼
   const handleComplete = (data: MemoFormData) => {
+    if (!editingMemo && memoList.length >= 10) {
+      setLimitError('메모는 최대 10개까지만 작성할 수 있어요.');
+      return;
+    }
+
     const payload: Memo = {
       id: editingMemo?.id || crypto.randomUUID(),
-      title: data.title ?? '', // undefined 방지
+      title: data.title ?? '',
       description: data.content,
       startDate: data.startDate.toISOString(),
       endDate: data.endDate.toISOString(),
@@ -67,7 +72,6 @@ export default function MemoPopup() {
     closeModal();
   };
 
-  // 삭제 버튼
   const handleDelete = () => {
     if (editingMemo) {
       removeMemo(editingMemo.id);
@@ -111,10 +115,12 @@ export default function MemoPopup() {
                 <FormControl>
                   <textarea
                     {...field}
+                    value={field.value?.slice(0, 30) ?? ''}
+                    onChange={(e) => field.onChange(e.target.value.slice(0, 30))}
                     rows={2}
                     maxLength={30}
                     className="w-full p-2 border border-orange-300 rounded-md bg-transparent 
-                    placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm resize-none"
+                      placeholder:text-beige-deco text-main-gray placeholder:text-sm text-sm resize-none"
                     placeholder="메모 내용을 입력해주세요"
                   />
                 </FormControl>
@@ -168,6 +174,9 @@ export default function MemoPopup() {
             </p>
           )}
         </div>
+
+        {/* 메모 개수 제한 에러 메시지 */}
+        {limitError && <p className="text-sm text-primary text-center">{limitError}</p>}
 
         {/* 삭제 / 완료 버튼 */}
         <DeleteCompleteButtons onDelete={handleDelete} onComplete={handleSubmit(handleComplete)} />
