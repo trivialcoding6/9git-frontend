@@ -198,6 +198,12 @@ export default function TodoPopup() {
             disabled={!isRepeatAvailable}
           />
         </div>
+        {!isRepeatAvailable && (
+          <p className="text-sm text-secondary mb-2">
+            반복 설정은 <span className="text-primary font-medium">8일 이상 기간</span>에서만
+            가능해요!
+          </p>
+        )}
         {isRepeat && (
           <SectionContent gap={3}>
             <ToggleButton
