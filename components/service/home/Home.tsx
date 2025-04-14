@@ -3,6 +3,7 @@ import { Logo } from '@/components/common/Logo';
 import { Header } from '@/components/shared/Header';
 import Card from '@/components/common/Card';
 import { ProgressBar } from '@/components/service/home/ProgressBar';
+import MemoPopup from '@/components/shared/MemoPopup';
 
 import TodayTodo from './TodayToDo'; //
 
@@ -23,6 +24,7 @@ export const Home = () => {
         <Card title="오늘의 To-Do">
           <TodayTodo />
         </Card>
+        <MemoPopup />
       </div>
     </div>
   );
