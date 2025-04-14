@@ -46,7 +46,7 @@ export default function Todays() {
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
-      <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-t-2xl">
+      <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-t-3xl">
         {/* 오늘의 목표 진행률 */}
         <Card
           title="오늘의 목표 진행률"
