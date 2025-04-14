@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
+      <body className="overflow-hidden">
         <Toaster position="top-center" />
         {children}
         <MSWProvider>{children}</MSWProvider>
