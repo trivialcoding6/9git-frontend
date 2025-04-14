@@ -11,7 +11,6 @@ type Props = {
 };
 
 export const ChatbotHeader = ({ onReset }: Props) => {
-  // useForm 으로 바꿀 예정
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {

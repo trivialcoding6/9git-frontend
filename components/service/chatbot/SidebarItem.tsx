@@ -72,18 +72,25 @@ export const SidebarItem = () => {
                         <ActionButton
                           icon={<Check size={16} />}
                           onClick={() => handleEditSave(itemId)}
+                          children={null}
                         />
-                        <ActionButton icon={<X size={16} />} onClick={() => setEditIndex(null)} />
+                        <ActionButton
+                          icon={<X size={16} />}
+                          onClick={() => setEditIndex(null)}
+                          children={null}
+                        />
                       </>
                     ) : (
                       <>
                         <ActionButton
                           icon={<Pencil size={16} />}
                           onClick={() => handleEditClick(itemId, item.title, item.description)}
+                          children={null}
                         />
                         <ActionButton
                           icon={<Trash2 size={16} />}
                           onClick={() => console.log(`삭제: ${item.title}`)}
+                          children={null}
                         />
                       </>
                     )}
