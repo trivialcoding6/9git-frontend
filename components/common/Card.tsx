@@ -15,8 +15,8 @@ export default function Card({
   title,
   isMore = false,
   children,
-  bgColor = 'beige-light',
-  shadowColor = 'beige-deco',
+  bgColor = 'var(--beige-light)',
+  shadowColor = 'var(--beige-deco)',
   className = '',
 }: Props) {
   return (
@@ -36,7 +36,7 @@ export default function Card({
             </div>
           )}
         </div>
-        <Separator className="bg-beige-deco" />
+        <Separator className="bg-[var(--beige-deco)]" />
       </div>
       <div className="h-full">{children}</div>
     </section>

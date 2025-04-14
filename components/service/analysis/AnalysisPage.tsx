@@ -216,7 +216,7 @@ export default function AnalysisPage() {
   return (
     <div className="min-h-screen bg-[var(--beige-light)] text-[var(--main-gray)] flex justify-center px-4 py-10">
       <div className="w-full max-w-[800px] flex flex-col gap-12 items-center">
-        <h2 className="text-xl font-bold w-full text-left pl-4 text-secondary">AI 종합평가</h2>
+        <h2 className="text-xl w-full text-left pl-4 text-secondary">AI 종합평가</h2>
 
         <Card title={<div className="text-secondary">전체 달성도</div>}>
           <div className="flex flex-col items-center justify-center">
@@ -226,7 +226,7 @@ export default function AnalysisPage() {
             {!hasData && (
               <div className="w-full flex justify-center mt-4">
                 <div className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm w-[95%] min-h-[80px] flex items-center justify-center mx-auto">
-                  <p className="text-sm whitespace-pre-line text-secondary text-center">
+                  <p className="text-base whitespace-pre-line text-secondary text-center">
                     {initialStateTexts.totalAchievement}
                   </p>
                 </div>
@@ -235,7 +235,7 @@ export default function AnalysisPage() {
 
             {hasData && (
               <div className="bg-[var(--beige-base)] rounded-xl px-6 py-3 mt-4">
-                <p className="text-sm text-center whitespace-pre-line text-secondary">
+                <p className="text-lg text-center whitespace-pre-line text-secondary">
                   {initialStateTexts.totalAchievement}
                 </p>
               </div>
@@ -267,7 +267,7 @@ export default function AnalysisPage() {
               >
                 <div className="flex flex-col items-center text-center gap-4 w-full py-4">
                   <div className="text-5xl">{item.emoji}</div>
-                  <p className="text-sm whitespace-pre-line leading-relaxed text-secondary">
+                  <p className="text-base whitespace-pre-line leading-relaxed text-secondary">
                     {item.text}
                   </p>
                 </div>
@@ -282,7 +282,7 @@ export default function AnalysisPage() {
             {!hasData && (
               <div className="w-full flex justify-center mb-4">
                 <div className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm w-[95%] min-h-[80px] flex items-center justify-center mx-auto">
-                  <p className="text-sm whitespace-pre-line text-secondary text-center">
+                  <p className="text-base whitespace-pre-line text-secondary text-center">
                     {initialStateTexts.chart}
                   </p>
                 </div>
@@ -293,7 +293,7 @@ export default function AnalysisPage() {
             <div className="flex justify-center w-full mb-4">
               <div className="inline-flex rounded-full border border-[var(--beige-deco)] bg-[var(--beige-base)] p-0.5">
                 <button
-                  className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-150 ${
+                  className={`px-3 py-1 text-base rounded-full transition-all duration-150 ${
                     activeTab === 'monthly'
                       ? 'bg-[var(--primary)] text-white shadow-sm'
                       : 'text-secondary'
@@ -303,7 +303,7 @@ export default function AnalysisPage() {
                   월평균
                 </button>
                 <button
-                  className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-150 ${
+                  className={`px-3 py-1 text-base rounded-full transition-all duration-150 ${
                     activeTab === 'daily'
                       ? 'bg-[var(--primary)] text-white shadow-sm'
                       : 'text-secondary'
@@ -481,8 +481,8 @@ export default function AnalysisPage() {
                   className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm w-[95%] mx-auto"
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-sm font-bold text-[var(--primary)]">• {item.title}</h3>
-                    <span className="text-xs bg-[var(--primary-light)] text-[var(--primary)] px-2 py-0.5 rounded-full">
+                    <h3 className="text-base  text-[var(--primary)]">• {item.title}</h3>
+                    <span className="text-base bg-[var(--primary-light)] text-[var(--primary)] px-2 py-0.5 rounded-full">
                       추천
                     </span>
                   </div>
@@ -509,7 +509,7 @@ export default function AnalysisPage() {
               ))
             ) : (
               <div className="bg-[var(--beige-light)] rounded-xl p-4 shadow-sm min-h-[80px] flex items-center justify-center w-[95%] mx-auto">
-                <p className="text-sm whitespace-pre-line text-secondary text-center">
+                <p className="text-base whitespace-pre-line text-secondary text-center">
                   {initialStateTexts.aiChallenges}
                 </p>
               </div>
