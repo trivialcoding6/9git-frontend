@@ -11,7 +11,7 @@ export default function MemoList() {
   const { openModal } = useModalStore();
 
   const handleMemoClick = (memo: Memo) => {
-    setEditingMemo(memo); // 🔥 수정 모드 진입
+    setEditingMemo(memo);
     openModal({
       title: '메모 수정',
       component: <MemoPopup />,

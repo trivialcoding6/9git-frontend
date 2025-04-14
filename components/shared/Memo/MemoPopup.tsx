@@ -10,7 +10,7 @@ import { DatePickerSection } from '../DatePickerSection';
 import { CalendarIcon, StarIcon, FileTextIcon } from 'lucide-react';
 import { DeleteCompleteButtons } from '@/components/common/DeleteCompleteButton';
 import { useModalStore } from '@/stores/modal';
-import { useMemoStore } from '@/stores/useMemoStore'; // ✅ 전역 메모 상태
+import { useMemoStore } from '@/stores/useMemoStore';
 import type { Memo } from '@/stores/useMemoStore';
 
 export default function MemoPopup() {
@@ -37,7 +37,7 @@ export default function MemoPopup() {
 
   const contentLength = watch('content')?.length ?? 0;
 
-  // ✅ 수정모드일 경우 값 채워주기
+  // 수정모드일 경우 값 채워주기
   useEffect(() => {
     if (editingMemo) {
       setValue('title', editingMemo.title);
@@ -47,7 +47,7 @@ export default function MemoPopup() {
     }
   }, [editingMemo, setValue]);
 
-  // ✅ 완료 버튼
+  // 완료 버튼
   const handleComplete = (data: MemoFormData) => {
     const payload: Memo = {
       id: editingMemo?.id || crypto.randomUUID(),
@@ -67,7 +67,7 @@ export default function MemoPopup() {
     closeModal();
   };
 
-  // ✅ 삭제 버튼
+  // 삭제 버튼
   const handleDelete = () => {
     if (editingMemo) {
       removeMemo(editingMemo.id);
@@ -169,7 +169,7 @@ export default function MemoPopup() {
           )}
         </div>
 
-        {/* ✅ 삭제 / 완료 버튼 */}
+        {/* 삭제 / 완료 버튼 */}
         <DeleteCompleteButtons onDelete={handleDelete} onComplete={handleSubmit(handleComplete)} />
       </form>
     </Form>
