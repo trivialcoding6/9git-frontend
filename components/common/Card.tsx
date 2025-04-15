@@ -44,7 +44,6 @@ export default function Card({
         </div>
         <Separator className="bg-beige-deco" />
       </div>
-
       <div className="gap-y-4">{children}</div>
     </section>
   );

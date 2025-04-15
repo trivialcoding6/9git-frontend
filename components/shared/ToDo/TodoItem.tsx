@@ -6,7 +6,7 @@ import CustomBadge from './CutstomBadge';
 import { ColorMap } from '@/constants/color';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
-import TodoPopup from '@/components/service/home/TodoPopup';
+import TodoPopup from '@/components/shared/ToDo/TodoPopup';
 
 type Props = {
   id: number;
@@ -40,7 +40,7 @@ export default function TodoItem({
       id,
       category,
       text,
-      startDate, // 이 값들이 props로 들어와 있어야 합니다.
+      startDate,
       endDate,
       isRepeat: isRepeat ?? false,
       repeatDays: repeatDays ?? [],
@@ -55,14 +55,15 @@ export default function TodoItem({
     <div className="flex items-center gap-3 w-full mb-4">
       <CustomBadge label={category} color={categoryColor} />
 
-      <p
+      <button
         onClick={onClick}
-        className={`text-sm font-semibold text-secondary mx-4 flex-1 text-center cursor-pointer ${
+        title={text}
+        className={`flex-1 text-left text-sm font-semibold text-secondary cursor-pointer truncate ${
           checked ? 'line-through opacity-50' : ''
         }`}
       >
         {text}
-      </p>
+      </button>
 
       <Checkbox
         checked={checked}

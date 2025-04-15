@@ -7,7 +7,7 @@ type Props = {
 
 export const SectionTitle = ({ icon, text }: Props) => {
   return (
-    <div className="flex items-center gap-2 text-secondary font-bold text-sm mb-2">
+    <div className="flex items-center gap-2 text-secondary text-xl mb-2">
       {icon}
       <span>{text}</span>
     </div>

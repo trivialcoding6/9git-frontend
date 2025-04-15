@@ -13,7 +13,7 @@ type Props = {
 
 export function DatePickerSection({ date, setDate }: Props) {
   return (
-    <div className="flex flex-col w-full max-w-xs">
+    <div className="flex flex-col w-full max-w-full">
       <span className="mb-1 text-sm font-medium text-secondary"></span>
       <Popover>
         <PopoverTrigger asChild>
