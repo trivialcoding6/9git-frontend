@@ -1,4 +1,5 @@
 import { CategoryItem } from '@/types/category';
+import { Todo } from '@/types/todo';
 
 export const categoryItemsData = [
   {
@@ -91,3 +92,46 @@ export const categoryItemsData = [
     updated_at: 'Wed Dec 13 2023 15:45:00 GMT+0900 (한국 표준시)',
   },
 ] as CategoryItem[];
+
+export const todoListData: Todo[] = [
+  {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa1',
+    userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    categoryId: '2',
+    content: 'React 학습하기',
+    startDate: '2025-04-15',
+    endDate: '2025-04-15',
+    isCompleted: false,
+    isRepeat: true,
+    weeks: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
+        weekName: 'MON',
+      },
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa8',
+        weekName: 'WED',
+      },
+    ],
+    category: {
+      id: '2',
+      categoryName: '코딩',
+      categoryColor: '#6C88C4',
+    },
+  },
+  {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa2',
+    userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    categoryId: '3',
+    content: '헬스장 가기',
+    startDate: '2025-04-15',
+    endDate: '2025-04-20',
+    isCompleted: true,
+    isRepeat: false,
+    category: {
+      id: '3',
+      categoryName: '운동',
+      categoryColor: '#556B2F',
+    },
+  },
+];
