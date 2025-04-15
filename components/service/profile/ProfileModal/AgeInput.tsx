@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 
 export function AgeInput() {
-  const { control } = useFormContext();
+  const { control, formState } = useFormContext();
 
   return (
     <FormField
@@ -26,18 +26,16 @@ export function AgeInput() {
                 }
               }}
               className={`w-full rounded border text-sm px-3 py-1 shadow-sm focus:outline-none focus:ring-1 ${
-                fieldState.error
+                fieldState.error && formState.touchedFields.age
                   ? 'border-red-500 focus:ring-red-500'
                   : 'border-beige-deco bg-beige-light focus:ring-secondary'
               } placeholder:text-beige-deco text-secondary`}
               placeholder="나이를 입력하세요."
             />
           </FormControl>
-          <FormMessage />
+          {fieldState.error && formState.touchedFields.age && <FormMessage />}
         </FormItem>
       )}
     />
   );
 }
-
-export default AgeInput;

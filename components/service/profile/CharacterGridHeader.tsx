@@ -7,9 +7,9 @@ import Card from '@/components/common/Card';
 
 export default function CharacterGridHeader() {
   return (
-    <div className="bg-beige-base rounded-xl shadow-md p-4 w-full max-w-md mx-auto mt-4">
+    <div className="bg-beige-base rounded-xl shadow-md p-4 w-105 max-w-md mx-auto mt-4">
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ">
           <BookOpen size={24} className="text-primary ml-3" />
           <span className="text-lg font-bold text-black ml-2">고양이 도감</span>
         </div>
@@ -18,7 +18,7 @@ export default function CharacterGridHeader() {
         </div>
       </div>
       <Separator className="bg-beige-deco mt-2 mb-2" />
-      <div className="flex gap-2 ml-2">
+      <div className="flex gap-3 ml-2">
         <button className="bg-primary text-white font-bold text-sm rounded-md px-4 py-2 shadow-sm">
           ALL
         </button>

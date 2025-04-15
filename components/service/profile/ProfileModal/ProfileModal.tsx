@@ -13,22 +13,6 @@ import { TextScroll } from './TextScroll';
 import ConsentConfirm from './ConsentConfirm';
 import { PERSONAL_INFORMATION_AGREEMENT } from '@/constants/PERSONAL_INFORMATION_AGREEMENT';
 
-const occupations = [
-  '사무직',
-  '연구·개발직',
-  '서비스직',
-  '생산직',
-  '공무원',
-  '프리랜서',
-  '자영업자',
-  '군인',
-  '취업 준비생',
-  '대학생',
-  '고등학생 이하',
-  '무직',
-  '기타',
-] as const;
-
 export default function ProfileModal() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),

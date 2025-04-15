@@ -19,7 +19,7 @@ const occupations = [
 ] as const;
 
 export default function JobSelectbar() {
-  const { control } = useFormContext();
+  const { control, formState } = useFormContext(); // formState 추가
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -65,7 +65,7 @@ export default function JobSelectbar() {
               )}
             </div>
           </FormControl>
-          <FormMessage />
+          {fieldState.error && formState.touchedFields.job && <FormMessage />}
         </FormItem>
       )}
     />
