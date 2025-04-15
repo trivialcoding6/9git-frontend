@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '@/components/common/Card';
 import { ProgressBar } from './ProgressBar';
 import TodoItem from '@/components/shared/ToDo/TodoItem';
@@ -15,6 +15,7 @@ import MemoPopup from '@/components/shared/Memo/MemoPopup';
 import { memoListData, todoListData } from '@/mocks/data';
 
 export default function Todays() {
+  console.log('hello');
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
@@ -32,7 +33,6 @@ export default function Todays() {
       component: <TodoPopup />,
     });
   };
-
   const handleAddMemo = () => {
     openModal({
       title: '메모 작성',

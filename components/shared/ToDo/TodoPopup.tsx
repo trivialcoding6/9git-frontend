@@ -21,7 +21,6 @@ type TodoInput = { text: string };
 
 export default function TodoPopup() {
   const { addTodo, updateTodoById: updateTodo, removeTodoById: deleteTodo } = useTodoListStore();
-
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
 
@@ -36,7 +35,6 @@ export default function TodoPopup() {
   const [todoError, setTodoError] = useState('');
   const [dateError, setDateError] = useState('');
 
-  // ✅ 할 일 추가 함수 (10개 제한 포함)
   const handleAddField = () => {
     if (todoInputs.length >= 10) {
       setTodoError('할 일은 최대 10개까지만 작성할 수 있어요.');
@@ -71,7 +69,6 @@ export default function TodoPopup() {
       setTodoError('');
     }
 
-
     if (!startDate || !endDate) return;
 
     if (startDate > endDate) {
@@ -103,7 +100,11 @@ export default function TodoPopup() {
           // addTodo({ text, ...payload });
         }
       });
+    }
 
+    resetForm();
+    closeModal();
+    toast.success('할 일이 저장되었어요!');
   };
 
 <<<<<<< HEAD
@@ -176,7 +177,7 @@ export default function TodoPopup() {
               setSelectedCategory(selected[0] || '');
               setCategoryError('');
             }}
-            className="px-4 py-0.3 text-lg  border-2 rounded-md transition-colors"
+            className="px-4 py-0.3 text-lg border-2 rounded-md transition-colors"
             selectedClassName="text-white border-transparent"
             unselectedClassName="bg-beige-light text-secondary border-primary"
           />
@@ -192,7 +193,6 @@ export default function TodoPopup() {
           <span className="text-primary">~</span>
           <DatePickerSection date={endDate} setDate={setEndDate} />
         </div>
-
         {dateError && <p className="text-sm text-primary mt-1 text-center">{dateError}</p>}
       </section>
 
@@ -244,7 +244,7 @@ export default function TodoPopup() {
                 placeholder="오늘 할 일을 작성해주세요"
                 title={todo.text}
                 className="flex-1 text-lg px-1 py-1 bg-transparent text-secondary placeholder-beige-deco 
-            focus:outline-none border-b bg-beige-deco overflow-hidden text-ellipsis whitespace-nowrap"
+                focus:outline-none border-b bg-beige-deco overflow-hidden text-ellipsis whitespace-nowrap"
               />
               {isLast ? (
                 <ActionButton
