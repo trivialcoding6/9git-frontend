@@ -20,6 +20,7 @@ export type Todo = {
   isRepeat?: boolean;
   weeks?: Week[];
   category?: Category;
+  isDone?: boolean;
 };
 
 export type EditingTodo = Todo;

@@ -12,6 +12,7 @@ import { DeleteCompleteButtons } from '@/components/common/DeleteCompleteButton'
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
+import { toast } from 'sonner';
 
 const GOALS = ['영어', '코딩', '운동'];
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
@@ -19,7 +20,8 @@ const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 type TodoInput = { text: string };
 
 export default function TodoPopup() {
-  const { addTodo, updateTodo, removeTodo } = useTodoListStore();
+  const { addTodo, updateTodoById: updateTodo, removeTodoById: deleteTodo } = useTodoListStore();
+
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
 
@@ -69,6 +71,7 @@ export default function TodoPopup() {
       setTodoError('');
     }
 
+
     if (!startDate || !endDate) return;
 
     if (startDate > endDate) {
@@ -100,19 +103,27 @@ export default function TodoPopup() {
           // addTodo({ text, ...payload });
         }
       });
-    }
 
-    resetForm();
-    closeModal();
   };
 
+<<<<<<< HEAD
   const handleDelete = () => {
     if (editingTodo) {
       // removeTodo(editingTodo.id);
+=======
+  const handleDelete = async () => {
+    try {
+      if (editingTodo) {
+        await deleteTodo(editingTodo.id);
+        toast.success('할 일이 삭제되었어요!');
+      }
+>>>>>>> ac57680 (임시저장)
       setEditingTodo(null);
+      resetForm();
+      closeModal();
+    } catch (e) {
+      console.error('삭제 실패:', e);
     }
-    resetForm();
-    closeModal();
   };
 
   const resetForm = () => {
