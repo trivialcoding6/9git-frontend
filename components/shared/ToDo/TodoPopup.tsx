@@ -87,6 +87,7 @@ import { useTodoEditStore } from '@/stores/todoEditStore';
 import { useTodos } from '@/hooks/todo';
 import { useUserStore } from '@/stores/user';
 import { CategoryItem } from '@/types/category';
+import { toast } from 'sonner';
 
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 
@@ -96,6 +97,8 @@ export default function TodoPopup() {
   const { user } = useUserStore();
   const userId = parseInt(user.id as string, 10);
   const { addTodo, editTodo, removeTodo } = useTodos(userId);
+  const { addTodo, updateTodoById: updateTodo, removeTodoById: deleteTodo } = useTodoListStore();
+
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
   const [todoInputs, setTodoInputs] = useState<TodoInput[]>([{ text: '' }]);
@@ -183,18 +186,21 @@ export default function TodoPopup() {
         }
       }
     }
-
-    resetForm();
-    closeModal();
   };
 
   const handleDelete = async () => {
-    if (editingTodo) {
-      await removeTodo(editingTodo.id);
+    try {
+      if (editingTodo) {
+        await deleteTodo(editingTodo.id);
+        toast.success('할 일이 삭제되었어요!');
+      }
+
       setEditingTodo(null);
+      resetForm();
+      closeModal();
+    } catch (e) {
+      console.error('삭제 실패:', e);
     }
-    resetForm();
-    closeModal();
   };
 
   const resetForm = () => {

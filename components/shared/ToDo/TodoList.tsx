@@ -4,14 +4,21 @@ import { useEffect } from 'react';
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import TodoItem from './TodoItem';
 
+<<<<<<< HEAD
 const userId = 1;
 const categoryId = 1;
 
+=======
+>>>>>>> 62c29a7 (임시저장)
 export default function TodoList() {
   const { todoList, loadTodos } = useTodoListStore();
 
   useEffect(() => {
+<<<<<<< HEAD
     loadTodos(userId, categoryId);
+=======
+    loadTodos();
+>>>>>>> 62c29a7 (임시저장)
   }, []);
 
   return (
