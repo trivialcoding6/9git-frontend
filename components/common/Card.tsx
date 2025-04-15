@@ -42,7 +42,7 @@ export default function Card({
             </button>
           ) : null}
         </div>
-        <Separator className="bg-[var(--beige-deco)]" />
+        <Separator className="bg-beige-deco" />
       </div>
 
       <div className="gap-y-4">{children}</div>

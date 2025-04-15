@@ -25,8 +25,8 @@ export default function PieChartBox({ value }: Props) {
           paddingAngle={3}
           dataKey="value"
         >
-          <Cell fill="#FDA63A" />
-          <Cell fill="#F4DDBD" />
+          <Cell fill="var(--primary)" />
+          <Cell fill="var(--beige-light)" />
         </Pie>
       </PieChart>
       <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center text-xl font-bold text-secondary">
