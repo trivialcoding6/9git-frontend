@@ -18,6 +18,7 @@ import { useProgressStore } from '@/stores/progressStore';
 import { useUserStore } from '@/stores/user';
 
 export default function Todays() {
+  console.log('hello');
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
@@ -35,7 +36,6 @@ export default function Todays() {
       component: <TodoPopup />,
     });
   };
-
   const handleAddMemo = () => {
     openModal({
       title: '메모 작성',

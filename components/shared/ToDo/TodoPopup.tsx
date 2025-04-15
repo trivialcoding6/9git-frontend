@@ -98,7 +98,6 @@ export default function TodoPopup() {
   const userId = parseInt(user.id as string, 10);
   const { addTodo, editTodo, removeTodo } = useTodos(userId);
   const { addTodo, updateTodoById: updateTodo, removeTodoById: deleteTodo } = useTodoListStore();
-
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
   const [todoInputs, setTodoInputs] = useState<TodoInput[]>([{ text: '' }]);
@@ -184,8 +183,17 @@ export default function TodoPopup() {
             userId
           );
         }
+<<<<<<< HEAD
       }
     }
+=======
+      });
+    }
+
+    resetForm();
+    closeModal();
+    toast.success('할 일이 저장되었어요!');
+>>>>>>> 373ec5c (작업 임시 수정)
   };
 
   const handleDelete = async () => {
@@ -247,7 +255,7 @@ export default function TodoPopup() {
               setSelectedCategory(selected[0] || '');
               setCategoryError('');
             }}
-            className="px-4 py-0.3 text-lg  border-2 rounded-md transition-colors"
+            className="px-4 py-0.3 text-lg border-2 rounded-md transition-colors"
             selectedClassName="text-white border-transparent"
             unselectedClassName="bg-beige-light text-secondary border-primary"
           />
@@ -263,7 +271,6 @@ export default function TodoPopup() {
           <span className="text-primary">~</span>
           <DatePickerSection date={endDate} setDate={setEndDate} />
         </div>
-
         {dateError && <p className="text-sm text-primary mt-1 text-center">{dateError}</p>}
       </section>
 
@@ -315,7 +322,7 @@ export default function TodoPopup() {
                 placeholder="오늘 할 일을 작성해주세요"
                 title={todo.text}
                 className="flex-1 text-lg px-1 py-1 bg-transparent text-secondary placeholder-beige-deco 
-            focus:outline-none border-b bg-beige-deco overflow-hidden text-ellipsis whitespace-nowrap"
+                focus:outline-none border-b bg-beige-deco overflow-hidden text-ellipsis whitespace-nowrap"
               />
               {isLast ? (
                 <ActionButton
