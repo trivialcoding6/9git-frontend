@@ -2,8 +2,6 @@
 
 import { BookOpen } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import Card from '@/components/common/Card';
 
 export default function CharacterGridHeader() {
   return (

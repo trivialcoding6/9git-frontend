@@ -4,15 +4,22 @@ import { useFormContext } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 
 export function AgeInput() {
-  const { control, formState } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <FormField
       control={control}
       name="age"
-      render={({ field, fieldState }) => (
+      render={({ field }) => (
         <FormItem>
-          <FormLabel className="text-lg font-bold text-secondary">나이</FormLabel>
+          {errors.age ? (
+            <FormLabel className="text-lg font-bold text-red-500">나이</FormLabel>
+          ) : (
+            <FormLabel className="text-lg font-bold text-secondary">나이</FormLabel>
+          )}
           <FormControl>
             <input
               type="text"
@@ -26,14 +33,14 @@ export function AgeInput() {
                 }
               }}
               className={`w-full rounded border text-sm px-3 py-1 shadow-sm focus:outline-none focus:ring-1 ${
-                fieldState.error && formState.touchedFields.age
+                errors.age
                   ? 'border-red-500 focus:ring-red-500'
                   : 'border-beige-deco bg-beige-light focus:ring-secondary'
               } placeholder:text-beige-deco text-secondary`}
               placeholder="나이를 입력하세요."
             />
           </FormControl>
-          {fieldState.error && formState.touchedFields.age && <FormMessage />}
+          {errors.age && <FormMessage />}
         </FormItem>
       )}
     />

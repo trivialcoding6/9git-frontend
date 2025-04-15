@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useFormContext, Controller } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { ChevronDownIcon } from 'lucide-react';
 
@@ -28,7 +28,12 @@ export default function JobSelectbar() {
       name="job"
       render={({ field, fieldState }) => (
         <FormItem>
-          <FormLabel className="text-lg font-bold text-secondary">직업</FormLabel>
+          {formState.touchedFields.job && fieldState.error ? (
+            <FormLabel className="text-lg font-bold text-red-500">직업</FormLabel>
+          ) : (
+            <FormLabel className="text-lg font-bold text-secondary">직업</FormLabel>
+          )}
+
           <FormControl>
             <div className="relative">
               <button
@@ -36,7 +41,7 @@ export default function JobSelectbar() {
                 onClick={() => setIsOpen(!isOpen)}
                 className={`w-full rounded border text-secondary text-sm px-3 py-1 shadow-sm focus:outline-none focus:ring-1 flex items-center justify-between
                   ${
-                    fieldState.error
+                    formState.touchedFields.job && fieldState.error
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-beige-deco bg-beige-light focus:ring-secondary'
                   }`}

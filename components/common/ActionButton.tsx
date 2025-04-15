@@ -24,13 +24,9 @@ export const ActionButton = ({
 }: Props) => {
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleClick = async () => {
-    try {
-      setIsCompleted(true);
-      await onClick?.();
-    } finally {
-      setIsCompleted(false);
-    }
+  const handleClick = () => {
+    setIsCompleted(!isCompleted);
+    onClick?.();
   };
 
   const defaultClassName = `bg-transparent hover:bg-transparent shadow-none border-none px-0 py-0 h-auto
