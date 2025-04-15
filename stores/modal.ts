@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
-import { create } from "zustand";
+import { ReactNode } from 'react';
+import { create } from 'zustand';
 
 type ModalConfig = {
-  title: string | ReactNode;
+  title?: string | ReactNode;
   component?: ReactNode;
 };
 

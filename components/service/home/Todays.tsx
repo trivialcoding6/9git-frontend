@@ -8,16 +8,19 @@ import MemoList from '@/components/shared/Memo/MemoList';
 import { PenLine, Plus } from 'lucide-react';
 import { ActionButton } from '@/components/common/ActionButton';
 import { useModalStore } from '@/stores/modal';
-import TodoPopup from './TodoPopup';
+import TodoPopup from '@/components/shared/ToDo/TodoPopup';
 import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import { useTodoEditStore } from '@/stores/todoEditStore';
+import MemoPopup from '@/components/shared/Memo/MemoPopup';
+import { useMemoStore } from '@/stores/useMemoStore';
 
 export default function Todays() {
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
   const { todoList } = useTodoListStore();
+  const { memoList, setEditingMemo } = useMemoStore();
 
   const categoryProgresses = [
     { title: '영어', value: 40 },
@@ -25,21 +28,26 @@ export default function Todays() {
     { title: '운동', value: 65 },
   ];
 
-  const handleAddMemo = () => {
-    console.log('추가');
-  };
-
   const handleOpenTodoModal = () => {
-    setEditingTodo(null); // ✨ 수정모드 초기화
+    setEditingTodo(null);
     openModal({
       title: '오늘의 ToDo',
       component: <TodoPopup />,
     });
   };
 
+  const handleAddMemo = () => {
+    setEditingMemo(null);
+    openModal({
+      title: '메모 작성',
+      component: <MemoPopup />,
+    });
+  };
+
   return (
     <div className="bg-white min-h-screen flex flex-col">
-      <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-none">
+      <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-t-3xl">
+        {/* 오늘의 목표 진행률 */}
         <Card
           title="오늘의 목표 진행률"
           isMore
@@ -63,6 +71,7 @@ export default function Todays() {
           </Card>
         )}
 
+        {/* 오늘의 To Do */}
         <Card title="오늘의 To Do">
           <div className="space-y-2">
             {todoList.length > 0 ? (
@@ -86,34 +95,55 @@ export default function Todays() {
                 />
               ))
             ) : (
-              <p className="text-sm text-center text-secondary">오늘의 할 일이 아직 없어요!</p>
+              <p className="text-lg text-center text-secondary mb-2">오늘 할 일이 아직 없어요!</p>
             )}
           </div>
 
           {todoList.length === 0 && <ChatbotHelperBox />}
 
           <div className="flex justify-center mt-4">
-            <ActionButton onClick={handleOpenTodoModal} icon={<Plus size={16} />}>
-              추가
+            <ActionButton
+              onClick={handleOpenTodoModal}
+              icon={<Plus size={16} />}
+              disabled={todoList.length >= 10}
+            >
+              <span className="text-base">추가</span>
             </ActionButton>
           </div>
+          {todoList.length >= 10 && (
+            <p className="text-sm text-primary mt-2 text-center">
+              할 일은 최대 10개까지만 추가할 수 있어요.
+            </p>
+          )}
         </Card>
 
+        {/* 오늘의 메모 */}
         <Card
-          title={
-            <div className="flex items-center gap-2 font-semibold text-base">
-              <PenLine className="w-4 h-4 text-secondary" />
-              오늘의 메모
-            </div>
-          }
+          title={<div className="flex items-center gap-2 text-xl">오늘의 메모</div>}
           isMore={false}
         >
-          <MemoList />
+          {memoList.length > 0 ? (
+            <MemoList />
+          ) : (
+            <p className="text-lg text-center text-secondary">
+              오늘의 할 일을 추가해주세요! <br /> 오늘의 메모로는 어떤게 있을까요?
+            </p>
+          )}
+
           <div className="flex justify-center mt-4">
-            <ActionButton onClick={handleAddMemo} icon={<Plus size={16} />}>
-              추가
+            <ActionButton
+              onClick={handleAddMemo}
+              icon={<Plus size={16} />}
+              disabled={memoList.length >= 10}
+            >
+              <span className="text-base">추가</span>
             </ActionButton>
           </div>
+          {memoList.length >= 10 && (
+            <p className="text-sm text-primary mt-2 text-center">
+              메모는 최대 10개까지만 작성할 수 있어요.
+            </p>
+          )}
         </Card>
 
         <div className="h-3" />

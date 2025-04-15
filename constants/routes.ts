@@ -1,4 +1,4 @@
-export const BASE_PATH = "/";
+export const BASE_PATH = '/';
 export const ROUTES = {
   HOME: `${BASE_PATH}home`,
   SCHEDULE: `${BASE_PATH}schedule`,
@@ -9,3 +9,12 @@ export const ROUTES = {
   LOGIN: `${BASE_PATH}login`,
   LOGOUT: `${BASE_PATH}logout`,
 };
+
+export const PROTECTED_ROUTES = [
+  ROUTES.HOME,
+  ROUTES.SCHEDULE,
+  ROUTES.CHATBOT,
+  ROUTES.ANALYSIS,
+  ROUTES.PROFILE,
+];
+export const PUBLIC_ROUTES = [ROUTES.LOGIN, ROUTES.REGISTER];
