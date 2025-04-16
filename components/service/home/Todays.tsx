@@ -5,22 +5,19 @@ import Card from '@/components/common/Card';
 import { ProgressBar } from './ProgressBar';
 import TodoItem from '@/components/shared/ToDo/TodoItem';
 import MemoList from '@/components/shared/Memo/MemoList';
-import { PenLine, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { ActionButton } from '@/components/common/ActionButton';
 import { useModalStore } from '@/stores/modal';
 import TodoPopup from '@/components/shared/ToDo/TodoPopup';
 import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
-import { useTodoListStore } from '@/stores/useTodoListStore';
 import { useTodoEditStore } from '@/stores/todoEditStore';
 import MemoPopup from '@/components/shared/Memo/MemoPopup';
-import { useMemoStore } from '@/stores/useMemoStore';
+import { memoListData, todoListData } from '@/mocks/data';
 
 export default function Todays() {
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
-  const { todoList } = useTodoListStore();
-  const { memoList, setEditingMemo } = useMemoStore();
 
   const categoryProgresses = [
     { title: '영어', value: 40 },
@@ -37,7 +34,6 @@ export default function Todays() {
   };
 
   const handleAddMemo = () => {
-    setEditingMemo(null);
     openModal({
       title: '메모 작성',
       component: <MemoPopup />,
@@ -74,17 +70,11 @@ export default function Todays() {
         {/* 오늘의 To Do */}
         <Card title="오늘의 To Do">
           <div className="space-y-2">
-            {todoList.length > 0 ? (
-              todoList.map((todo) => (
+            {todoListData.length > 0 ? (
+              todoListData.map((todo) => (
                 <TodoItem
                   key={todo.id}
-                  id={todo.id}
-                  category={todo.category}
-                  text={todo.text}
-                  startDate={todo.startDate}
-                  endDate={todo.endDate}
-                  isRepeat={todo.isRepeat}
-                  repeatDays={todo.repeatDays}
+                  todo={todo}
                   onClick={() => {
                     setEditingTodo(todo);
                     openModal({
@@ -99,18 +89,18 @@ export default function Todays() {
             )}
           </div>
 
-          {todoList.length === 0 && <ChatbotHelperBox />}
+          {todoListData.length === 0 && <ChatbotHelperBox />}
 
           <div className="flex justify-center mt-4">
             <ActionButton
               onClick={handleOpenTodoModal}
               icon={<Plus size={16} />}
-              disabled={todoList.length >= 10}
+              disabled={todoListData.length >= 10}
             >
               <span className="text-base">추가</span>
             </ActionButton>
           </div>
-          {todoList.length >= 10 && (
+          {todoListData.length >= 10 && (
             <p className="text-sm text-primary mt-2 text-center">
               할 일은 최대 10개까지만 추가할 수 있어요.
             </p>
@@ -122,7 +112,7 @@ export default function Todays() {
           title={<div className="flex items-center gap-2 text-xl">오늘의 메모</div>}
           isMore={false}
         >
-          {memoList.length > 0 ? (
+          {memoListData.length > 0 ? (
             <MemoList />
           ) : (
             <p className="text-lg text-center text-secondary">
@@ -134,12 +124,12 @@ export default function Todays() {
             <ActionButton
               onClick={handleAddMemo}
               icon={<Plus size={16} />}
-              disabled={memoList.length >= 10}
+              disabled={memoListData.length >= 10}
             >
               <span className="text-base">추가</span>
             </ActionButton>
           </div>
-          {memoList.length >= 10 && (
+          {memoListData.length >= 10 && (
             <p className="text-sm text-primary mt-2 text-center">
               메모는 최대 10개까지만 작성할 수 있어요.
             </p>
