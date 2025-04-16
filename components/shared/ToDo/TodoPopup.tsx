@@ -15,15 +15,19 @@ import { useTodoPopup } from '@/hooks/useTodoPopup';
 import { useUserStore } from '@/stores/user';
 import { CategoryItem } from '@/types/category';
 import { toast } from 'sonner';
-
+import { getCategoryItems } from '@/apis/category';
+import { formatDateToYYYYMMDD } from '@/utils/date';
+import ClipLoader from 'react-spinners/ClipLoader';
+import { Week } from '@/constants/enum';
+import { useRouter } from 'next/navigation';
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 
 type TodoInput = { text: string };
 
 export default function TodoPopup() {
   const { user } = useUserStore();
-  const userId = parseInt(user.id as string, 10);
-  const { loading, addTodo, editTodo, removeTodo } = useTodoPopup(userId);
+  const router = useRouter();
+  const { addTodo, editTodo, removeTodo } = useTodoPopup();
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
 
@@ -39,6 +43,8 @@ export default function TodoPopup() {
   const [todoError, setTodoError] = useState('');
   const [dateError, setDateError] = useState('');
   const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   useEffect(() => {
     if (editingTodo) {
@@ -52,11 +58,39 @@ export default function TodoPopup() {
   }, [editingTodo]);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      setIsLoadingCategories(true);
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        const items = await getCategoryItems({ startDate: today, endDate: today });
+        setCategoryItems(items);
+      } catch (error) {
+        console.error('카테고리 로딩 중 오류가 발생했습니다:', error);
+        // 기본 카테고리 설정
+        setCategoryItems([
+          { id: '1', categoryName: '영어', categoryColor: '#FF6B6B' },
+          { id: '2', categoryName: '코딩', categoryColor: '#4ECDC4' },
+          { id: '3', categoryName: '운동', categoryColor: '#FFD166' },
+        ]);
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
     if (startDate && endDate) {
       const diffDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
       setIsRepeatAvailable(diffDays >= 6.9);
+
+      // 8일 이상일 경우 자동으로 반복 설정 활성화
+      if (diffDays >= 7.9 && !isRepeat) {
+        setIsRepeat(true);
+      }
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, isRepeat]);
 
   const handleAddField = () => {
     if (todoInputs.length >= 10) {
@@ -74,21 +108,15 @@ export default function TodoPopup() {
   };
 
   const handleComplete = async () => {
-    let hasError = false;
-
     if (!selectedCategory.trim()) {
       setCategoryError('카테고리를 선택해주세요.');
-      hasError = true;
-    } else {
-      setCategoryError('');
+      return;
     }
 
     const hasValidTodo = todoInputs.some((input) => input.text.trim() !== '');
     if (!hasValidTodo) {
       setTodoError('할 일을 작성해주세요.');
-      hasError = true;
-    } else {
-      setTodoError('');
+      return;
     }
 
     if (!startDate || !endDate) return;
@@ -99,15 +127,14 @@ export default function TodoPopup() {
       setDateError('');
     }
 
-    if (hasError) return;
-
     try {
+      setIsSubmitLoading(true);
       if (editingTodo) {
-        await editTodo(editingTodo.id, {
+        const updatedTodo = await editTodo(editingTodo.id, user?.id || '', {
           categoryId: selectedCategory,
           content: todoInputs[0].text,
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
+          startDate: formatDateToYYYYMMDD(startDate),
+          endDate: formatDateToYYYYMMDD(endDate),
           isRepeat,
           weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
           isCompleted: false,
@@ -117,36 +144,47 @@ export default function TodoPopup() {
       } else {
         for (const { text } of todoInputs) {
           if (text.trim()) {
-            await addTodo(
+            const selectedItem = categoryItems.find(
+              (item) => item.categoryName === selectedCategory
+            );
+            const categoryId = selectedItem?.id || '1';
+            const newTodo = await addTodo(
               {
-                userId: user.id!,
-                categoryId: selectedCategory,
+                userId: user?.id || '',
+                categoryId,
                 content: text,
-                startDate: startDate.toISOString(),
-                endDate: endDate.toISOString(),
+                startDate: formatDateToYYYYMMDD(startDate),
+                endDate: formatDateToYYYYMMDD(endDate),
                 isRepeat,
-                weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
+                weeks: selectedDays.map((d) => ({ id: d, weekName: Week[d as keyof typeof Week] })),
                 isCompleted: false,
               },
-              selectedCategory
+              user?.id || '',
+              categoryId
             );
+
+            if (!newTodo) {
+              throw new Error('할 일 추가에 실패했습니다.');
+            }
           }
         }
         toast.success('할 일이 추가되었어요!');
       }
-
+      router.push('/');
       resetForm();
       closeModal();
     } catch (error) {
       console.error('Error saving todo:', error);
-      toast.error('할 일 저장에 실패했어요.');
+      toast.error(error instanceof Error ? error.message : '할 일 저장에 실패했어요.');
+    } finally {
+      setIsSubmitLoading(false);
     }
   };
 
   const handleDelete = async () => {
     try {
       if (editingTodo) {
-        await removeTodo(editingTodo.id);
+        await removeTodo(editingTodo.id, user?.id || '');
         toast.success('할 일이 삭제되었어요!');
       }
 
@@ -175,17 +213,23 @@ export default function TodoPopup() {
       <section className="mb-5 px-4 text-xl">
         <SectionTitle icon={<Goal size={16} className="text-primary" />} text="목표 설정" />
         <SectionContent className="flex items-center gap-8 mt-2">
-          <ToggleButton
-            items={categoryItems.map((item: CategoryItem) => item.categoryName)}
-            selected={selectedCategory ? [selectedCategory] : []}
-            onChange={(selected) => {
-              setSelectedCategory(selected[0] || '');
-              setCategoryError('');
-            }}
-            className="px-4 py-0.3 text-lg border-2 rounded-md transition-colors"
-            selectedClassName="text-white border-transparent"
-            unselectedClassName="bg-beige-light text-secondary border-primary"
-          />
+          {isLoadingCategories ? (
+            <p className="text-secondary">카테고리 로딩 중...</p>
+          ) : categoryItems.length > 0 ? (
+            <ToggleButton
+              items={categoryItems.map((item: CategoryItem) => item.categoryName)}
+              selected={selectedCategory ? [selectedCategory] : []}
+              onChange={(selected) => {
+                setSelectedCategory(selected[0] || '');
+                setCategoryError('');
+              }}
+              className="px-4 py-0.3 text-lg border-2 rounded-md transition-colors"
+              selectedClassName="text-white border-transparent"
+              unselectedClassName="bg-beige-light text-secondary border-primary"
+            />
+          ) : (
+            <p className="text-secondary">카테고리를 불러올 수 없습니다.</p>
+          )}
         </SectionContent>
         {categoryError && <p className="text-sm text-primary mt-1 text-center">{categoryError}</p>}
       </section>
@@ -274,7 +318,9 @@ export default function TodoPopup() {
         onDelete={handleDelete}
         onComplete={handleComplete}
         disableCompleteButton={
-          !selectedCategory.trim() || !todoInputs.some((todo) => todo.text.trim() !== '')
+          !selectedCategory.trim() ||
+          !todoInputs.some((todo) => todo.text.trim() !== '') ||
+          isSubmitLoading
         }
       />
     </>

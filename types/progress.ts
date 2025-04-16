@@ -15,11 +15,7 @@ export type CategoryProgress = {
 };
 
 export type ProgressResponse = {
-  status_code: number;
-  data: {
-    totalProgressRate: string;
-    cheerUpMessage: string;
-    categoryProgresses: CategoryProgress[];
-  };
-  error?: string;
+  totalProgressRate: string;
+  cheerUpMessage: string;
+  categoryProgresses: CategoryProgress[];
 };

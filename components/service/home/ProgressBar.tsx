@@ -5,9 +5,10 @@ type Props = {
   title: string;
   emoji?: string;
   titleColor?: string;
+  color?: string;
 };
 
-export function ProgressBar({ value, title, titleColor }: Props) {
+export function ProgressBar({ value, title, titleColor, color }: Props) {
   return (
     <div className="space-y-1">
       <div className="flex items-center gap-2">
@@ -16,7 +17,9 @@ export function ProgressBar({ value, title, titleColor }: Props) {
       </div>
       <div className="w-full bg-beige-deco rounded-full h-2">
         <div
-          className="bg-primary h-2 rounded-full transition-all duration-300"
+          className={`h-2 rounded-full transition-all duration-300 ${
+            color ? `bg-[${color}]` : 'bg-primary'
+          }`}
           style={{ width: `${value}%` }}
         />
       </div>

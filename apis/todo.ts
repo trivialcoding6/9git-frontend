@@ -18,7 +18,7 @@ export const getTodAndMemoList = async ({
   endDate,
 }: TodoAndMemoListRequest): Promise<TodoAndMemoListResponse> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/todos-and-memos?start_date=${startDate}&end_date=${endDate}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${userId}/todos-and-memos?start_date=${startDate}&end_date=${endDate}`
   );
 
   if (!response.ok) {

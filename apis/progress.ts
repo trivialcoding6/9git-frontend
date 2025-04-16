@@ -1,4 +1,4 @@
-import { ProgressResponse } from '@/types/progress';
+import { CategoryProgress, ProgressResponse } from '@/types/progress';
 
 // 여긱까지 함수 정의와 입력 부분
 export const todayProgressItems = async ({
@@ -8,19 +8,40 @@ export const todayProgressItems = async ({
 }): Promise<ProgressResponse> => {
   // 여기는 코드 동작 정의 부분
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-    const response = await fetch(`${baseUrl}/api/v1/users/${userId}/today-progresses`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${userId}/today-progresses`
+    );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch progress items');
+      throw new Error('진행률 정보를 불러오는데 실패했습니다.');
     }
 
     const data = await response.json();
+
+    if (data.status_code !== 200) {
+      throw new Error('진행률 정보를 불러오는데 실패했습니다.');
+    }
+
     return data;
   } catch (error) {
     // 6~19 까지 코드 실행하다가 에러 발생하면 여기로 코드가 실행됨
-    console.error('Error fetching progress items:', error);
+    console.error('진행률 정보를 불러오는 중 오류가 발생했습니다:', error);
     // 예외를 던짐
+    throw error;
+  }
+};
+
+export const getProgress = async (userId: string): Promise<ProgressResponse> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${userId}/progresses`
+    );
+    if (!response.ok) {
+      throw new Error('진행률을 가져오는데 실패했습니다.');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('진행률 API 호출 중 오류가 발생했습니다:', error);
     throw error;
   }
 };
