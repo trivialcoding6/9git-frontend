@@ -1,7 +1,7 @@
 // stores/useMemoStore.ts
 import { create } from 'zustand';
 import { Memo as MemoType } from '@/types/memo';
-import { fetchMemos, createMemo, updateMemo, deleteMemo } from '@/apis/memo';
+import { fetchMemos, createMemo, updateMemo, deleteMemo } from '@/apis/memopopup';
 
 export type Memo = {
   id: string;

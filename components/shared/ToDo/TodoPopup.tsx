@@ -1,77 +1,4 @@
-// TodoPopup.tsx
 'use client';
-
-import { useState } from 'react';
-import { Checkbox } from '@/components/ui/checkbox';
-import CustomBadge from './CutstomBadge';
-import { useModalStore } from '@/stores/modal';
-import { useTodoEditStore } from '@/stores/todoEditStore';
-import TodoPopup from '@/components/shared/ToDo/TodoPopup';
-import { Category, Todo, Week } from '@/types/todo';
-
-type Props = {
-  todo: Todo;
-  onClick?: () => void;
-};
-
-export default function TodoItem({ todo, onClick }: Props) {
-  const [checked, setChecked] = useState(todo.isCompleted);
-  const categoryColor = todo.category?.categoryColor ?? 'bg-gray-300';
-  const { openModal } = useModalStore();
-  const { setEditingTodo } = useTodoEditStore();
-  const {
-    id,
-    userId,
-    categoryId,
-    content,
-    startDate,
-    endDate,
-    isCompleted,
-    isRepeat,
-    weeks,
-    category,
-  } = todo;
-
-  // 예시: TodoItem 컴포넌트에서 handleClick 수정
-  const handleClick = () => {
-    setEditingTodo({
-      id,
-      userId: userId ?? '',
-      categoryId,
-      content,
-      startDate,
-      endDate,
-      isCompleted,
-      isRepeat: isRepeat ?? false,
-      weeks,
-      category,
-    });
-    openModal({
-      title: 'To Do 수정',
-      component: <TodoPopup />,
-    });
-  };
-
-  return (
-    <div className="flex items-center gap-3 w-full mb-4">
-      {category && <CustomBadge label={category.categoryName} color={categoryColor} />}
-
-      <button
-        onClick={onClick}
-        title={content}
-        className={`flex-1 text-left text-lg font-semibold text-secondary cursor-pointer truncate ${
-          checked ? 'line-through opacity-50' : ''
-        }`}
-      >
-        {content}
-      </button>
-
-      <Checkbox
-        checked={checked}
-        onCheckedChange={(checked) => setChecked(checked === 'indeterminate' ? false : checked)}
-      />
-    </div>
-
 
 import { useEffect, useState } from 'react';
 import { DatePickerSection } from '@/components/shared/DatePickerSection';
@@ -84,13 +11,10 @@ import { Switch } from '@/components/ui/switch';
 import { DeleteCompleteButtons } from '@/components/common/DeleteCompleteButton';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
-import { useTodos } from '@/hooks/todo';
+import { useTodoPopup } from '@/hooks/useTodoPopup';
 import { useUserStore } from '@/stores/user';
 import { CategoryItem } from '@/types/category';
-<<<<<<< HEAD
 import { toast } from 'sonner';
-=======
->>>>>>> 75a7bdd (작업 임시 저장)
 
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 
@@ -99,13 +23,10 @@ type TodoInput = { text: string };
 export default function TodoPopup() {
   const { user } = useUserStore();
   const userId = parseInt(user.id as string, 10);
-  const { addTodo, editTodo, removeTodo } = useTodos(userId);
-<<<<<<< HEAD
-  const { addTodo, updateTodoById: updateTodo, removeTodoById: deleteTodo } = useTodoListStore();
-=======
->>>>>>> 75a7bdd (작업 임시 저장)
+  const { loading, addTodo, editTodo, removeTodo } = useTodoPopup(userId);
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
+
   const [todoInputs, setTodoInputs] = useState<TodoInput[]>([{ text: '' }]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
@@ -113,10 +34,29 @@ export default function TodoPopup() {
   const [isRepeat, setIsRepeat] = useState(false);
   const [isRepeatAvailable, setIsRepeatAvailable] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
+
   const [categoryError, setCategoryError] = useState('');
   const [todoError, setTodoError] = useState('');
   const [dateError, setDateError] = useState('');
   const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([]);
+
+  useEffect(() => {
+    if (editingTodo) {
+      setTodoInputs([{ text: editingTodo.content }]);
+      setSelectedCategory(editingTodo.category?.categoryName || '');
+      setStartDate(new Date(editingTodo.startDate));
+      setEndDate(new Date(editingTodo.endDate));
+      setIsRepeat(editingTodo.isRepeat ?? false);
+      setSelectedDays(editingTodo.weeks?.map((w) => w.weekName) ?? []);
+    }
+  }, [editingTodo]);
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      const diffDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+      setIsRepeatAvailable(diffDays >= 6.9);
+    }
+  }, [startDate, endDate]);
 
   const handleAddField = () => {
     if (todoInputs.length >= 10) {
@@ -136,7 +76,7 @@ export default function TodoPopup() {
   const handleComplete = async () => {
     let hasError = false;
 
-    if (!selectedCategory || selectedCategory.trim() === '') {
+    if (!selectedCategory.trim()) {
       setCategoryError('카테고리를 선택해주세요.');
       hasError = true;
     } else {
@@ -161,50 +101,61 @@ export default function TodoPopup() {
 
     if (hasError) return;
 
-    if (editingTodo) {
-      await editTodo(editingTodo.id, {
-        categoryId: selectedCategory,
-        content: todoInputs[0].text,
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
-        isRepeat,
-        weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
-        isCompleted: false,
-      });
-      setEditingTodo(null);
-    } else {
-      for (const { text } of todoInputs) {
-        if (text.trim()) {
-          await addTodo(
-            {
-              userId: user.id!,
-              categoryId: selectedCategory,
-              content: text,
-              startDate: startDate.toISOString(),
-              endDate: endDate.toISOString(),
-              isRepeat,
-              weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
-              isCompleted: false,
-            },
-            userId
-          );
+    try {
+      if (editingTodo) {
+        await editTodo(editingTodo.id, {
+          categoryId: selectedCategory,
+          content: todoInputs[0].text,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          isRepeat,
+          weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
+          isCompleted: false,
+        });
+        setEditingTodo(null);
+        toast.success('할 일이 수정되었어요!');
+      } else {
+        for (const { text } of todoInputs) {
+          if (text.trim()) {
+            await addTodo(
+              {
+                userId: user.id!,
+                categoryId: selectedCategory,
+                content: text,
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString(),
+                isRepeat,
+                weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
+                isCompleted: false,
+              },
+              selectedCategory
+            );
+          }
         }
+        toast.success('할 일이 추가되었어요!');
       }
+
+      resetForm();
+      closeModal();
+    } catch (error) {
+      console.error('Error saving todo:', error);
+      toast.error('할 일 저장에 실패했어요.');
     }
   };
 
   const handleDelete = async () => {
     try {
       if (editingTodo) {
-        await deleteTodo(editingTodo.id);
+        await removeTodo(editingTodo.id);
         toast.success('할 일이 삭제되었어요!');
       }
 
       setEditingTodo(null);
       resetForm();
       closeModal();
-    } catch (e) {
-      console.error('삭제 실패:', e);
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+      toast.error('할 일 삭제에 실패했어요.');
     }
   };
 
@@ -218,27 +169,6 @@ export default function TodoPopup() {
     setSelectedDays([]);
   };
 
-  useEffect(() => {
-    if (editingTodo) {
-      setTodoInputs([{ text: editingTodo.content }]);
-      setSelectedCategory(editingTodo.category?.categoryName || '');
-
-      const parsedStart = new Date(editingTodo.startDate);
-      const parsedEnd = new Date(editingTodo.endDate);
-      setStartDate(parsedStart);
-      setEndDate(parsedEnd);
-      setIsRepeat(editingTodo.isRepeat ?? false);
-      setSelectedDays(editingTodo.weeks?.map((w) => w.weekName) ?? []);
-    }
-  }, [editingTodo]);
-
-  useEffect(() => {
-    if (startDate && endDate) {
-      const diffDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
-      setIsRepeatAvailable(diffDays >= 6.9);
-    }
-  }, [startDate, endDate]);
-
   return (
     <>
       {/* 목표 설정 */}
@@ -246,7 +176,7 @@ export default function TodoPopup() {
         <SectionTitle icon={<Goal size={16} className="text-primary" />} text="목표 설정" />
         <SectionContent className="flex items-center gap-8 mt-2">
           <ToggleButton
-            items={categoryItems.map((item) => item.categoryName)}
+            items={categoryItems.map((item: CategoryItem) => item.categoryName)}
             selected={selectedCategory ? [selectedCategory] : []}
             onChange={(selected) => {
               setSelectedCategory(selected[0] || '');
@@ -317,7 +247,6 @@ export default function TodoPopup() {
                 value={todo.text}
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 placeholder="오늘 할 일을 작성해주세요"
-                title={todo.text}
                 className="flex-1 text-lg px-1 py-1 bg-transparent text-secondary placeholder-beige-deco 
                 focus:outline-none border-b bg-beige-deco overflow-hidden text-ellipsis whitespace-nowrap"
               />
