@@ -29,9 +29,9 @@ export async function getUser() {
         headers: {
           'Content-Type': 'application/json',
         },
+        cache: 'force-cache',
       }
     );
-
     const userData = await userResponse.json();
 
     return userData.data;

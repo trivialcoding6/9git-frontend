@@ -93,7 +93,6 @@ export default function Todays() {
   const { memoList, addMemo, removeMemo, updateMemo } = useMemoStore();
   const { user } = useUserStore();
   const userId = user.id || '';
-  console.log('user', user);
 
   const {
     todos,
@@ -165,7 +164,6 @@ export default function Todays() {
     );
   }
 
-  console.log('categoryProgresses', categoryProgresses);
   return (
     <div className="bg-white min-h-screen flex flex-col">
       <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-t-3xl">

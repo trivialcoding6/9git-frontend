@@ -1,3 +1,9 @@
+export type Category = {
+  id: string;
+  categoryName: string;
+  categoryColor: string;
+};
+
 export type Todo = {
   id: string;
   userId: string;
@@ -47,12 +53,6 @@ export type ExtendedDay = {
     name: string;
     color: string;
   }[];
-};
-
-export type Category = {
-  id: string;
-  categoryName: string;
-  categoryColor: string;
 };
 
 // 전체 카테고리 목록 응답

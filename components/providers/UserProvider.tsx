@@ -13,7 +13,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUser = async () => {
       setIsReady(false);
       const user = await getUser();
-      console.log(user);
+
       if (user) {
         updateUser(user);
         setIsReady(true);
