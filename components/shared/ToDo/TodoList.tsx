@@ -4,11 +4,14 @@ import { useEffect } from 'react';
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import TodoItem from './TodoItem';
 
+const userId = 1;
+const categoryId = 1;
+
 export default function TodoList() {
   const { todoList, loadTodos } = useTodoListStore();
 
   useEffect(() => {
-    loadTodos();
+    loadTodos(userId, categoryId);
   }, []);
 
   return (

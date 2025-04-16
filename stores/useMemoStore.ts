@@ -1,5 +1,7 @@
 // stores/useMemoStore.ts
 import { create } from 'zustand';
+import { Memo as MemoType } from '@/types/memo';
+import { fetchMemos, createMemo, updateMemo, deleteMemo } from '@/apis/memo';
 
 export type Memo = {
   id: string;
@@ -10,11 +12,12 @@ export type Memo = {
 };
 
 type MemoStore = {
-  memoList: Memo[];
-  editingMemo: Memo | null;
-  setEditingMemo: (memo: Memo | null) => void;
-  addMemo: (memo: Memo) => void;
-  updateMemo: (id: string, memo: Partial<Memo>) => void;
+  memoList: MemoType[];
+  editingMemo: MemoType | null;
+  setEditingMemo: (memo: MemoType | null) => void;
+  loadMemos: (userId: number, categoryId: number, year: number, month: number) => void;
+  addMemo: (memo: MemoType) => void;
+  updateMemo: (id: string, memo: Partial<MemoType>) => void;
   removeMemo: (id: string) => void;
 };
 
@@ -31,4 +34,12 @@ export const useMemoStore = create<MemoStore>((set) => ({
     set((state) => ({
       memoList: state.memoList.filter((m) => m.id !== id),
     })),
+  loadMemos: async (userId, categoryId, year, month) => {
+    try {
+      const memos = await fetchMemos(userId, categoryId, year, month);
+      set({ memoList: memos });
+    } catch (error) {
+      console.error('메모 로드 실패:', error);
+    }
+  },
 }));

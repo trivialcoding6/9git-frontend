@@ -7,7 +7,7 @@ type Props = {
   titleColor?: string;
 };
 
-export function ProgressBar({ value, title, emoji, titleColor }: Props) {
+export function ProgressBar({ value, title, titleColor }: Props) {
   return (
     <div className="space-y-1">
       <div className="flex items-center gap-2">

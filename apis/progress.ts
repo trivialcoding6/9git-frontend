@@ -3,7 +3,7 @@ export const todayProgressItems = async ({ userId }: { userId: String }) => {
   // 여기는 코드 동작 정의 부분
   try {
     // api 요청 시도
-    const response = await fetch(`http://localhost:8000/api/v1/users/${userId}/today/progresses`);
+    const response = await fetch(`http://localhost:8000/api/v1/users/${userId}/today-progresses`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch progress items');

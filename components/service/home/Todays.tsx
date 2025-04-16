@@ -13,16 +13,6 @@ import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 import { useTodoEditStore } from '@/stores/todoEditStore';
 import MemoPopup from '@/components/shared/Memo/MemoPopup';
 import { memoListData, todoListData } from '@/mocks/data';
-import { todayProgressItems } from '@/apis/progress';
-
-const [progressItems, setProgressItems] = useState([]);
-useEffect(() => {
-  const fetchProgressItems = async () => {
-    const items = await todayProgressItems({ userId: '1' });
-    setProgressItems(items);
-  };
-  fetchProgressItems();
-}, []);
 
 export default function Todays() {
   console.log('hello');
@@ -59,7 +49,11 @@ export default function Todays() {
           isMore
           onMoreClick={() => setShowCategoryProgress((prev) => !prev)}
         >
-          <ProgressBar value={75} emoji="🐾" title="응원 문구" titleColor="text-secondary" />
+          <ProgressBar
+            value={parseInt(totalProgressRate, 10) || 0}
+            title={cheerUpMessage}
+            titleColor="text-secondary"
+          />
         </Card>
 
         {showCategoryProgress && (
@@ -68,8 +62,8 @@ export default function Todays() {
               {categoryProgresses.map((item, idx) => (
                 <ProgressBar
                   key={idx}
-                  value={item.value}
-                  title={item.title}
+                  value={parseInt(item.progressRate, 10) || 0}
+                  title={item.category.categoryName}
                   titleColor="text-secondary"
                 />
               ))}

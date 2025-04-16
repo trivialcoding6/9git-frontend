@@ -38,14 +38,24 @@ export const getTodAndMemoList = async ({
 
 import { Todo } from '@/types/todo';
 
-export const fetchTodos = async (): Promise<Todo[]> => {
-  const res = await fetch('/api/todo');
+export const fetchAllTodos = async (userId: number): Promise<Todo[]> => {
+  const res = await fetch(`http://localhost:8000/api/v1/todos/${userId}/`);
+  if (!res.ok) throw new Error('할 일 전체 목록 불러오기 실패');
+  return res.json();
+};
+
+export const fetchTodos = async (userId: number, todoId: number): Promise<Todo[]> => {
+  const res = await fetch(`http://localhost:8000/api/v1/${todoId}/${userId}/todos/`);
   if (!res.ok) throw new Error('할 일 목록 불러오기 실패');
   return res.json();
 };
 
-export const createTodo = async (todo: Omit<Todo, 'id'>): Promise<Todo> => {
-  const res = await fetch('/api/todo', {
+export const createTodo = async (
+  todo: Omit<Todo, 'id'>,
+  userId: number,
+  categoryId: number
+): Promise<Todo> => {
+  const res = await fetch(`http://localhost:8000/api/v1/todos/${userId}/${categoryId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(todo),
@@ -54,8 +64,12 @@ export const createTodo = async (todo: Omit<Todo, 'id'>): Promise<Todo> => {
   return res.json();
 };
 
-export const updateTodo = async (id: number, updated: Partial<Todo>): Promise<Todo> => {
-  const res = await fetch(`/api/todo/${id}`, {
+export const updateTodo = async (
+  todoId: number,
+  userId: number,
+  updated: Partial<Todo>
+): Promise<Todo> => {
+  const res = await fetch(`http://localhost:8000/api/v1/todos/${todoId}/${userId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updated),
@@ -64,8 +78,8 @@ export const updateTodo = async (id: number, updated: Partial<Todo>): Promise<To
   return res.json();
 };
 
-export const deleteTodo = async (id: number): Promise<void> => {
-  const res = await fetch(`/api/todo/${id}`, {
+export const deleteTodo = async (todoId: number, userId: number): Promise<void> => {
+  const res = await fetch(`http://localhost:8000/api/v1/todos/${todoId}/${userId}`, {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('할 일 삭제 실패');
