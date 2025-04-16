@@ -1,4 +1,4 @@
-name: Build, Push Backend Image to ACR and Trigger Deployment
+name: Build, Push Frontend Image to ACR and Trigger Deployment
 
 # 워크플로우 트리거 설정
 on:
@@ -69,7 +69,7 @@ jobs:
     with:
       commit_sha: ${{ needs.build-and-push.outputs.commit_sha }}
       target_environment: ${{ (github.ref_name == 'main' && 'production') || 'test' }}
-      app_type: 'backend'
+      app_type: 'frontend'
     secrets: inherit
     # main 또는 dev 브랜치에 push될 때만 배포 실행
     if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'dev')
