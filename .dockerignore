@@ -1,0 +1,50 @@
+# Dependencies
+node_modules
+
+# Next.js build output directory
+.next
+next-env.d.ts
+
+# TypeScript cache file
+*.tsbuildinfo
+
+# Optional: Output directory of `next export`
+# out
+
+# Optional: Linting/Formatting caches
+# .eslintcache
+
+# Optional: VS Code specific settings
+.vscode
+
+# Git files
+.git
+.gitignore
+
+# Environment files (Secrets should not be in the image)
+.env*
+!/.env.example
+!/.env.production
+!/.env.development
+
+# OS generated files
+*.DS_Store
+Thumbs.db
+
+# PNPM specific (if using pnpm)
+# pnpm-lock.yaml
+# pnpm-debug.log
+
+# Yarn specific (if using yarn)
+# .pnp/
+# .yarn/
+# yarn-error.log
+
+# Testing files (optional)
+# coverage/
+# jest.config.js
+# jest.setup.js
+
+# Storybook specific (optional)
+# .storybook
+# storybook-static
