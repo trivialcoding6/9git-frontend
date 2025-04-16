@@ -40,7 +40,7 @@ export const CalendarMonth = ({ year, month, onPrevMonth, onNextMonth }: Calenda
         onClick={onPrevMonth}
         className="cursor-pointer"
       />
-      <span className="text-md font-medium">
+      <span className="text-lg font-medium">
         {year}년 {month}월
       </span>
 
