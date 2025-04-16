@@ -6,7 +6,7 @@ import { getTodAndMemoList } from '@/apis/todo';
 import { getUser } from '@/actions/user';
 import { Suspense } from 'react';
 import { getCategoryItems } from '@/apis/category';
-
+import { redirect } from 'next/navigation';
 export const Schedule = async () => {
   const user = await getUser();
   const { todos, memos } = await getTodAndMemoList({
@@ -14,6 +14,10 @@ export const Schedule = async () => {
     startDate: '2025-04-16',
     endDate: '2030-12-31',
   });
+
+  if (!user) {
+    redirect('/login');
+  }
 
   const categoryItems = await getCategoryItems();
 

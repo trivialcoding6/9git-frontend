@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export async function getUser() {
   try {
@@ -16,6 +17,10 @@ export async function getUser() {
       }
     );
     const data = await result.json();
+
+    if (!data.data) {
+      redirect('/login');
+    }
 
     const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${data.data.sub}`, {
       method: 'GET',
