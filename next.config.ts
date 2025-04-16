@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  reactStrictMode: false,
   webpack: (config, context) => {
     if (context?.isServer) {
       // next server build => ignore msw/browser

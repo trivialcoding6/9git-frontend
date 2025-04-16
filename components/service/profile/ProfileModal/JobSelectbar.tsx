@@ -1,7 +1,9 @@
 'use client';
 
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
+import { ChevronDownIcon } from 'lucide-react';
 
 const occupations = [
   '사무직',
@@ -13,54 +15,64 @@ const occupations = [
   '자영업자',
   '군인',
   '취업 준비생',
-  '대학생',
-  '고등학생 이하',
-  '무직',
   '기타',
 ] as const;
 
-export type Job = (typeof occupations)[number];
-
-type Props = {
-  selectedJob: Job | ''; // 선택된 직업
-  setSelectedJob: (job: Job | '') => void; // 사용자가 드롭다운에서 직업을 선택했을 때 실행되는 함수
-};
-
-const JobSelectbar: React.FC<Props> = ({ selectedJob, setSelectedJob }) => {
+export default function JobSelectbar() {
+  const { control, formState } = useFormContext(); // formState 추가
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="space-y-2">
-      <label className="text-lg font-bold text-secondary">직업</label>
-      <div className="space-y-2"></div>
+    <FormField
+      control={control}
+      name="job"
+      render={({ field, fieldState }) => (
+        <FormItem>
+          {formState.touchedFields.job && fieldState.error ? (
+            <FormLabel className="text-lg font-bold text-red-500">직업</FormLabel>
+          ) : (
+            <FormLabel className="text-lg font-bold text-secondary">직업</FormLabel>
+          )}
 
-      <div className="relative">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full rounded border border-beige-deco bg-beige-light text-secondary text-sm px-3 py-1 placeholder:text-beige-deco shadow-sm focus:outline-none focus:ring-1 focus:ring-secondary appearance-none flex items-center justify-between"
-        >
-          <span>{selectedJob || <span className="text-beige-deco">직업을 선택하세요.</span>}</span>
-          <ChevronDownIcon className="size-4 opacity-50" />
-        </button>
-        {isOpen && (
-          <ul className="absolute z-10 w-full bg-beige-light border border-beige-deco rounded-l-lg mt-1 max-h-50 overflow-y-auto">
-            {occupations.map((job) => (
-              <li
-                key={job}
-                onClick={() => {
-                  setSelectedJob(job);
-                  setIsOpen(false);
-                }}
-                className="px-4 py-1.5 cursor-pointer text-secondary text-sm hover:bg-beige-deco"
+          <FormControl>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                className={`w-full rounded border text-secondary text-sm px-3 py-1 shadow-sm focus:outline-none focus:ring-1 flex items-center justify-between
+                  ${
+                    formState.touchedFields.job && fieldState.error
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-beige-deco bg-beige-light focus:ring-secondary'
+                  }`}
               >
-                {job}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
-  );
-};
+                <span>
+                  {field.value || <span className="text-beige-deco">직업을 선택하세요.</span>}
+                </span>
+                <ChevronDownIcon className="size-4 opacity-50" />
+              </button>
 
-export default JobSelectbar;
+              {isOpen && (
+                <ul className="absolute z-10 w-full bg-beige-light border border-beige-deco rounded-l-lg mt-1 max-h-50 overflow-y-auto">
+                  {occupations.map((job) => (
+                    <li
+                      key={job}
+                      onClick={() => {
+                        field.onChange(job);
+                        setIsOpen(false);
+                      }}
+                      className="px-4 py-1.5 cursor-pointer text-secondary text-sm hover:bg-beige-deco"
+                    >
+                      {job}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </FormControl>
+          {fieldState.error && formState.touchedFields.job && <FormMessage />}
+        </FormItem>
+      )}
+    />
+  );
+}

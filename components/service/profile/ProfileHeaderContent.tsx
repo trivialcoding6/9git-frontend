@@ -23,7 +23,11 @@ export const ProfileHeaderContent = () => {
     <nav className="flex items-center justify-between m-[6px]">
       <div className="flex items-center gap-2">
         <Avatar>
-          <AvatarImage src="" alt="profile" className="bg-white" />
+          <AvatarImage
+            src="unlocked/IMG3.webp"
+            alt="profile"
+            className="w-full h-full rounded-[inherit] object-cover object-top scale-120 border-3 border-primary"
+          />
           <AvatarFallback className="bg-white">U</AvatarFallback>
         </Avatar>
         <p className="text-sm font-medium">홍길동</p>

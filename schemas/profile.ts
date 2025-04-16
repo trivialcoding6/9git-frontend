@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const numFormSchema = z.object({
+export const profileFormSchema = z.object({
   age: z
     .string()
     .min(1, '나이를 입력해주세요.')
@@ -15,4 +15,11 @@ export const numFormSchema = z.object({
         message: '나이는 0세 이상 130세 이하로 입력해주세요.',
       }
     ),
+  job: z.string().min(1, '직업을 선택해주세요.'),
+  gender: z.enum(['M', 'F']),
+  isConsent: z.literal(true, {
+    errorMap: () => ({ message: '개인정보 수집 동의가 필요합니다.' }),
+  }),
 });
+
+export type ProfileFormValues = z.infer<typeof profileFormSchema>;

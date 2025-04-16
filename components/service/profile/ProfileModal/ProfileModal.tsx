@@ -1,75 +1,64 @@
 'use client';
 
-import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { GenderRadio } from '@/components/service/profile/ProfileModal/GenderRadio';
-import AgeInput from '@/components/service/profile/ProfileModal/AgeInput';
-import JobSelectbar from '@/components/service/profile/ProfileModal/JobSelectbar';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { profileFormSchema, ProfileFormValues } from '@/schemas/profile';
+
+import { GenderRadio } from './GenderRadio';
+import { AgeInput } from './AgeInput';
+import JobSelectbar from './JobSelectbar';
 import { Separator } from '@/components/ui/separator';
-import { TextScroll } from '@/components/service/profile/ProfileModal/TextScroll';
+import { TextScroll } from './TextScroll';
+import ConsentConfirm from './ConsentConfirm';
 import { PERSONAL_INFORMATION_AGREEMENT } from '@/constants/PERSONAL_INFORMATION_AGREEMENT';
-import ConsentConfirm from '@/components/service/profile/ProfileModal/ConsentConfirm';
-
-const occupations = [
-  '사무직',
-  '연구·개발직',
-  '서비스직',
-  '생산직',
-  '공무원',
-  '프리랜서',
-  '자영업자',
-  '군인',
-  '취업 준비생',
-  '대학생',
-  '고등학생 이하',
-  '무직',
-  '기타',
-] as const;
-
-type Job = (typeof occupations)[number];
-
-type FormValues = {
-  age: string;
-  gender: 'M' | 'F';
-  job: Job | '';
-};
+import { Button } from '@/components/ui/button';
+import { PencilLine } from 'lucide-react';
 
 export default function ProfileModal() {
-  const methods = useForm<FormValues>({
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
     defaultValues: {
       age: '',
       gender: 'M',
       job: '',
+      isConsent: true,
     },
   });
 
-  const handleSubmit = () => {
-    console.log(age, gender, job);
-    console.log('제출 완료!'); // 완료 버튼 클릭 시 처리할 작업
-  };
+  const onSubmit = form.handleSubmit((data) => {
+    console.log('제출 데이터:', data);
+    alert('제출 완료!');
+  });
+
+  const isSubmitDisabled = Object.keys(form.formState.errors).length > 0;
 
   return (
-    <FormProvider {...methods}>
-      <form {...form} onSubmit={handleSubmit}>
+    <FormProvider {...form}>
+      <form onSubmit={onSubmit}>
         <div className="p-4 space-y-3">
-          {/* 아이디 */}
           <h2 className="text-lg text-secondary font-semibold">아이디</h2>
           <p className="text-sm text-secondary mb-3">user0408</p>
-          {/* 성별 */}
-          <GenderRadio selectedGender={selectedGender} setSelectedGender={setSelectedGender} />
 
-          {/* 나이 */}
+          <GenderRadio />
           <AgeInput />
+          <JobSelectbar />
 
-          {/* 직업 */}
-          <JobSelectbar selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
-
-          {/* 개인정보 동의서 */}
           <Separator className="bg-beige-deco" />
           <TextScroll text={PERSONAL_INFORMATION_AGREEMENT} />
 
-          {/* 체크박스 + 완료 버튼 */}
-          <ConsentConfirm onConfirm={handleSubmit} />
+          <ConsentConfirm />
+        </div>
+        <div className="flex justify-center">
+          <Button
+            type="submit"
+            variant="ghost"
+            disabled={isSubmitDisabled}
+            className="bg-transparent hover:text-primary transition-colors duration-200 cursor-pointer shadow-none border-none px-0 py-0 h-auto disabled:cursor-not-allowed"
+          >
+            <span className="flex items-center gap-1">
+              <PencilLine size={16} /> 완료
+            </span>
+          </Button>
         </div>
       </form>
     </FormProvider>

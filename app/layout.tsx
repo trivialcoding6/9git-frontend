@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className="overflow-hidden">
         <Toaster position="top-center" />
         {children}
-        <MSWProvider>{children}</MSWProvider>
+        {/* <MSWProvider>{children}</MSWProvider> */}
       </body>
     </html>
   );
