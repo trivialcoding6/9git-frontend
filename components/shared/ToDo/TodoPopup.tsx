@@ -87,7 +87,10 @@ import { useTodoEditStore } from '@/stores/todoEditStore';
 import { useTodos } from '@/hooks/todo';
 import { useUserStore } from '@/stores/user';
 import { CategoryItem } from '@/types/category';
+<<<<<<< HEAD
 import { toast } from 'sonner';
+=======
+>>>>>>> 75a7bdd (작업 임시 저장)
 
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 
@@ -97,7 +100,10 @@ export default function TodoPopup() {
   const { user } = useUserStore();
   const userId = parseInt(user.id as string, 10);
   const { addTodo, editTodo, removeTodo } = useTodos(userId);
+<<<<<<< HEAD
   const { addTodo, updateTodoById: updateTodo, removeTodoById: deleteTodo } = useTodoListStore();
+=======
+>>>>>>> 75a7bdd (작업 임시 저장)
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
   const [todoInputs, setTodoInputs] = useState<TodoInput[]>([{ text: '' }]);

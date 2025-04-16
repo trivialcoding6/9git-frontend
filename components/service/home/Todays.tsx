@@ -12,27 +12,10 @@ import TodoPopup from '@/components/shared/ToDo/TodoPopup';
 import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 import { useTodoEditStore } from '@/stores/todoEditStore';
 import MemoPopup from '@/components/shared/Memo/MemoPopup';
-<<<<<<< HEAD
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import { useMemoStore } from '@/stores/useMemoStore';
 import { useProgressStore } from '@/stores/progressStore';
 import { useUserStore } from '@/stores/user';
-=======
-import { memoListData, todoListData } from '@/mocks/data';
-<<<<<<< HEAD
-import { todayProgressItems } from '@/apis/progress';
-
-const [progressItems, setProgressItems] = useState([]);
-useEffect(() => {
-  const fetchProgressItems = async () => {
-    const items = await todayProgressItems({ userId: '1' });
-    setProgressItems(items);
-  };
-  fetchProgressItems();
-}, []);
->>>>>>> 33b8c73 (작업 일시 수정)
-=======
->>>>>>> b1501fa (progress api 연동 임시 저장)
 
 export default function Todays() {
   console.log('hello');
