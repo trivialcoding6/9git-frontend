@@ -5,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { useModalStore } from '@/stores/modal';
 import ProfileModal from '@/components/service/profile/ProfileModal/ProfileModal';
 import { logout } from '@/actions/logout';
+import { useUserStore } from '@/stores/user';
 export const ProfileHeaderContent = () => {
   const { openModal } = useModalStore();
+  const user = useUserStore((state) => state.user);
+  console.log('user', user);
 
   const clickProfile = () => {
     openModal({
