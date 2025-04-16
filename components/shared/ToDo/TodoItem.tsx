@@ -6,39 +6,30 @@ import CustomBadge from './CutstomBadge';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
 import TodoPopup from '@/components/shared/ToDo/TodoPopup';
-import { Category, Week } from '@/types/todo';
+import { Category, Todo, Week } from '@/types/todo';
 
 type Props = {
-  id: string;
-  userId?: string;
-  categoryId: string;
-  content: string;
-  startDate: string;
-  endDate: string;
-  isCompleted: boolean;
-  isRepeat?: boolean;
-  weeks?: Week[];
-  category?: Category;
+  todo: Todo;
   onClick?: () => void;
 };
 
-export default function TodoItem({
-  id,
-  userId,
-  categoryId,
-  content,
-  startDate,
-  endDate,
-  isCompleted,
-  isRepeat,
-  weeks,
-  category,
-  onClick,
-}: Props) {
-  const [checked, setChecked] = useState(isCompleted);
-  const categoryColor = category?.categoryColor ?? 'bg-gray-300';
+export default function TodoItem({ todo, onClick }: Props) {
+  const [checked, setChecked] = useState(todo.isCompleted);
+  const categoryColor = todo.category?.categoryColor ?? 'bg-gray-300';
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
+  const {
+    id,
+    userId,
+    categoryId,
+    content,
+    startDate,
+    endDate,
+    isCompleted,
+    isRepeat,
+    weeks,
+    category,
+  } = todo;
 
   // 예시: TodoItem 컴포넌트에서 handleClick 수정
   const handleClick = () => {

@@ -89,15 +89,15 @@ export default function TodoPopup() {
     };
 
     if (editingTodo) {
-      updateTodo(editingTodo.id, {
-        ...payload,
-        text: todoInputs[0].text,
-      });
+      // updateTodo(editingTodo.id, {
+      //   ...payload,
+      //   text: todoInputs[0].text,
+      // });
       setEditingTodo(null);
     } else {
       todoInputs.forEach(({ text }) => {
         if (text.trim()) {
-          addTodo({ text, ...payload });
+          // addTodo({ text, ...payload });
         }
       });
     }
@@ -108,7 +108,7 @@ export default function TodoPopup() {
 
   const handleDelete = () => {
     if (editingTodo) {
-      removeTodo(editingTodo.id);
+      // removeTodo(editingTodo.id);
       setEditingTodo(null);
     }
     resetForm();
@@ -127,8 +127,8 @@ export default function TodoPopup() {
 
   useEffect(() => {
     if (editingTodo) {
-      setTodoInputs([{ text: editingTodo.text }]);
-      setSelectedCategory(editingTodo.category);
+      // setTodoInputs([{ text: editingTodo.text }]);
+      // setSelectedCategory(editingTodo.category);
 
       try {
         const parsedStart = new Date(editingTodo.startDate);
@@ -140,7 +140,7 @@ export default function TodoPopup() {
       }
 
       setIsRepeat(editingTodo.isRepeat ?? false);
-      setSelectedDays(editingTodo.repeatDays ?? []);
+      // setSelectedDays(editingTodo.repeatDays ?? []);
     }
   }, [editingTodo]);
 

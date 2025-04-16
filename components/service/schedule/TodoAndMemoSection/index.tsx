@@ -55,15 +55,7 @@ export const TodoAndMemoSection = () => {
             todoListData.map((todo) => (
               <TodoItem
                 key={todo.id}
-                id={todo.id}
-                categoryId={todo.categoryId}
-                content={todo.content}
-                startDate={todo.startDate}
-                endDate={todo.endDate}
-                isCompleted={todo.isCompleted}
-                isRepeat={todo.isRepeat}
-                weeks={todo.weeks}
-                category={todo.category}
+                todo={todo}
                 onClick={() => {
                   setEditingTodo(todo);
                   openModal({

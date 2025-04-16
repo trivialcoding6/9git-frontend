@@ -1,4 +1,5 @@
 import { CategoryItem } from '@/types/category';
+import { Memo } from '@/types/memo';
 import { Todo } from '@/types/todo';
 
 export const categoryItemsData = [
@@ -133,5 +134,40 @@ export const todoListData: Todo[] = [
       categoryName: '운동',
       categoryColor: '#556B2F',
     },
+  },
+];
+
+export const memoListData: Memo[] = [
+  {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa1',
+    categoryId: '1',
+    title: '영어 학습 계획',
+    content: 'TOEIC 850점 달성을 위한 학습 계획',
+    startDate: '2025-04-16T02:23:57.130Z',
+    endDate: '2025-05-16T02:23:57.130Z',
+  },
+  {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa2',
+    categoryId: '2',
+    title: '코딩 프로젝트 아이디어',
+    content: '개인 포트폴리오용 웹 애플리케이션 개발 계획',
+    startDate: '2025-04-20T10:15:30.000Z',
+    endDate: '2025-05-25T10:15:30.000Z',
+  },
+  {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa3',
+    categoryId: '3',
+    title: '운동 루틴',
+    content: '주 5회 운동 계획: 월/수/금 근력, 화/목 유산소',
+    startDate: '2025-04-16T09:30:00.000Z',
+    endDate: '2025-06-16T09:30:00.000Z',
+  },
+  {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa4',
+    categoryId: '1',
+    title: '영어 회화 표현',
+    content: '비즈니스 미팅에서 자주 사용하는 영어 표현 정리',
+    startDate: '2025-04-18T14:00:00.000Z',
+    endDate: '2025-04-30T14:00:00.000Z',
   },
 ];
