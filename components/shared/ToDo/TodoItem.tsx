@@ -3,34 +3,40 @@
 import { useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import CustomBadge from './CutstomBadge';
-import { ColorMap } from '@/constants/color';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
 import TodoPopup from '@/components/shared/ToDo/TodoPopup';
+import { Category, Week } from '@/types/todo';
 
 type Props = {
-  id: number;
-  category: string;
-  text: string;
+  id: string;
+  userId?: string;
+  categoryId: string;
+  content: string;
   startDate: string;
   endDate: string;
+  isCompleted: boolean;
   isRepeat?: boolean;
-  repeatDays?: string[];
+  weeks?: Week[];
+  category?: Category;
   onClick?: () => void;
 };
 
 export default function TodoItem({
   id,
-  category,
-  text,
+  userId,
+  categoryId,
+  content,
   startDate,
   endDate,
+  isCompleted,
   isRepeat,
-  repeatDays,
+  weeks,
+  category,
   onClick,
 }: Props) {
-  const [checked, setChecked] = useState(false);
-  const categoryColor = ColorMap[category] ?? 'bg-gray-300';
+  const [checked, setChecked] = useState(isCompleted);
+  const categoryColor = category?.categoryColor ?? 'bg-gray-300';
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
 
@@ -38,12 +44,15 @@ export default function TodoItem({
   const handleClick = () => {
     setEditingTodo({
       id,
-      category,
-      text,
+      userId: userId ?? '',
+      categoryId,
+      content,
       startDate,
       endDate,
+      isCompleted,
       isRepeat: isRepeat ?? false,
-      repeatDays: repeatDays ?? [],
+      weeks,
+      category,
     });
     openModal({
       title: 'To Do 수정',
@@ -53,16 +62,16 @@ export default function TodoItem({
 
   return (
     <div className="flex items-center gap-3 w-full mb-4">
-      <CustomBadge label={category} color={categoryColor} />
+      {category && <CustomBadge label={category.categoryName} color={categoryColor} />}
 
       <button
         onClick={onClick}
-        title={text}
+        title={content}
         className={`flex-1 text-left text-sm font-semibold text-secondary cursor-pointer truncate ${
           checked ? 'line-through opacity-50' : ''
         }`}
       >
-        {text}
+        {content}
       </button>
 
       <Checkbox

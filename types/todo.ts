@@ -1,11 +1,25 @@
+export type Week = {
+  id: string;
+  weekName: string;
+};
+
+export type Category = {
+  id: string;
+  categoryName: string;
+  categoryColor: string;
+};
+
 export type Todo = {
-  id: number;
-  category: string;
-  text: string;
+  id: string;
+  userId: string;
+  categoryId: string;
+  content: string;
   startDate: string;
   endDate: string;
+  isCompleted: boolean;
   isRepeat?: boolean;
-  repeatDays?: string[];
+  weeks?: Week[];
+  category?: Category;
 };
 
 export type EditingTodo = Todo;
