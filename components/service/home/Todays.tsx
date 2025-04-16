@@ -19,6 +19,7 @@ import { useProgressStore } from '@/stores/progressStore';
 import { useUserStore } from '@/stores/user';
 =======
 import { memoListData, todoListData } from '@/mocks/data';
+<<<<<<< HEAD
 import { todayProgressItems } from '@/apis/progress';
 
 const [progressItems, setProgressItems] = useState([]);
@@ -30,6 +31,8 @@ useEffect(() => {
   fetchProgressItems();
 }, []);
 >>>>>>> 33b8c73 (작업 일시 수정)
+=======
+>>>>>>> b1501fa (progress api 연동 임시 저장)
 
 export default function Todays() {
   console.log('hello');

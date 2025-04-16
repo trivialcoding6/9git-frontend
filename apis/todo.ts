@@ -46,7 +46,6 @@ export const fetchAllTodos = async (userId: number): Promise<Todo[]> => {
 
 export const fetchTodos = async (userId: number, todoId: number): Promise<Todo[]> => {
   const res = await fetch(`http://localhost:8000/api/v1/${todoId}/${userId}/todos/`);
-
   if (!res.ok) throw new Error('할 일 목록 불러오기 실패');
   return res.json();
 };

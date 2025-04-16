@@ -5,20 +5,30 @@ import { useTodoListStore } from '@/stores/useTodoListStore';
 import TodoItem from './TodoItem';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const userId = 1;
 const categoryId = 1;
 
 =======
 >>>>>>> 62c29a7 (임시저장)
+=======
+const userId = 1;
+const categoryId = 1;
+
+>>>>>>> b1501fa (progress api 연동 임시 저장)
 export default function TodoList() {
   const { todoList, loadTodos } = useTodoListStore();
 
   useEffect(() => {
 <<<<<<< HEAD
+<<<<<<< HEAD
     loadTodos(userId, categoryId);
 =======
     loadTodos();
 >>>>>>> 62c29a7 (임시저장)
+=======
+    loadTodos(userId, categoryId);
+>>>>>>> b1501fa (progress api 연동 임시 저장)
   }, []);
 
   return (
