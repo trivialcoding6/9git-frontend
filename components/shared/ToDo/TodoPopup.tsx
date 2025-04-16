@@ -1,3 +1,4 @@
+// TodoPopup.tsx
 'use client';
 
 import { useState } from 'react';
@@ -72,16 +73,31 @@ export default function TodoItem({ todo, onClick }: Props) {
     </div>
 
 
-const GOALS = ['영어', '코딩', '운동'];
+import { useEffect, useState } from 'react';
+import { DatePickerSection } from '@/components/shared/DatePickerSection';
+import { SectionTitle } from '@/components/shared/SectionTitle';
+import { SectionContent } from '@/components/common/SectionContent';
+import { ToggleButton } from '@/components/common/ToggleButton';
+import { ActionButton } from '@/components/common/ActionButton';
+import { Goal, Calendar, Repeat, ListTodo, Plus } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { DeleteCompleteButtons } from '@/components/common/DeleteCompleteButton';
+import { useModalStore } from '@/stores/modal';
+import { useTodoEditStore } from '@/stores/todoEditStore';
+import { useTodos } from '@/hooks/todo';
+import { useUserStore } from '@/stores/user';
+import { CategoryItem } from '@/types/category';
+
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 
 type TodoInput = { text: string };
 
 export default function TodoPopup() {
-  const { addTodo, updateTodo, removeTodo } = useTodoListStore();
+  const { user } = useUserStore();
+  const userId = parseInt(user.id as string, 10);
+  const { addTodo, editTodo, removeTodo } = useTodos(userId);
   const { closeModal } = useModalStore();
   const { editingTodo, setEditingTodo } = useTodoEditStore();
-
   const [todoInputs, setTodoInputs] = useState<TodoInput[]>([{ text: '' }]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
@@ -92,8 +108,8 @@ export default function TodoPopup() {
   const [categoryError, setCategoryError] = useState('');
   const [todoError, setTodoError] = useState('');
   const [dateError, setDateError] = useState('');
+  const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([]);
 
-  // ✅ 할 일 추가 함수 (10개 제한 포함)
   const handleAddField = () => {
     if (todoInputs.length >= 10) {
       setTodoError('할 일은 최대 10개까지만 작성할 수 있어요.');
@@ -109,7 +125,7 @@ export default function TodoPopup() {
     setTodoInputs(updated);
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     let hasError = false;
 
     if (!selectedCategory || selectedCategory.trim() === '') {
@@ -120,7 +136,6 @@ export default function TodoPopup() {
     }
 
     const hasValidTodo = todoInputs.some((input) => input.text.trim() !== '');
-
     if (!hasValidTodo) {
       setTodoError('할 일을 작성해주세요.');
       hasError = true;
@@ -129,7 +144,6 @@ export default function TodoPopup() {
     }
 
     if (!startDate || !endDate) return;
-
     if (startDate > endDate) {
       setDateError('종료일은 시작일보다 빠를 수 없습니다.');
       return;
@@ -139,35 +153,44 @@ export default function TodoPopup() {
 
     if (hasError) return;
 
-    const payload = {
-      category: selectedCategory,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      isRepeat,
-      repeatDays: selectedDays,
-    };
-
     if (editingTodo) {
-      // updateTodo(editingTodo.id, {
-      //   ...payload,
-      //   text: todoInputs[0].text,
-      // });
+      await editTodo(editingTodo.id, {
+        categoryId: selectedCategory,
+        content: todoInputs[0].text,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        isRepeat,
+        weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
+        isCompleted: false,
+      });
       setEditingTodo(null);
     } else {
-      todoInputs.forEach(({ text }) => {
+      for (const { text } of todoInputs) {
         if (text.trim()) {
-          // addTodo({ text, ...payload });
+          await addTodo(
+            {
+              userId: user.id!,
+              categoryId: selectedCategory,
+              content: text,
+              startDate: startDate.toISOString(),
+              endDate: endDate.toISOString(),
+              isRepeat,
+              weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
+              isCompleted: false,
+            },
+            userId
+          );
         }
-      });
+      }
     }
 
     resetForm();
     closeModal();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (editingTodo) {
-      // removeTodo(editingTodo.id);
+      await removeTodo(editingTodo.id);
       setEditingTodo(null);
     }
     resetForm();
@@ -186,28 +209,22 @@ export default function TodoPopup() {
 
   useEffect(() => {
     if (editingTodo) {
-      // setTodoInputs([{ text: editingTodo.text }]);
-      // setSelectedCategory(editingTodo.category);
+      setTodoInputs([{ text: editingTodo.content }]);
+      setSelectedCategory(editingTodo.category?.categoryName || '');
 
-      try {
-        const parsedStart = new Date(editingTodo.startDate);
-        const parsedEnd = new Date(editingTodo.endDate);
-        if (!isNaN(parsedStart.getTime())) setStartDate(parsedStart);
-        if (!isNaN(parsedEnd.getTime())) setEndDate(parsedEnd);
-      } catch (e) {
-        console.warn('Invalid date format in editingTodo:', e);
-      }
-
+      const parsedStart = new Date(editingTodo.startDate);
+      const parsedEnd = new Date(editingTodo.endDate);
+      setStartDate(parsedStart);
+      setEndDate(parsedEnd);
       setIsRepeat(editingTodo.isRepeat ?? false);
-      // setSelectedDays(editingTodo.repeatDays ?? []);
+      setSelectedDays(editingTodo.weeks?.map((w) => w.weekName) ?? []);
     }
   }, [editingTodo]);
 
   useEffect(() => {
     if (startDate && endDate) {
       const diffDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
-      const available = diffDays >= 6.9;
-      setIsRepeatAvailable(available);
+      setIsRepeatAvailable(diffDays >= 6.9);
     }
   }, [startDate, endDate]);
 
@@ -218,7 +235,7 @@ export default function TodoPopup() {
         <SectionTitle icon={<Goal size={16} className="text-primary" />} text="목표 설정" />
         <SectionContent className="flex items-center gap-8 mt-2">
           <ToggleButton
-            items={GOALS}
+            items={categoryItems.map((item) => item.categoryName)}
             selected={selectedCategory ? [selectedCategory] : []}
             onChange={(selected) => {
               setSelectedCategory(selected[0] || '');
