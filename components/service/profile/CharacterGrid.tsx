@@ -1,7 +1,11 @@
 import { CharacterCard } from './CharacterCard';
 
 type Props = {
-  characters: Array<{ imageLink: string; isLocked: boolean; name: string }>;
+  characters: Array<{
+    name: string;
+    imageLink: string;
+    isLocked: boolean;
+  }>;
 };
 
 export const CharacterGrid = ({ characters }: Props) => {

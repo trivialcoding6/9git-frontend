@@ -5,16 +5,20 @@ import { Button } from '@/components/ui/button';
 import { useModalStore } from '@/stores/modal';
 import ProfileModal from '@/components/service/profile/ProfileModal/ProfileModal';
 import { logout } from '@/actions/logout';
-import { useUserStore } from '@/stores/user';
-export const ProfileHeaderContent = () => {
+
+type Props = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+export const ProfileHeaderContent = ({ id, name, email }: Props) => {
   const { openModal } = useModalStore();
-  const user = useUserStore((state) => state.user);
-  console.log('user', user);
 
   const clickProfile = () => {
     openModal({
       title: '나의 정보',
-      component: <ProfileModal />,
+      component: <ProfileModal id={id} email={email} />,
     });
   };
 
@@ -33,7 +37,7 @@ export const ProfileHeaderContent = () => {
           />
           <AvatarFallback className="bg-white">U</AvatarFallback>
         </Avatar>
-        <p className="text-sm font-medium">홍길동</p>
+        <p className="text-lg">{name}</p>
       </div>
       <div className="flex items-center gap-2">
         <Button
