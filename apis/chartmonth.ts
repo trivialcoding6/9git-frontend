@@ -12,7 +12,7 @@ export const fetchAllChartMonthly = async (
         headers: {
           'Content-Type': 'application/json',
         },
-        cache: 'no-store', // 항상 최신 데이터를 가져오기 위해 캐시 비활성화
+        cache: 'no-store',
       }
     );
 
