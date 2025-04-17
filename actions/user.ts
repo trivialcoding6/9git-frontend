@@ -7,6 +7,11 @@ export async function getUser() {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('session_token');
+
+    if (!token?.value) {
+      throw new Error('인증 토큰이 없습니다.');
+    }
+
     const result = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/verify-token?token=${token?.value}`,
       {
@@ -17,7 +22,6 @@ export async function getUser() {
       }
     );
     const data = await result.json();
-    console.log(data);
 
     const userResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${data.data.sub}`,
@@ -30,7 +34,7 @@ export async function getUser() {
     );
 
     const userData = await userResponse.json();
-    console.log('userData', userData);
+
     return userData.data;
   } catch (error) {
     console.error('Error fetching user:', error);
