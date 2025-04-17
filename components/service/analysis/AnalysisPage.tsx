@@ -14,6 +14,7 @@ import { AnalysisPopup } from './AnalysisPopup';
 import { useAnalyzeToday } from '@/hooks/useAnalyzetoday';
 import { useChallenges } from '@/hooks/useChallenges';
 import { useChartDaily } from '@/hooks/useChartDaily';
+import { useChartMonthly } from '@/hooks/useChartMonthly';
 import { useUserStore } from '@/stores/user';
 
 const PieChartBox = dynamic(() => import('@/components/common/PieChartBox'), {
@@ -63,10 +64,16 @@ export default function AnalysisPage() {
   } = useChallenges(user?.id || '');
   const {
     chartData: dailyChartData,
-    loading: chartLoading,
-    error: chartError,
-    reload: reloadChart,
+    loading: dailyChartLoading,
+    error: dailyChartError,
+    reload: reloadDailyChart,
   } = useChartDaily(user?.id || '');
+  const {
+    chartData: monthlyChartData,
+    loading: monthlyChartLoading,
+    error: monthlyChartError,
+    reload: reloadMonthlyChart,
+  } = useChartMonthly(user?.id || '');
   const [selectedCategories, setSelectedCategories] = useState<CategoryType[]>([
     '영어',
     '운동',
@@ -112,10 +119,13 @@ export default function AnalysisPage() {
     if (challengesError) {
       console.error('챌린지 데이터 로딩 중 오류 발생:', challengesError);
     }
-    if (chartError) {
-      console.error('차트 데이터 로딩 중 오류 발생:', chartError);
+    if (dailyChartError) {
+      console.error('일자별 차트 데이터 로딩 중 오류 발생:', dailyChartError);
     }
-  }, [analyzeError, challengesError, chartError]);
+    if (monthlyChartError) {
+      console.error('월별 차트 데이터 로딩 중 오류 발생:', monthlyChartError);
+    }
+  }, [analyzeError, challengesError, dailyChartError, monthlyChartError]);
 
   const isExtremePoint = (category: CategoryType, value: number | undefined) => {
     if (value === undefined) return false;
@@ -225,12 +235,31 @@ export default function AnalysisPage() {
     );
   };
 
+  // 데이터 변환 함수 추가
+  const transformChartData = (data: any[]) => {
+    return data.map((item) => ({
+      date: item.date,
+      영어: item.english,
+      운동: item.exercise,
+      코딩: item.coding,
+    }));
+  };
+
+  // 차트 데이터 준비
+  const preparedChartData = useMemo(() => {
+    if (activeTab === 'daily') {
+      return transformChartData(dailyChartData);
+    } else {
+      return transformChartData(monthlyChartData);
+    }
+  }, [activeTab, dailyChartData, monthlyChartData]);
+
   return (
     <div className="min-h-screen bg-[var(--beige-light)] text-[var(--main-gray)] flex justify-center px-4 py-10">
       <div className="w-full max-w-[800px] flex flex-col gap-12 items-center">
         <h2 className="text-2xl text-secondary w-full text-left pl-4">AI 종합평가</h2>
 
-        {analyzeLoading || challengesLoading || chartLoading ? (
+        {analyzeLoading || challengesLoading || dailyChartLoading || monthlyChartLoading ? (
           <div className="w-full flex justify-center items-center h-40">
             <p className="text-secondary">데이터를 불러오는 중입니다...</p>
           </div>
@@ -353,11 +382,7 @@ export default function AnalysisPage() {
                 <div className="h-64 w-full max-w-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
-                      data={
-                        activeTab === 'daily'
-                          ? dailyChartData
-                          : groupByMonthAndAverage(dailyChartData)
-                      }
+                      data={preparedChartData}
                       margin={{ top: 10, right: 20, bottom: 0, left: 0 }}
                     >
                       <defs>
@@ -526,40 +551,48 @@ export default function AnalysisPage() {
             >
               <div className="flex flex-col gap-4">
                 {hasData ? (
-                  challenges.map((challenge, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-[var(--beige-light)] rounded-xl p-4 w-[95%] mx-auto"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-base text-[var(--primary)]">
-                          • {challenge.challengeTask}
-                        </h3>
-                        <span className="text-base bg-[var(--primary-light)] text-[var(--primary)] px-2 py-0.5 rounded-full">
-                          {challenge.challengeDifficulty}
-                        </span>
-                      </div>
-
-                      <ul
-                        className="text-sm whitespace-pre-line list-none text-secondary 
-                        mb-2 space-y-1"
+                  challenges.length > 0 ? (
+                    challenges.map((challenge, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-[var(--beige-light)] rounded-xl p-4 w-[95%] mx-auto"
                       >
-                        <li className="flex gap-1 items-start">
-                          <span className="text-[var(--primary)] mt-0.5">💡</span>
-                          <span>{challenge.challengeSuggestion}</span>
-                        </li>
-                      </ul>
+                        <div className="flex justify-between items-center mb-2">
+                          <h3 className="text-base text-[var(--primary)]">
+                            • {challenge.challengeTask}
+                          </h3>
+                          <span className="text-base bg-[var(--primary-light)] text-[var(--primary)] px-2 py-0.5 rounded-full">
+                            추천
+                          </span>
+                        </div>
 
-                      <div className="flex items-center justify-start text-xs text-[var(--secondary)] mt-1 gap-4">
-                        <span className="flex items-center gap-1">
-                          📅 {challenge.challengeDuration}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          ⭐ {challenge.progressRate}%
-                        </span>
+                        <ul
+                          className="text-sm whitespace-pre-line list-none text-secondary 
+                          mb-2 space-y-1"
+                        >
+                          <li className="flex gap-1 items-start">
+                            <span className="text-[var(--primary)] mt-0.5">💡</span>
+                            <span>{challenge.challengeSuggestion}</span>
+                          </li>
+                        </ul>
+
+                        <div className="flex items-center justify-start text-xs text-[var(--secondary)] mt-1 gap-4">
+                          <span className="flex items-center gap-1">
+                            📅 {challenge.challengeDuration}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            ⭐ {challenge.challengeDifficulty}
+                          </span>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="bg-[var(--beige-light)] rounded-xl p-4 min-h-[80px] flex items-center justify-center w-[95%] mx-auto">
+                      <p className="text-base whitespace-pre-line text-secondary text-center">
+                        {initialStateTexts.aiChallenges}
+                      </p>
                     </div>
-                  ))
+                  )
                 ) : (
                   <div className="bg-[var(--beige-light)] rounded-xl p-4 min-h-[80px] flex items-center justify-center w-[95%] mx-auto">
                     <p className="text-base whitespace-pre-line text-secondary text-center">

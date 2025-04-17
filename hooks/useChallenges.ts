@@ -22,7 +22,8 @@ export function useChallenges(userId: string) {
       const res = await fetchAllChallenges(userId);
 
       if (res.status_code === 200 && res.data) {
-        setChallenges(res.data);
+        const validChallenges = res.data.filter((challenge) => challenge.progressRate >= 0);
+        setChallenges(validChallenges);
         setError(null);
       } else if (res.status_code === 404) {
         setChallenges([]);

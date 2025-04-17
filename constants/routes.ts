@@ -11,6 +11,7 @@ export const ROUTES = {
 };
 
 export const PROTECTED_ROUTES = [
+  BASE_PATH,
   ROUTES.HOME,
   ROUTES.SCHEDULE,
   ROUTES.CHATBOT,

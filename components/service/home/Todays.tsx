@@ -81,14 +81,27 @@ export default function Todays() {
   const [showCategoryProgress, setShowCategoryProgress] = useState(false);
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
-  const { totalProgressRate, cheerUpMessage, categoryProgresses, loadProgress } = useProgress();
+  const {
+    totalProgressRate,
+    cheerUpMessage,
+    categoryProgresses,
+    loading: progressLoading,
+    error: progressError,
+    loadProgress,
+  } = useProgress();
   const { todoList, addTodo, removeTodo, updateTodo } = useTodoListStore();
   const { memoList, addMemo, removeMemo, updateMemo } = useMemoStore();
   const { user } = useUserStore();
   const userId = user.id || '';
   console.log('user', user);
 
-  const { todos, memos, loading, error, loadTodoMemos } = useTodoMemos(userId);
+  const {
+    todos,
+    memos,
+    loading: todoLoading,
+    error: todoError,
+    loadTodoMemos,
+  } = useTodoMemos(userId);
 
   const handleOpenTodoModal = () => {
     setEditingTodo(null);
@@ -133,7 +146,7 @@ export default function Todays() {
     }
   }, [memos, memoList, addMemo]);
 
-  if (loading) {
+  if (progressLoading || todoLoading) {
     return (
       <div className="flex flex-col gap-4">
         <ProgressSkeleton />
@@ -143,9 +156,15 @@ export default function Todays() {
     );
   }
 
-  if (error) {
-    return <div>에러: {error}</div>;
+  if (progressError || todoError) {
+    return (
+      <div className="flex flex-col items-center justify-center p-4 text-center">
+        <p className="text-red-500 mb-2">데이터를 불러오는 중 오류가 발생했습니다.</p>
+        <p className="text-gray-500 text-sm">{progressError || todoError}</p>
+      </div>
+    );
   }
+
   console.log('categoryProgresses', categoryProgresses);
   return (
     <div className="bg-white min-h-screen flex flex-col">
@@ -169,15 +188,19 @@ export default function Todays() {
         {showCategoryProgress && (
           <Card title="목표별 현황" className="w-full">
             <div className="flex flex-col space-y-2 mt-4">
-              {categoryProgresses?.map((item, idx) => (
-                <ProgressBar
-                  key={idx}
-                  value={parseInt(item.progressRate, 10) || 0}
-                  title={item.category.categoryName}
-                  titleColor="text-secondary"
-                  color={item.category.categoryColor}
-                />
-              ))}
+              {categoryProgresses && categoryProgresses.length > 0 ? (
+                categoryProgresses.map((item, idx) => (
+                  <ProgressBar
+                    key={idx}
+                    value={parseInt(item.progressRate, 10) || 0}
+                    title={item.category.categoryName}
+                    titleColor="text-secondary"
+                    color={item.category.categoryColor}
+                  />
+                ))
+              ) : (
+                <p className="text-center text-gray-500 py-2">목표별 진행률 데이터가 없습니다.</p>
+              )}
             </div>
           </Card>
         )}
