@@ -16,13 +16,13 @@ export const todayProgressItems = async ({
       throw new Error('진행률 정보를 불러오는데 실패했습니다.');
     }
 
-    const data = await response.json();
+    const response_json = await response.json();
 
-    if (data.status_code !== 200) {
+    if (response_json.status_code !== 200) {
       throw new Error('진행률 정보를 불러오는데 실패했습니다.');
     }
 
-    return data;
+    return response_json.data;
   } catch (error) {
     // 6~19 까지 코드 실행하다가 에러 발생하면 여기로 코드가 실행됨
     console.error('진행률 정보를 불러오는 중 오류가 발생했습니다:', error);

@@ -1,7 +1,11 @@
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { PawPrint } from 'lucide-react';
+import { useUserStore } from '@/stores/user';
 
 export function ProfileAvatar() {
+  const { user } = useUserStore();
+  const exp = user?.exp || 0;
+
   return (
     <div className="py-6 px-3 space-y-4">
       <div className="max-w-md mx-auto flex items-center gap-3">
@@ -22,10 +26,10 @@ export function ProfileAvatar() {
           <div className="w-full bg-gray-200 rounded-full h-2 mt-0.5">
             <div
               className="bg-primary h-2 rounded-full transition-all duration-300"
-              style={{ width: '75%' }}
+              style={{ width: `${exp}%` }}
             />
           </div>
-          <p className="text-[10px] text-gray-500 mt-1 px-1">경험치 75%</p>
+          <p className="text-[10px] text-gray-500 mt-1 px-1">경험치 {exp}%</p>
         </div>
       </div>
     </div>

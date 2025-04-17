@@ -146,7 +146,7 @@ export default function Todays() {
   if (error) {
     return <div>에러: {error}</div>;
   }
-
+  console.log('categoryProgresses', categoryProgresses);
   return (
     <div className="bg-white min-h-screen flex flex-col">
       <div className="relative bg-beige-base flex-1 shadow pt-6 px-4 space-y-6 overflow-y-auto flex flex-col items-center w-full max-w-md mx-auto scrollbar-hide rounded-t-3xl">
@@ -169,7 +169,7 @@ export default function Todays() {
         {showCategoryProgress && (
           <Card title="목표별 현황" className="w-full">
             <div className="flex flex-col space-y-2 mt-4">
-              {categoryProgresses.map((item, idx) => (
+              {categoryProgresses?.map((item, idx) => (
                 <ProgressBar
                   key={idx}
                   value={parseInt(item.progressRate, 10) || 0}

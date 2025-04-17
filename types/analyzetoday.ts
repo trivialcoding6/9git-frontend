@@ -1,10 +1,4 @@
-export type ComevalResponse = {
-  status_code: number;
-  data: Comeval[];
-  error: string;
-};
-
-export type Comeval = {
+export type AnalyzeToday = {
   id: string;
   userId: string;
   overallAchievementRate: number;
@@ -13,4 +7,10 @@ export type Comeval = {
   strengthText: string;
   improvementAchievementRate: number;
   improvementText: string;
+};
+
+export type AnalyzeTodayResponse = {
+  status_code: number;
+  data: AnalyzeToday;
+  error: string | null;
 };

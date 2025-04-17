@@ -8,16 +8,12 @@ import dynamic from 'next/dynamic';
 import Card from '@/components/common/Card';
 import { ActionButton } from '@/components/common/ActionButton';
 import { useModalStore } from '@/stores/modal';
-import {
-  rawDailyData,
-  insights,
-  aiChallenges,
-  chartData as mockChartData,
-  initialStateTexts as mockInitialStateTexts,
-} from '@/mocks/analysisData';
+import { insights, initialStateTexts as mockInitialStateTexts } from '@/mocks/analysisData';
 import { groupByMonthAndAverage, getCategoryExtremes } from '@/utils/chartUtils';
 import { AnalysisPopup } from './AnalysisPopup';
-import { useComevals } from '@/hooks/useComevals';
+import { useAnalyzeToday } from '@/hooks/useAnalyzetoday';
+import { useChallenges } from '@/hooks/useChallenges';
+import { useChartDaily } from '@/hooks/useChartDaily';
 import { useUserStore } from '@/stores/user';
 
 const PieChartBox = dynamic(() => import('@/components/common/PieChartBox'), {
@@ -52,13 +48,30 @@ type InitialStateTexts = {
 
 export default function AnalysisPage() {
   const { user } = useUserStore();
-  const { comevals, loading, error, reload } = useComevals(user?.id || '');
+  console.log('AnalysisPage - 사용자 정보:', user);
+  const {
+    analyzeToday,
+    loading: analyzeLoading,
+    error: analyzeError,
+    reload: reloadAnalyze,
+  } = useAnalyzeToday(user?.id || '');
+  const {
+    challenges,
+    loading: challengesLoading,
+    error: challengesError,
+    reload: reloadChallenges,
+  } = useChallenges(user?.id || '');
+  const {
+    chartData: dailyChartData,
+    loading: chartLoading,
+    error: chartError,
+    reload: reloadChart,
+  } = useChartDaily(user?.id || '');
   const [selectedCategories, setSelectedCategories] = useState<CategoryType[]>([
     '영어',
     '운동',
     '코딩',
   ]);
-  const [chartData, setChartData] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<TabType>('monthly');
   const [totalAchievementRate, setTotalAchievementRate] = useState<number>(0);
   const [hasData, setHasData] = useState<boolean>(false);
@@ -72,26 +85,16 @@ export default function AnalysisPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (comevals && comevals.length > 0) {
+        if (analyzeToday) {
           // 종합평가 데이터가 있는 경우
-          const latestComeval = comevals[comevals.length - 1];
-          setTotalAchievementRate(latestComeval.overallAchievementRate);
-
-          // 차트 데이터 설정 (임시로 mock 데이터 사용)
-          const monthlyData = groupByMonthAndAverage(rawDailyData);
-          setChartData(monthlyData);
-
+          setTotalAchievementRate(analyzeToday.overallAchievementRate);
           setHasData(true);
         } else {
           // 종합평가 데이터가 없는 경우
           setHasData(false);
-
-          // 임시로 mock 데이터 사용
-          const monthlyData = groupByMonthAndAverage(rawDailyData);
-          setChartData(monthlyData);
         }
       } catch (error) {
-        console.error('Failed to fetch analysis data:', error);
+        console.error('분석 데이터 처리 중 오류 발생:', error);
         setHasData(false);
       }
     };
@@ -99,11 +102,25 @@ export default function AnalysisPage() {
     if (user?.id) {
       fetchData();
     }
-  }, [comevals, user?.id]);
+  }, [analyzeToday, user?.id]);
+
+  // 에러 처리
+  useEffect(() => {
+    if (analyzeError) {
+      console.error('종합 평가 데이터 로딩 중 오류 발생:', analyzeError);
+    }
+    if (challengesError) {
+      console.error('챌린지 데이터 로딩 중 오류 발생:', challengesError);
+    }
+    if (chartError) {
+      console.error('차트 데이터 로딩 중 오류 발생:', chartError);
+    }
+  }, [analyzeError, challengesError, chartError]);
 
   const isExtremePoint = (category: CategoryType, value: number | undefined) => {
     if (value === undefined) return false;
-    const currentData = activeTab === 'daily' ? filteredDailyData : filteredMonthlyData;
+    const currentData =
+      activeTab === 'daily' ? dailyChartData : groupByMonthAndAverage(dailyChartData);
     const extremes = getCategoryExtremes(currentData, category);
     return value === extremes.min || value === extremes.max;
   };
@@ -131,28 +148,18 @@ export default function AnalysisPage() {
   const getAllExtremes = (): number[] => {
     const values: number[] = [];
     selectedCategories.forEach((category) => {
-      const extremes = getCategoryExtremes(rawDailyData, category);
+      const extremes = getCategoryExtremes(dailyChartData, category);
       values.push(extremes.min, extremes.max);
     });
     return Array.from(new Set(values));
   };
-
-  // 1월부터 6월까지의 데이터만 필터링
-  const filteredDailyData = rawDailyData.filter((item) => {
-    const date = new Date(item.date);
-    const month = date.getMonth() + 1;
-    return month >= 1 && month <= 6;
-  });
-
-  // 월별 데이터 필터링
-  const filteredMonthlyData = chartData;
 
   // 월별로 데이터 그룹화하여 월 표시를 위한 데이터 준비
   const monthlyLabels = useMemo(() => {
     const labels: { date: string; month: number }[] = [];
     const months = new Set<number>();
 
-    filteredDailyData.forEach((item) => {
+    dailyChartData.forEach((item) => {
       const date = new Date(item.date);
       const month = date.getMonth() + 1;
       if (!months.has(month)) {
@@ -162,7 +169,7 @@ export default function AnalysisPage() {
     });
 
     return labels.sort((a, b) => a.month - b.month);
-  }, [filteredDailyData]);
+  }, [dailyChartData]);
 
   // 월 표시를 위한 커스텀 틱 컴포넌트
   const CustomTick = (props: any) => {
@@ -190,7 +197,7 @@ export default function AnalysisPage() {
     // 월별 레이블 생성
     const monthTicks = monthlyLabels.map((label, index) => {
       // 해당 월의 첫 날 데이터 찾기
-      const firstDayData = filteredDailyData.find((item) => {
+      const firstDayData = dailyChartData.find((item) => {
         const date = new Date(item.date);
         return date.getMonth() + 1 === label.month && date.getDate() === 1;
       });
@@ -198,8 +205,8 @@ export default function AnalysisPage() {
       if (!firstDayData) return null;
 
       // 해당 데이터의 X 좌표 계산 (대략적인 위치)
-      const dataIndex = filteredDailyData.findIndex((item) => item.date === firstDayData.date);
-      const position = (dataIndex / (filteredDailyData.length - 1)) * width;
+      const dataIndex = dailyChartData.findIndex((item) => item.date === firstDayData.date);
+      const position = (dataIndex / (dailyChartData.length - 1)) * width;
 
       return (
         <g key={`month-${label.month}`} transform={`translate(${position},${y + height})`}>
@@ -223,7 +230,7 @@ export default function AnalysisPage() {
       <div className="w-full max-w-[800px] flex flex-col gap-12 items-center">
         <h2 className="text-2xl text-secondary w-full text-left pl-4">AI 종합평가</h2>
 
-        {loading ? (
+        {analyzeLoading || challengesLoading || chartLoading ? (
           <div className="w-full flex justify-center items-center h-40">
             <p className="text-secondary">데이터를 불러오는 중입니다...</p>
           </div>
@@ -247,10 +254,10 @@ export default function AnalysisPage() {
                   </div>
                 )}
 
-                {hasData && comevals && comevals.length > 0 && (
+                {hasData && analyzeToday && (
                   <div className="bg-[var(--beige-base)] rounded-xl px-6 py-3 mt-4">
                     <p className="text-lg text-center whitespace-pre-line text-secondary">
-                      {comevals[comevals.length - 1].evaluationText}
+                      {analyzeToday.evaluationText}
                     </p>
                   </div>
                 )}
@@ -258,17 +265,17 @@ export default function AnalysisPage() {
             </Card>
 
             <div className="flex gap-x-2 w-full px-2 justify-center">
-              {(hasData && comevals && comevals.length > 0
+              {(hasData && analyzeToday
                 ? [
                     {
                       title: '강점',
-                      emoji: '💪',
-                      text: comevals[comevals.length - 1].strengthText,
+                      emoji: '🏆',
+                      text: analyzeToday.strengthText,
                     },
                     {
                       title: '개선점',
                       emoji: '🎯',
-                      text: comevals[comevals.length - 1].improvementText,
+                      text: analyzeToday.improvementText,
                     },
                   ]
                 : [
@@ -346,7 +353,11 @@ export default function AnalysisPage() {
                 <div className="h-64 w-full max-w-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
-                      data={activeTab === 'daily' ? filteredDailyData : filteredMonthlyData}
+                      data={
+                        activeTab === 'daily'
+                          ? dailyChartData
+                          : groupByMonthAndAverage(dailyChartData)
+                      }
                       margin={{ top: 10, right: 20, bottom: 0, left: 0 }}
                     >
                       <defs>
@@ -515,15 +526,17 @@ export default function AnalysisPage() {
             >
               <div className="flex flex-col gap-4">
                 {hasData ? (
-                  aiChallenges.map((item, idx) => (
+                  challenges.map((challenge, idx) => (
                     <div
                       key={idx}
                       className="bg-[var(--beige-light)] rounded-xl p-4 w-[95%] mx-auto"
                     >
                       <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-base text-[var(--primary)]">• {item.title}</h3>
+                        <h3 className="text-base text-[var(--primary)]">
+                          • {challenge.challengeTask}
+                        </h3>
                         <span className="text-base bg-[var(--primary-light)] text-[var(--primary)] px-2 py-0.5 rounded-full">
-                          추천
+                          {challenge.challengeDifficulty}
                         </span>
                       </div>
 
@@ -533,17 +546,17 @@ export default function AnalysisPage() {
                       >
                         <li className="flex gap-1 items-start">
                           <span className="text-[var(--primary)] mt-0.5">💡</span>
-                          <span>{item.desc[0]}</span>
-                        </li>
-                        <li className="flex gap-1 items-start">
-                          <span className="text-[var(--primary)] mt-0.5">👍</span>
-                          <span>{item.desc[1]}</span>
+                          <span>{challenge.challengeSuggestion}</span>
                         </li>
                       </ul>
 
                       <div className="flex items-center justify-start text-xs text-[var(--secondary)] mt-1 gap-4">
-                        <span className="flex items-center gap-1">📅 {item.period}</span>
-                        <span className="flex items-center gap-1">⭐ {item.level}</span>
+                        <span className="flex items-center gap-1">
+                          📅 {challenge.challengeDuration}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          ⭐ {challenge.progressRate}%
+                        </span>
                       </div>
                     </div>
                   ))
