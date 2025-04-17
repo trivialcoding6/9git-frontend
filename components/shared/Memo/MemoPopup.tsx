@@ -11,8 +11,7 @@ import { CalendarIcon, StarIcon, FileTextIcon } from 'lucide-react';
 import { DeleteCompleteButtons } from '@/components/common/DeleteCompleteButton';
 import { useModalStore } from '@/stores/modal';
 import { useMemoStore } from '@/stores/useMemoStore';
-import type { Memo } from '@/stores/useMemoStore';
-
+import { Memo } from '@/types/memo';
 export default function MemoPopup() {
   const { closeModal } = useModalStore();
   const { editingMemo, setEditingMemo, addMemo, updateMemo, removeMemo, memoList } = useMemoStore();
@@ -42,7 +41,7 @@ export default function MemoPopup() {
   useEffect(() => {
     if (editingMemo) {
       setValue('title', editingMemo.title);
-      setValue('content', editingMemo.description);
+      setValue('content', editingMemo.content);
       setValue('startDate', new Date(editingMemo.startDate));
       setValue('endDate', new Date(editingMemo.endDate));
     }
@@ -54,10 +53,11 @@ export default function MemoPopup() {
       return;
     }
 
-    const payload: Memo = {
+    const payload = {
       id: editingMemo?.id || crypto.randomUUID(),
+      categoryId: editingMemo?.categoryId || '1',
       title: data.title ?? '',
-      description: data.content,
+      content: data.content,
       startDate: data.startDate.toISOString(),
       endDate: data.endDate.toISOString(),
     };

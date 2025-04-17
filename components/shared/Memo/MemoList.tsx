@@ -4,7 +4,7 @@ import MemoCard from './MemoCard';
 import { useMemoStore } from '@/stores/useMemoStore';
 import { useModalStore } from '@/stores/modal';
 import MemoPopup from './MemoPopup';
-import type { Memo } from '@/stores/useMemoStore';
+import { Memo } from '@/types/memo';
 
 export default function MemoList() {
   const { memoList, setEditingMemo } = useMemoStore();
@@ -20,9 +20,9 @@ export default function MemoList() {
 
   return (
     <div className="pt-2 pb-1 px-1 flex flex-col gap-2">
-      {memoList.map((memo: Memo) => (
+      {memoList.map((memo) => (
         <div key={memo.id} onClick={() => handleMemoClick(memo)}>
-          <MemoCard title={memo.title} description={memo.description} />
+          <MemoCard title={memo.title} description={memo.content || ''} />
         </div>
       ))}
     </div>

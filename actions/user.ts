@@ -9,7 +9,7 @@ export async function getUser() {
     const token = cookieStore.get('session_token');
 
     if (!token?.value) {
-      throw new Error('인증 토큰이 없습니다.');
+      redirect('/login');
     }
 
     const result = await fetch(

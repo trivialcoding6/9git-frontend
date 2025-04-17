@@ -1,6 +1,6 @@
 // utils/chartUtils.ts
 
-import { RawProgressItem } from '@/types/chart';
+import { RawProgressItem } from '@/types/settingchart';
 
 export type MonthlyAverageItem = {
   month: string; // '1월', '2월' 등

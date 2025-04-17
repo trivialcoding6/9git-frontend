@@ -1,10 +1,4 @@
-export const getCategoryItems = async ({
-  startDate,
-  endDate,
-}: {
-  startDate: string;
-  endDate: string;
-}) => {
+export const getCategoryItems = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories`);
 

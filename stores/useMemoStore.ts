@@ -3,14 +3,6 @@ import { create } from 'zustand';
 import { Memo as MemoType } from '@/types/memo';
 import { fetchMemos, createMemo, updateMemo, deleteMemo } from '@/apis/memopopup';
 
-export type Memo = {
-  id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-};
-
 type MemoStore = {
   memoList: MemoType[];
   editingMemo: MemoType | null;

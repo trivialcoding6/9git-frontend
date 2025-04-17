@@ -62,7 +62,7 @@ export default function TodoPopup() {
       setIsLoadingCategories(true);
       try {
         const today = new Date().toISOString().split('T')[0];
-        const items = await getCategoryItems({ startDate: today, endDate: today });
+        const items = await getCategoryItems();
         setCategoryItems(items);
       } catch (error) {
         console.error('카테고리 로딩 중 오류가 발생했습니다:', error);
