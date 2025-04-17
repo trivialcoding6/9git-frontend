@@ -1,9 +1,15 @@
-export const getCategoryItems = async () => {
+export const getCategoryItems = async ({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/categories`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/categories`);
 
     if (!response.ok) {
-      throw new Error('Failed to fetch category items');
+      throw new Error('카테고리 목록을 불러오는데 실패했습니다.');
     }
 
     if (response.status === 200) {
@@ -11,7 +17,7 @@ export const getCategoryItems = async () => {
       return items.data;
     }
 
-    throw new Error('Failed to fetch category items');
+    throw new Error('카테고리 목록을 불러오는데 실패했습니다.');
   } catch (error) {
     console.error(error);
     throw error;

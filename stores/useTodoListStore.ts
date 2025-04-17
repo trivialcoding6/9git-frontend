@@ -3,6 +3,7 @@ import { Todo } from '@/types/todo';
 
 type TodoListStore = {
   todoList: Todo[];
+
   addTodo: (todo: Todo) => void;
   removeTodo: (id: string) => void;
   updateTodo: (id: string, updated: Partial<Todo>) => void;
@@ -10,6 +11,7 @@ type TodoListStore = {
 
 export const useTodoListStore = create<TodoListStore>((set) => ({
   todoList: [],
+
   addTodo: (todo) =>
     set((state) => {
       return {

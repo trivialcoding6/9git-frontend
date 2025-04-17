@@ -34,3 +34,8 @@ export const getDaysInMonth = (year: number, month: number) => {
 export const getFirstDayOfMonth = (year: number, month: number) => {
   return new Date(year, month - 1, 1).getDay();
 };
+
+// JavaScript Date 객체를 YYYY-MM-DD 형식으로 변환하는 간단한 방법
+export const formatDateToYYYYMMDD = (date: Date) => {
+  return date.toISOString().split('T')[0];
+};
