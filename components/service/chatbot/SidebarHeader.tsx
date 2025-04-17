@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { ActionButton } from '@/components/common/ActionButton';
 import { X } from 'lucide-react';
-
-export const SidebarHeader = ({ onClose }: { onClose: () => void }) => {
+import { useSidebarStore } from '@/stores/sidebar';
+export const SidebarHeader = () => {
+  const setOpen = useSidebarStore((state) => state.setOpen);
   return (
     <div className="flex items-center justify-between p-4 border-b">
       <div className="flex items-center gap-2">
@@ -15,7 +16,7 @@ export const SidebarHeader = ({ onClose }: { onClose: () => void }) => {
         />
         <span className="font-bold text-lg">깃냥이 보관함</span>
       </div>
-      <ActionButton icon={<X size={20} />} onClick={onClose}>
+      <ActionButton icon={<X size={20} />} onClick={() => setOpen(false)}>
         {' '}
       </ActionButton>
     </div>

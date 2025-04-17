@@ -1,30 +1,31 @@
 'use client';
 
-import { useState } from 'react';
-import { ChatbotHeader } from './ChatbotHeader';
-import { ChatbotIntro } from './ChatbotIntro';
-import { ChatbotUserInput } from './ChatbotUserInput';
-
-type Props = {
-  onSelect: (selected: { title: string; description: string }) => void;
-};
+import { useRouter } from 'next/navigation';
 
 const SELECTIONS = [
   {
+    id: 'feedback',
     title: '피드백',
     description: '연습문제를 계획할 수도 있고, 진로 방향성도 조언해드려요',
   },
   {
+    id: 'recommend',
     title: '로드맵 추천',
     description: '맞춤형으로 단기 로드맵을 추천해드릴게요',
   },
   {
+    id: 'mental',
     title: '멘탈 케어',
     description: '요즘 목표를 달성하는데 스트레스는 없으신가요?',
   },
 ];
 
-export const ChatbotSelection = ({ onSelect }: Props) => {
+export const ChatbotSelection = () => {
+  const router = useRouter();
+  const onSelect = (selected: { id: string; title: string; description: string }) => {
+    router.push(`/chatbot/${selected.id}/new`);
+  };
+
   return (
     <div className="flex flex-col gap-10 mt-30 px-4">
       {SELECTIONS.map((item) => (

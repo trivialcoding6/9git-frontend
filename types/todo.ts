@@ -17,7 +17,7 @@ export type Todo = {
   startDate: string;
   endDate: string;
   isCompleted: boolean;
-  isRepeat?: boolean;
+  isRepeat: boolean;
   weeks?: Week[];
   category?: Category;
   isDone?: boolean;

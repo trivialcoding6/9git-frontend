@@ -13,9 +13,6 @@ export function useChartDaily(userId: string, year: number = new Date().getFullY
     setError(null);
 
     try {
-      console.log('useChartDaily - 사용자 ID:', userId);
-      console.log('useChartDaily - 연도:', year);
-
       if (!userId || userId.trim() === '') {
         console.error('사용자 ID가 유효하지 않습니다.');
         setError(new Error('사용자 ID가 유효하지 않습니다.'));
@@ -24,13 +21,11 @@ export function useChartDaily(userId: string, year: number = new Date().getFullY
       }
 
       const res = await fetchAllAnalyzeToday(userId, year);
-      console.log('useChartDaily - API 응답:', res);
 
       if (res.status_code === 200 && res.data) {
         setChartData(res.data);
         setError(null);
       } else if (res.status_code === 404) {
-        console.log('일별 차트 데이터가 없습니다.');
         setChartData([]);
         setError(new Error('일별 차트 데이터가 없습니다.'));
       } else {
