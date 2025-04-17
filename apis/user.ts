@@ -9,7 +9,7 @@ export const registerUser = async (
 ): Promise<TResponse<TUser>> => {
   const { name, email, password } = data;
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
