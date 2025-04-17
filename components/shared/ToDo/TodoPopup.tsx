@@ -15,9 +15,8 @@ import { useTodoPopup } from '@/hooks/useTodoPopup';
 import { useUserStore } from '@/stores/user';
 import { CategoryItem } from '@/types/category';
 import { toast } from 'sonner';
-import { getCategoryItems } from '@/apis/category';
+import { fetchAllCategories } from '@/apis/category';
 import { formatDateToYYYYMMDD } from '@/utils/date';
-import ClipLoader from 'react-spinners/ClipLoader';
 import { Week } from '@/constants/enum';
 import { useRouter } from 'next/navigation';
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
@@ -61,17 +60,16 @@ export default function TodoPopup() {
     const fetchCategories = async () => {
       setIsLoadingCategories(true);
       try {
-        const today = new Date().toISOString().split('T')[0];
-        const items = await getCategoryItems();
-        setCategoryItems(items);
+        const response = await fetchAllCategories();
+        if (response.status_code === 200) {
+          setCategoryItems(response.data);
+        } else {
+          console.error('카테고리 로딩 중 오류가 발생했습니다:', response.error);
+          toast.error('카테고리를 불러오는데 실패했습니다.');
+        }
       } catch (error) {
         console.error('카테고리 로딩 중 오류가 발생했습니다:', error);
-        // 기본 카테고리 설정
-        setCategoryItems([
-          { id: '1', categoryName: '영어', categoryColor: '#FF6B6B' },
-          { id: '2', categoryName: '코딩', categoryColor: '#4ECDC4' },
-          { id: '3', categoryName: '운동', categoryColor: '#FFD166' },
-        ]);
+        toast.error('카테고리를 불러오는데 실패했습니다.');
       } finally {
         setIsLoadingCategories(false);
       }
@@ -129,8 +127,12 @@ export default function TodoPopup() {
 
     try {
       setIsSubmitLoading(true);
+      let successCount = 0;
+      let failCount = 0;
+      let updatedTodo = null;
+
       if (editingTodo) {
-        const updatedTodo = await editTodo(editingTodo.id, user?.id || '', {
+        updatedTodo = await editTodo(editingTodo.id, user?.id || '', {
           categoryId: selectedCategory,
           content: todoInputs[0].text,
           startDate: formatDateToYYYYMMDD(startDate),
@@ -141,38 +143,83 @@ export default function TodoPopup() {
         });
         setEditingTodo(null);
         toast.success('할 일이 수정되었어요!');
+        successCount++;
       } else {
         for (const { text } of todoInputs) {
           if (text.trim()) {
             const selectedItem = categoryItems.find(
               (item) => item.categoryName === selectedCategory
             );
-            const categoryId = selectedItem?.id || '1';
-            const newTodo = await addTodo(
-              {
-                userId: user?.id || '',
-                categoryId,
-                content: text,
-                startDate: formatDateToYYYYMMDD(startDate),
-                endDate: formatDateToYYYYMMDD(endDate),
-                isRepeat,
-                weeks: selectedDays.map((d) => ({ id: d, weekName: Week[d as keyof typeof Week] })),
-                isCompleted: false,
-              },
-              user?.id || '',
-              categoryId
-            );
 
-            if (!newTodo) {
-              throw new Error('할 일 추가에 실패했습니다.');
+            if (!selectedItem) {
+              toast.error('선택한 카테고리를 찾을 수 없습니다.');
+              failCount++;
+              continue;
+            }
+
+            const categoryId = selectedItem.id;
+            const formattedStartDate = formatDateToYYYYMMDD(startDate);
+            const formattedEndDate = formatDateToYYYYMMDD(endDate);
+
+            console.log('할 일 추가 시도:', {
+              content: text,
+              startDate: formattedStartDate,
+              endDate: formattedEndDate,
+              isRepeat,
+              weeks: selectedDays.map((d) => ({
+                id: d,
+                weekName: Week[d as keyof typeof Week],
+              })),
+              isCompleted: false,
+            });
+
+            try {
+              const newTodo = await addTodo(
+                {
+                  userId: user?.id || '',
+                  categoryId,
+                  content: text,
+                  startDate: formattedStartDate,
+                  endDate: formattedEndDate,
+                  isRepeat,
+                  weeks: selectedDays.map((d) => ({
+                    id: d,
+                    weekName: Week[d as keyof typeof Week],
+                  })),
+                  isCompleted: false,
+                },
+                user?.id || '',
+                categoryId
+              );
+
+              if (newTodo) {
+                successCount++;
+              } else {
+                failCount++;
+                toast.error('할 일 추가에 실패했습니다.');
+              }
+            } catch (error) {
+              failCount++;
+              console.error('할 일 추가 중 오류:', error);
+              toast.error(error instanceof Error ? error.message : '할 일 추가에 실패했습니다.');
             }
           }
         }
-        toast.success('할 일이 추가되었어요!');
+
+        if (successCount > 0) {
+          toast.success(`${successCount}개의 할 일이 추가되었어요!`);
+        }
+
+        if (failCount > 0) {
+          toast.error(`${failCount}개의 할 일 추가에 실패했어요.`);
+        }
       }
-      router.push('/');
-      resetForm();
-      closeModal();
+
+      if (successCount > 0 || (editingTodo && updatedTodo)) {
+        router.push('/');
+        resetForm();
+        closeModal();
+      }
     } catch (error) {
       console.error('Error saving todo:', error);
       toast.error(error instanceof Error ? error.message : '할 일 저장에 실패했어요.');

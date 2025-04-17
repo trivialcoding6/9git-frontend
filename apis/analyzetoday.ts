@@ -1,13 +1,9 @@
 import { AnalyzeTodayResponse } from '@/types/analyzetoday';
 
-export const fetchAllAnalyzeToday = async (
-  userId: string,
-  startDate: string,
-  endDate: string
-): Promise<AnalyzeTodayResponse> => {
+export const fetchAllAnalyzeToday = async (userId: string): Promise<AnalyzeTodayResponse> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${userId}/analyze/today?start_date=${startDate}&end_date=${endDate}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${userId}/analyze/today`,
       {
         method: 'GET',
         headers: {
