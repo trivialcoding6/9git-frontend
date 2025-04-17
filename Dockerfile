@@ -21,6 +21,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Add cache-busting layer
+ARG CACHEBUST=1
+
 # Set environment variables
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production

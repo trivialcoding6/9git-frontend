@@ -52,6 +52,8 @@ jobs:
           push: true # 빌드 후 푸시 실행
           tags: ${{ steps.meta.outputs.tags }} # 위 metadata step에서 생성된 태그 사용
           labels: ${{ steps.meta.outputs.labels }} # 위 metadata step에서 생성된 라벨 사용
+          build-args: |
+            CACHEBUST=${{ github.sha }}
 
       # 6. ACR에 푸시된 이미지 확인
       - name: Verify pushed image
