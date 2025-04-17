@@ -2,6 +2,9 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  images: {
+    domains: ['gugitsa.blob.core.windows.net'], // 외부 이미지 도메인 허용을 위한 코드
+  },
   webpack: (config, context) => {
     if (context?.isServer) {
       // next server build => ignore msw/browser

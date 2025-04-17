@@ -31,14 +31,21 @@ function CharacterCard({ imageLink, isLocked, name, className }: CharacterCardPr
       <div className="flex flex-col items-center justify-center">
         {/* 이미지 */}
         <Image
-          src={`/${imageLink}`}
+          src={imageLink}
           alt={altText}
           width={Profile_CharacterCardImage_WIDTH}
           height={Profile_CharacterCardImage_HEIGHT}
-          className="object-contain"
+          className={cn('object-contain', isLocked && 'grayscale opacity-10')}
         />
         {/* 캐릭터 이름 */}
-        <span className="text-black text-base font-normal tracking-tight">{displayName}</span>
+        <span
+          className={cn(
+            'text-black text-base font-normal tracking-tight',
+            isLocked && 'text-black'
+          )}
+        >
+          {displayName}
+        </span>
       </div>
     </div>
   );
