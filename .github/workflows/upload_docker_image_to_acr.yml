@@ -54,6 +54,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }} # 위 metadata step에서 생성된 라벨 사용
           build-args: |
             CACHEBUST=${{ github.sha }}
+            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
 
       # 6. ACR에 푸시된 이미지 확인
       - name: Verify pushed image
