@@ -1,7 +1,6 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export async function getUser() {
   try {
@@ -9,7 +8,7 @@ export async function getUser() {
     const token = cookieStore.get('session_token');
 
     if (!token?.value) {
-      redirect('/login');
+      return null;
     }
 
     const result = await fetch(
