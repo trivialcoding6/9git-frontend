@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { PencilLine } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { updateUserData, GenderEnum, ProfileRequest } from '@/apis/profile';
+import { updateUserData, ProfileRequest } from '@/apis/profile';
 
 type Props = {
   id: string;

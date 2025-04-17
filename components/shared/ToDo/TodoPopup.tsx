@@ -132,13 +132,13 @@ export default function TodoPopup() {
       let updatedTodo = null;
 
       if (editingTodo) {
-        updatedTodo = await editTodo(editingTodo.id, user?.id || '', {
+        updatedTodo = await editTodo(editingTodo.id, user?.id || '', selectedCategory, {
           categoryId: selectedCategory,
           content: todoInputs[0].text,
           startDate: formatDateToYYYYMMDD(startDate),
           endDate: formatDateToYYYYMMDD(endDate),
           isRepeat,
-          weeks: selectedDays.map((d) => ({ id: d, weekName: d })),
+          weeks: selectedDays.map((d) => ({ id: d, weekName: Week[d as keyof typeof Week] })),
           isCompleted: false,
         });
         setEditingTodo(null);
@@ -187,6 +187,7 @@ export default function TodoPopup() {
                     weekName: Week[d as keyof typeof Week],
                   })),
                   isCompleted: false,
+                  category: selectedItem,
                 },
                 user?.id || '',
                 categoryId
@@ -231,7 +232,7 @@ export default function TodoPopup() {
   const handleDelete = async () => {
     try {
       if (editingTodo) {
-        await removeTodo(editingTodo.id, user?.id || '');
+        await removeTodo(editingTodo.id, user?.id || '', selectedCategory);
         toast.success('할 일이 삭제되었어요!');
       }
 

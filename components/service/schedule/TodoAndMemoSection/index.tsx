@@ -4,9 +4,11 @@ import Card from '@/components/common/Card';
 import ChatbotHelperBox from '@/components/shared/ToDo/ChatbotHelperBox';
 import TodoItem from '@/components/shared/ToDo/TodoItem';
 import TodoPopup from '@/components/shared/ToDo/TodoPopup';
+import { cn } from '@/lib/utils';
 import { todoListData } from '@/mocks/data';
 import { useModalStore } from '@/stores/modal';
 import { useTodoEditStore } from '@/stores/todoEditStore';
+import { useMemoStore } from '@/stores/useMemoStore';
 import { useTodoListStore } from '@/stores/useTodoListStore';
 import { Memo } from '@/types/memo';
 import { Todo } from '@/types/todo';
@@ -18,9 +20,9 @@ type Props = {
 };
 
 export const TodoAndMemoSection = ({ todos, memos }: Props) => {
-  //   const { todoList } = useTodoListStore();
   const { openModal } = useModalStore();
   const { setEditingTodo } = useTodoEditStore();
+  const { memoList } = useMemoStore();
   const handleOpenTodoModal = () => {
     setEditingTodo(null);
     openModal({
@@ -46,16 +48,25 @@ export const TodoAndMemoSection = ({ todos, memos }: Props) => {
           </ActionButton>
         </div>
       </div>
-      <div className="flex flex-col gap-4 h-[300px] overflow-y-auto scrollbar-hide">
-        {memos.map((memo) => (
-          <div
-            key={memo.id}
-            className="flex flex-col justify-center w-full h-[96px] bg-beige-light rounded-lg p-4"
-          >
-            <div className="text-xl font-bold text-secondary">{memo.title}</div>
-            <div className="text-lg text-primary">{memo.content}</div>
-          </div>
-        ))}
+      <div
+        className={cn(
+          'flex flex-col gap-4 h-[300px] overflow-y-auto scrollbar-hide',
+          memoList.length === 0 && 'h-full'
+        )}
+      >
+        {memoList.length > 0 ? (
+          memoList.map((memo) => (
+            <div
+              key={memo.id}
+              className="flex flex-col justify-center w-full h-[96px] bg-beige-light rounded-lg p-4"
+            >
+              <div className="text-xl font-bold text-secondary">{memo.title}</div>
+              <div className="text-lg text-primary">{memo.content}</div>
+            </div>
+          ))
+        ) : (
+          <p className="text-lg text-center text-secondary mb-2">메모를 추가해주세요!</p>
+        )}
       </div>
 
       {/* todo 섹션 */}

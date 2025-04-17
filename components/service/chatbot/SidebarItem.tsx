@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { FolderOpen, Pencil, Trash2, Check, X } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ActionButton } from '@/components/common/ActionButton';
 import { CategoryWithStorages } from '@/types/storage';
 import { getUser } from '@/actions/user';
-import { getCategoryItems } from '@/apis/category';
+import { fetchAllCategories } from '@/apis/category';
 import { getStorage } from '@/apis/storage';
 import { SidebarSkeleton } from './SidebarSkeleton';
 import { useSidebarStore } from '@/stores/sidebar';
@@ -60,7 +59,8 @@ export const SidebarItem = () => {
         const user = await getUser();
 
         // 2. 카테고리 목록 가져오기
-        const categories = await getCategoryItems();
+        const response = await fetchAllCategories();
+        const categories = response.data;
 
         // 3. 각 카테고리별 스토리지 가져오기
         const categoryStoragesPromises = categories.map(async (category) => {

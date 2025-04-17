@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Category } from '@/types/category';
-import { getCategoryItems } from '@/apis/category';
+import { fetchAllCategories } from '@/apis/category';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 type Props = {
@@ -21,13 +21,14 @@ export const ChatbotIntro = ({ showSelectBox }: Props) => {
     const fetchCategories = async () => {
       try {
         setIsLoading(true);
-        const categories = await getCategoryItems();
-        setCategories(categories);
+        const response = await fetchAllCategories();
+        const loadedCategories = response.data;
+        setCategories(loadedCategories);
 
         // 카테고리 로드 후, 파라미터가 없고 카테고리가 있으면 첫 번째 카테고리로 설정
-        if (categories.length > 0 && !searchParams.get('categoryId') && showSelectBox) {
+        if (loadedCategories.length > 0 && !searchParams.get('categoryId') && showSelectBox) {
           const params = new URLSearchParams(searchParams.toString());
-          params.set('categoryId', categories[0].id);
+          params.set('categoryId', loadedCategories[0].id);
           router.push(`${window.location.pathname}?${params.toString()}`);
         }
       } catch (error) {

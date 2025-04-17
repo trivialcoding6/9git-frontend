@@ -31,7 +31,7 @@ export function useAnalyzeToday(
         return;
       }
 
-      const res = await fetchAllAnalyzeToday(userId, startDate, endDate);
+      const res = await fetchAllAnalyzeToday(userId);
 
       if (res.status_code === 200 && res.data) {
         setAnalyzeToday(res.data);

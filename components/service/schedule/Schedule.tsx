@@ -5,7 +5,7 @@ import { TodoAndMemoSection } from './TodoAndMemoSection';
 import { getTodAndMemoList } from '@/apis/todo';
 import { getUser } from '@/actions/user';
 import { Suspense } from 'react';
-import { getCategoryItems } from '@/apis/category';
+import { fetchAllCategories } from '@/apis/category';
 import { redirect } from 'next/navigation';
 export const Schedule = async () => {
   const user = await getUser();
@@ -19,7 +19,8 @@ export const Schedule = async () => {
     redirect('/login');
   }
 
-  const categoryItems = await getCategoryItems();
+  const response = await fetchAllCategories();
+  const categoryItems = response.data;
 
   return (
     <main className="flex flex-col gap-4 bg-beige-light">
