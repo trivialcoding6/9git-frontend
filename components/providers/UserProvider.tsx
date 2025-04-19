@@ -22,9 +22,5 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  if (!isReady) {
-    return <Loading />;
-  }
-
   return <>{children}</>;
 };
