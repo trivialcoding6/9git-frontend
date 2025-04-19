@@ -5,19 +5,19 @@ import { cookies } from 'next/headers';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isProtectedRoute = PROTECTED_ROUTES.includes(pathname);
+  // const isProtectedRoute = PROTECTED_ROUTES.includes(pathname);
   const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
 
-  const cookieStore = await cookies();
-  const session = cookieStore.get('session_token')?.value;
+  // const cookieStore = await cookies();
+  // const session = cookieStore.get('session_token')?.value;
 
-  if (isProtectedRoute && !session) {
-    return NextResponse.redirect(new URL(ROUTES.LOGIN, request.nextUrl));
-  }
+  // if (isProtectedRoute && !session) {
+  //   return NextResponse.redirect(new URL(ROUTES.LOGIN, request.nextUrl));
+  // }
 
-  if (isPublicRoute && session) {
-    return NextResponse.redirect(new URL(ROUTES.HOME, request.nextUrl));
-  }
+  // if (isPublicRoute && session) {
+  //   return NextResponse.redirect(new URL(ROUTES.HOME, request.nextUrl));
+  // }
 
   return NextResponse.next();
 }
