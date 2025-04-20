@@ -21,6 +21,7 @@ export async function getUser() {
       }
     );
     const data = await result.json();
+    console.log('data', data);
 
     const userResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${data.data.sub}`,
@@ -33,6 +34,7 @@ export async function getUser() {
       }
     );
     const userData = await userResponse.json();
+    console.log('userData', userData);
 
     return userData.data;
   } catch (error) {
